@@ -1,12 +1,15 @@
+const bcrypt=require('bcryptjs');
+const User=require('../models/user.js');
+
 const usersController={};
 
 usersController.create=(req,res)=>{
     const salt=bcrypt.genSaltSync();
-    const has=bcrypt.hashSync(req.body.password,salt);
+    const hash=bcrypt.hashSync(req.body.password,salt);
     User.create({
         username:req.body.username,
         password_digest:hash,
-        display_name:req.body.display_name,
+        displayName:req.body.displayName,
         email:req.body.email,
     })
     .then(user=>{

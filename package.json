@@ -1,0 +1,35 @@
+{
+  "name": "project-03-card-battle",
+  "version": "1.0.0",
+  "description": "Team 4 Proposal Card-Battle Members (Dan Martin, Carly Warner, Ryan Edwards, MarkMarkMark)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "debugger": "DEBUG=*:* npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hewhowearspants/Project-03-Card-Battle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hewhowearspants/Project-03-Card-Battle/issues"
+  },
+  "homepage": "https://github.com/hewhowearspants/Project-03-Card-Battle#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "morgan": "^1.8.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg-promise": "^6.5.0",
+    "yarn": "^0.27.5"
+  }
+}

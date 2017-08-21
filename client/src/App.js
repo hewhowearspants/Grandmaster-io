@@ -27,6 +27,7 @@ class App extends Component {
       cardDataLoaded: false,
       user: null,
       currentPage: 'home',
+      fireRedirect: false,
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.setPage = this.setPage.bind(this);    
@@ -61,7 +62,8 @@ class App extends Component {
     }).then(res => {
       this.setState({
         auth: res.data.auth,
-        user: res.data.user
+        user: res.data.user,
+        fireRedirect: true,
       });
     }).catch(err => console.log(err));
   }
@@ -77,6 +79,7 @@ class App extends Component {
       this.setState({
         auth: res.data.auth,
         user:res.data.user,
+        fireRedirect: true,
       });
     }).catch(err => console.log(err));
   }

@@ -36,7 +36,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/movies')
+    axios.get('/api/cards')
       .then((res) => {
         console.log(res.data)
         this.setState({

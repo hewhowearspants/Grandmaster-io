@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import axios from 'axios';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+} from 'react-router-dom'
+
 import './App.css';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './components/Home';
 
 import Login from './components/Login';
 import Register from './components/Register';
 
+
 class App extends Component {
   constructor() {
     super();
-    this.state ={
+    this.state = {
       auth: false,
-      user: null
+      user: null,
+      currentPage: 'home',
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
@@ -58,15 +72,17 @@ class App extends Component {
 
   render() {
     return (
+      <Router>
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Header />
+        <main>
+          <Route exact path='/' component={ Home } />
+          <Route exact path='/login' render={() => <Login handleLoginSubmit={this.handleLoginSubmit} />} />
+          <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
+        </main>
+        <Footer />
       </div>
+      </Router>
     );
   }
 }

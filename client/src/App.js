@@ -44,13 +44,13 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
-  handleRegisterSubmit(e, username, password, email, display_name) {
+  handleRegisterSubmit(e, username, password, email, displayName) {
     e.preventDefault();
     axios.post('/auth/register', {
       username,
       password,
       email,
-      display_name,
+      displayName,
     }).then(res => {
       this.setState({
         auth: res.data.auth,

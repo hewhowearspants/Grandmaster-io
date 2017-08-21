@@ -81,12 +81,11 @@ Winner will be determined by who has the most health remaining after the round. 
 * SocketIO
     * Chatroom
     * Room component
-
+    * Leaderboard
 * Game logic for 2 players aainst each other
     * Win condition
 
 **Phase 1**
-* Leaderboard
 * Different game modes
 * Currency
 

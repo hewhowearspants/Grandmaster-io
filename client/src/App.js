@@ -23,11 +23,33 @@ class App extends Component {
     super();
     this.state = {
       auth: false,
+      cardData: null,
+      cardDataLoaded: false,
       user: null,
       currentPage: 'home',
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+    this.setPage = this.setPage.bind(this);    
+    this.logOut = this.logOut.bind(this);    
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/movies')
+      .then((res) => {
+        console.log(res.data)
+        this.setState({
+          cardData: res.data,
+          cardDataLoaded: true,
+        });
+      }).catch(err => console.log(err));
+  }
+
+  setPage(page){
+    console.log('click');
+    this.setState({
+      currentPage: page,
+    })
   }
 
   //AUTH
@@ -74,10 +96,9 @@ class App extends Component {
     return (
       <Router>
       <div className="App">
-        <Header />
+        <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} />
         <main>
           <Route exact path='/' component={ Home } />
-          <Route exact path='/login' render={() => <Login handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
         </main>
         <Footer />

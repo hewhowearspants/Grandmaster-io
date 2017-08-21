@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users_cards (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   class VARCHAR(255),
-  att INTEGER,
+  attack INTEGER,
   defense INTEGER,
   user_id INTEGER REFERENCES users(id)
 );
@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS cards (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   class VARCHAR(255),
-  att INTEGER,
+  attack INTEGER,
   defense INTEGER
 );

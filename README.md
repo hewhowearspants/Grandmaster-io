@@ -10,7 +10,6 @@ Users are given a set number of health before they face off, and depending on wh
 
 Winner will be determined by who has the most health remaining after the round.
 
-Phase -1
 
 WireFrames
 
@@ -26,3 +25,6 @@ WireFrames
 ![Wireframe 10](/assets/10.jpg)
 ![Wireframe 11](/assets/11.jpg)
 ![Wireframe 12](/assets/12.jpg)
+
+
+Phase -1

@@ -1,4 +1,4 @@
-*Team 4 Proposal Card-Battle Members (Dan Martin, Carly Warner, Ryan Edwards, MarkMarkMark)*
+#Team 4 Proposal Card-Battle Members (Dan Martin, Carly Warner, Ryan Edwards, MarkMarkMark)#
 
 User Story Card-Battle (temporary basic name) 'Card Battle' is a game app where players can face off against their friends in a battle type style. There will be a register and login option upon the website loading, with implementation of auth and conditionals to determine which options to display across the different pages, along with a logout option once a user has logged in.
 
@@ -11,7 +11,7 @@ Users are given a set number of health before they face off, and depending on wh
 Winner will be determined by who has the most health remaining after the round. Players are able to add a random new card to their deck every day, but can have a maximum of 20 cards in their deck at a time. If they want to add another card and they are at their max of 20, they have to pick a card to delete. 
 
 
-*WireFrames*
+#WireFrames#
 
 **Welcome Page**
 ![Wireframe 1](/assets/1.jpg)
@@ -50,7 +50,7 @@ Winner will be determined by who has the most health remaining after the round. 
 ![Wireframe 12](/assets/12.jpg)
 
 
-*Technologies*
+#Technologies#
 
 * Auth
 * CSS
@@ -72,7 +72,7 @@ Winner will be determined by who has the most health remaining after the round. 
 * Create components
 * Structure for front end, to be able to access components
 
-**Phase 0** MVP
+**Phase 0** *MVP*
 * SocketIO
     * Chatroom
     * Room component

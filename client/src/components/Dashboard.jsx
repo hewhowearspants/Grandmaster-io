@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
-class Dashboard extends Component {
+import DashboardNav from './Dashboard-Nav';
+import DashboardContents from './Dashboard-Contents';
+
+class Dashboard extends Component {  
   render() {
     return (
       <div className='dashboard'>
-        <h1>Dashboard Goes Here!</h1>
+        <h3>Dashboard</h3>
+        <DashboardNav />
+        <DashboardContents cards={this.props.cards}/>
       </div>
     )
   }

@@ -16,17 +16,29 @@ import Home from './components/Home';
 
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      auth: false,
+      user: null,
+      currentPage: 'home',
+    }
+  }
+
+
   render() {
     return (
+      <Router>
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Header />
+        <main>
+          <Route exact path='/' component={ Home } />
+          <Route exact path='/login' render={() => <Login handleLoginSubmit={this.handleLoginSubmit} />} />
+          <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
+        </main>
+        <Footer />
       </div>
+      </Router>
     );
   }
 }

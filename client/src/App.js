@@ -13,9 +13,9 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
-
 import Login from './components/Login';
 import Register from './components/Register';
+import Dashboard from './components/Dashboard';
 
 
 class App extends Component {
@@ -100,6 +100,8 @@ class App extends Component {
         <main>
           <Route exact path='/' component={ Home } />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
+          <Route exact path='/user' component={ Dashboard } />
+          {this.state.fireRedirect ? <Redirect push to={'/user'} /> : '' }
         </main>
         <Footer />
       </div>

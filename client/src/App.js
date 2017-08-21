@@ -13,9 +13,9 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
-
 import Login from './components/Login';
 import Register from './components/Register';
+import Dashboard from './components/Dashboard';
 
 
 class App extends Component {
@@ -27,6 +27,7 @@ class App extends Component {
       cardDataLoaded: false,
       user: null,
       currentPage: 'home',
+      fireRedirect: false,
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.setPage = this.setPage.bind(this);    
@@ -35,7 +36,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/movies')
+    axios.get('/cards')
       .then((res) => {
         console.log(res.data)
         this.setState({
@@ -61,7 +62,8 @@ class App extends Component {
     }).then(res => {
       this.setState({
         auth: res.data.auth,
-        user: res.data.user
+        user: res.data.user,
+        fireRedirect: true,
       });
     }).catch(err => console.log(err));
   }
@@ -76,7 +78,8 @@ class App extends Component {
     }).then(res => {
       this.setState({
         auth: res.data.auth,
-        user:res.data.user,
+        user: res.data.user,
+        fireRedirect: true,
       });
     }).catch(err => console.log(err));
   }
@@ -98,8 +101,10 @@ class App extends Component {
       <div className="App">
         <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} />
         <main>
-          <Route exact path='/' component={ Home } />
+          <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
+          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData}/>} />
+          {this.state.fireRedirect ? <Redirect push to={'/user'} /> : '' }
         </main>
         <Footer />
       </div>

@@ -101,9 +101,9 @@ class App extends Component {
       <div className="App">
         <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} />
         <main>
-          <Route exact path='/' component={ Home } />
+          <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
-          <Route exact path='/user' component={ Dashboard } />
+          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData}/>} />
           {this.state.fireRedirect ? <Redirect push to={'/user'} /> : '' }
         </main>
         <Footer />

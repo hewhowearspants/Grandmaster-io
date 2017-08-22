@@ -19,6 +19,7 @@ class NewCard extends Component {
       console.log(res.data)
       this.setState({
         newCardData: res.data,
+        newCardDataLoaded: true,
       })
     })
     .then(() => {
@@ -46,8 +47,8 @@ class NewCard extends Component {
   render() {
     return (
       <div className='new-card'>
-          <button onClick={this.getNewCard} />
-        {this.state.newCardDataLoaded ? <Card card={this.state.newCardData} /> : ''}
+          <button className="newCardButton" type="button" onClick={this.getNewCard}>Get new Card!</button>
+        {this.state.newCardDataLoaded ? <Card card={this.state.newCardData[0]} /> : ''}
       </div>
     )
   }

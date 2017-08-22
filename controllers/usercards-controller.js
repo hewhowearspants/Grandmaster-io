@@ -55,4 +55,26 @@ usercardsController.delete = (req, res) => {
   })
 }
 
+usercardsController.findFiveUserCards = (req, res) => {
+  Usercard.findFiveUserCards(req.user.id)
+  .then(userCard => {
+    return Usercard.findFiveUserCards(1)
+           .then(opponentCard => {
+             return {
+               user:userCard,
+               oppo:opponentCard
+             }
+           })
+           .catch(err => {
+             console.log(err);
+           })
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
+
 module.exports = usercardsController;

@@ -8,6 +8,15 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255)
 );
 
+CREATE TABLE IF NOT EXISTS cards (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  class VARCHAR(255),
+  attack INTEGER,
+  defense INTEGER,
+  image_url VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS users_cards (
   id SERIAL PRIMARY KEY,
   card_id INTEGER REFERENCES cards(id),
@@ -17,13 +26,4 @@ CREATE TABLE IF NOT EXISTS users_cards (
   defense INTEGER,
   image_url VARCHAR(255),
   user_id INTEGER REFERENCES users(id)
-);
-
-CREATE TABLE IF NOT EXISTS cards (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255),
-  class VARCHAR(255),
-  attack INTEGER,
-  defense INTEGER,
-  image_url VARCHAR(255)
 );

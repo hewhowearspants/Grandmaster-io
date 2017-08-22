@@ -9,6 +9,7 @@ class UserCards extends Component {
     this.state={
       userCardData: null,
     }
+    this.deleteCard = this.deleteCard.bind(this);
   }
 
   componentDidMount(){
@@ -24,12 +25,33 @@ class UserCards extends Component {
     })
   }
 
+  deleteCard(id) {
+    axios.delete(`/usercard/${id}`)
+      .then(res => {
+        const updatedCards = [...this.state.userCardData];
+        console.log(updatedCards);
+        let deletedIndex;
+        updatedCards.forEach((card, index) => {
+          // console.log(card, id);
+          if (card.id === id) {
+            deletedIndex = index;
+          };
+        });
+        updatedCards.splice(deletedIndex, 1)
+        this.setState({
+          userCardData: updatedCards,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <div className='UserCards'>
         {this.state.userCardData ? 
           this.state.userCardData.map(data=>{
-            return <Card card={data} />
+            return <Card deleteCard={this.deleteCard} card={data} />
           }) : ''
         }
       </div>

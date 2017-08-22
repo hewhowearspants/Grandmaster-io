@@ -51,7 +51,7 @@ class UserCards extends Component {
       <div className='UserCards'>
         {this.state.userCardData ? 
           this.state.userCardData.map(data=>{
-            return <Card card={data} />
+            return <Card deleteCard={this.deleteCard} card={data} />
           }) : ''
         }
       </div>

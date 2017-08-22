@@ -150,6 +150,82 @@ footer {
   color: white;
 }
 
+.Card {
+  width:63%;
+  margin:0 auto;
+  background:red;
+}
+
+.card {
+  width:40vh;
+  display:flex;
+  flex-direction: column;
+  float:left;
+  padding:5px;
+}
+
+.card-name{
+  line-height: 0.08em;
+  margin-top:13px;
+}
+
+.card-name p{
+  font-size:13px;
+}
+
+.card-numbers {
+  display: flex;
+  justify-content: space-between;
+  width:200px;
+  margin-left:22px;
+  margin-top:217px;
+}
+
+.card-numbers p {
+  width:50px;
+  font-size:14px;
+}
+
+.card.Pawn{
+  background-image: url('/images/pawn_card.png');
+  background-size: 100% 100%;
+  color:#484F94;
+}
+
+.card.Castle{
+  background-image: url('/images/castle_card.png');
+  background-size: 100% 100%;
+  color:#606D7C;
+}
+
+.card.Knight{
+  background-image: url('/images/knight_card.png');
+  background-size: 100% 100%;
+  color:#833B3C;
+}
+
+.card.Bishop{
+  background-image: url('/images/bishop_card.png');
+  background-size: 100% 100%;
+  color:#4C5E47;
+}
+
+.card.Queen{
+  background-image: url('/images/queen_card.png');
+  background-size: 100% 100%;
+  color:#BD4E4E;
+}
+
+.card.King{
+  background-image: url('/images/king_card.png');
+  background-size: 100% 100%;
+  color:#CA9A2C;
+}
+
+.card-collection{
+  background-image: 131px 175px;
+  border:2 px solid green;
+}
 
 
 

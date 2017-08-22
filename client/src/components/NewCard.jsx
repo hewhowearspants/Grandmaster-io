@@ -22,13 +22,14 @@ class NewCard extends Component {
       })
     })
     .then(() => {
-        this.state.cardData.map((data) => {
-            axios.post('/cards/new', {
-                cardId: data.id,
-                name: data.name,
-                class: data.class,
-                attack: data.attack,
-                defense: data.defense
+        console.log(this.state);
+        axios.post('/usercard/new', {           
+            cardId: this.state.newCardData[0].id,
+            name: this.state.newCardData[0].name,
+            class: this.state.newCardData[0].class,
+            attack: this.state.newCardData[0].attack,
+            defense: this.state.newCardData[0].defense,
+            imageUrl: this.state.newCardData[0].image_url
             })
             .then(res=>{
                 console.log(res)
@@ -37,7 +38,6 @@ class NewCard extends Component {
                 console.log(err)
             })
         })
-    })
     .catch(err=>{
         console.log(err);
     })

@@ -107,6 +107,20 @@ button[type='submit']:hover{
   cursor: pointer;
 }
 
+button[type='button'] {
+  border: 1.5px solid #dedede;
+  padding:8px 25px;
+  font-family: 'Oxygen', sans-serif;
+  font-size:16px;
+  background:white;
+}
+
+button[type='button']:hover{
+background: #bdbdbd;
+ border: 1.5px solid #bdbdbd;
+ color:#303E63;
+ cursor: pointer;
+}
 
 footer {
   background:#2F3030;

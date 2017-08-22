@@ -1,4 +1,4 @@
-const db=require('../db/config');
+const db = require('../db/config');
 
 const Usercard = {};
 
@@ -19,20 +19,20 @@ Usercard.addToUser = (card,userid) => {
 };
 
 
-Usercard.update = (card,id)=>{
+Usercard.update = (card, id)=>{
   return db.one(`
   UPDATE users_cards SET
-  name=$1,
-  WHERE card_id=$2
+  name = $1,
+  WHERE id = $2
   RETURNING *
-  `,[card.name, card.cardId])
+  `,[card.name, card.id])
 }
 
 Usercard.destroy = (id) => {
 return db.none(`
   DELETE FROM users_cards
-  WHERE id=$1
+  WHERE id = $1
   `,[id]);
 }
 
-module.exports=Usercard;
+module.exports = Usercard;

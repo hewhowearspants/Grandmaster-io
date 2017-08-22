@@ -28,5 +28,11 @@ Usercard.update = (card,id)=>{
   `,[card.name, card.cardId])
 }
 
+Usercard.destroy = (id) => {
+return db.none(`
+  DELETE FROM users_cards
+  WHERE id=$1
+  `,[id]);
+}
 
 module.exports=Usercard;

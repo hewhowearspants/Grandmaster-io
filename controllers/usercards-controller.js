@@ -21,7 +21,7 @@ usercardsController.addToUser = (req, res) => {
 }
 
 usercardsController.update = (req, res) => {
-  card.update({
+  Usercard.update({
     name: req.body.name,
   }, req.params.id)
   .then(card => {
@@ -32,5 +32,17 @@ usercardsController.update = (req, res) => {
     res.status(500).json(err);
   });
 }
+
+usercardsController.delete = (req, res) => {
+  Usercard.destroy(req.params.id)
+  .then(() => {
+    console.log(deleted);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  })
+}
+
 
 module.exports = usercardsController;

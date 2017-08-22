@@ -7,7 +7,7 @@ class CardCollection extends Component {
     if (this.props.cards) {
       return (this.props.cards.map((card) => {
           return (
-            <Card card={card} />
+            <Card key={card.id} card={card} />
           )
       }))
     } else return <h2>Loading</h2>

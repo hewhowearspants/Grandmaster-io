@@ -1,7 +1,7 @@
 \c dream_team_dev;
 
 INSERT INTO cards
-  (name, class, attack, defense)
+  (name, class, attack, defense, image_url)
 VALUES
   ('Sammy', 'Pawn', 2, 2, '/images/pawn_card.png'),
   ('Sally', 'Pawn', 2, 2, '/images/pawn_card.png'),

@@ -150,15 +150,14 @@ footer {
   color: white;
 }
 
-.UserCards {
+.Card {
   width:63%;
   margin:0 auto;
   background:red;
 }
 
-.single-card {
-  width:32%;
-  height:310px;
+.card {
+  width:40vh;
   display:flex;
   flex-direction: column;
   float:left;
@@ -187,42 +186,46 @@ footer {
   font-size:14px;
 }
 
-.single-card.Pawn{
+.card.Pawn{
   background-image: url('/images/pawn_card.png');
   background-size: 100% 100%;
   color:#484F94;
 }
 
-.single-card.Castle{
+.card.Castle{
   background-image: url('/images/castle_card.png');
   background-size: 100% 100%;
   color:#606D7C;
 }
 
-.single-card.Knight{
+.card.Knight{
   background-image: url('/images/knight_card.png');
   background-size: 100% 100%;
   color:#833B3C;
 }
 
-.single-card.Bishop{
+.card.Bishop{
   background-image: url('/images/bishop_card.png');
   background-size: 100% 100%;
   color:#4C5E47;
 }
 
-.single-card.Queen{
+.card.Queen{
   background-image: url('/images/queen_card.png');
   background-size: 100% 100%;
   color:#BD4E4E;
 }
 
-.single-card.King{
+.card.King{
   background-image: url('/images/king_card.png');
   background-size: 100% 100%;
   color:#CA9A2C;
 }
 
+.card-collection{
+  background-image: 131px 175px;
+  border:2 px solid green;
+}
 
 
 

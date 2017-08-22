@@ -20,6 +20,7 @@ class NewUser extends Component{
         .then(()=>{
             this.state.cardData.map((data)=>{
                 axios.post('/user/new',{
+                    cardId:data.id,
                     name:data.name,
                     class:data.class,
                     attack:data.attack,

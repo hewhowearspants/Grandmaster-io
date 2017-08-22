@@ -37,7 +37,7 @@ main {
   height: calc(100vh - 208px);
 }
 
-.home {
+.home, .register {
   display: flex;
   flex: 1;
   height: 100%;
@@ -77,7 +77,14 @@ main {
 }
 
 
-input[type='text'], input[type='password']{
+.register input{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+input[type='text'], input[type='password'], input[type='email'] {
   width:350px;
   padding:10px;
   margin-bottom:20px;

@@ -81,12 +81,13 @@ class App extends Component {
     })
     .then(()=>{
       this.state.userCardData.map((data)=>{
-        axios.post('/user/new',{
+        axios.post('/usercard/new',{
           cardId:data.id,
           name:data.name,
           class:data.class,
           attack:data.attack,
-          defense:data.defense
+          defense:data.defense,
+          imageUrl:data.image_url
         })
         .then(res=>{
           console.log(res)

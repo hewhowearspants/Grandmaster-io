@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import axios from 'axios';
 
 import {
@@ -13,10 +12,8 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
-import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import NewUser from './components/NewUser';
 
 
 class App extends Component {
@@ -80,7 +77,7 @@ class App extends Component {
       })
     })
     .then(()=>{
-      this.state.userCardData.map((data)=>{
+      this.state.userCardData.forEach((data)=>{
         axios.post('/usercard/new',{
           cardId:data.id,
           name:data.name,

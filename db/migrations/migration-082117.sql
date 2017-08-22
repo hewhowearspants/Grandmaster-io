@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS users_cards (
   class VARCHAR(255),
   attack INTEGER,
   defense INTEGER,
+  image_url VARCHAR(255),
   user_id INTEGER REFERENCES users(id)
 );
 
@@ -23,5 +24,6 @@ CREATE TABLE IF NOT EXISTS cards (
   name VARCHAR(255),
   class VARCHAR(255),
   attack INTEGER,
-  defense INTEGER
+  defense INTEGER,
+  image_url VARCHAR(255)
 );

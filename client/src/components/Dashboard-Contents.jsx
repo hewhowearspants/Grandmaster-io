@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import UserCards from './UserCards';
+
 class DashboardContents extends Component {  
   renderCardCollection() {
     if (this.props.cards) {

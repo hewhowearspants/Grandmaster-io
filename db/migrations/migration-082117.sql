@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS users_cards (
   id SERIAL PRIMARY KEY,
+  card_id INTEGER REFERENCES cards(id),
   name VARCHAR(255),
   class VARCHAR(255),
   attack INTEGER,

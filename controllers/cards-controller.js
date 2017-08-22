@@ -26,6 +26,7 @@ cardsController.findTen = (req,res) => {
 
 cardsController.addToUser = (req, res) => {
   Card.addToUser({
+    cardId: req.body.cardId,
     name: req.body.name,
     class: req.body.class,
     attack: req.body.attack,

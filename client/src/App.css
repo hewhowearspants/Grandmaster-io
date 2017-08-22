@@ -1,6 +1,153 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
+
+body{
+  background:rgba(57,72,120, 0.2);
+}
+
+h3 {
+font-size: 2.5em;
+}
+
+.dashboard-nav ul li {
+  font-family:baskerville;
+  font-size: 3em;
+  color:#000000;
+  margin-bottom:-10px;
+}
+
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+li {
+  padding:15px;
+  font-family:baskerville;
+  letter-spacing: 0.05em;
+  font-size:20px;
+}
+
+main {
+  flex-grow: 1;
+  height: calc(100vh - 208px);
+}
+
+.home, .register {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  flex-direction: column;
+  flex-wrap: wrap;
+  font-family: baskerville;
+  line-height: .3em;
+  font-size: 24px;
+  color: #303E63;
+  background: white;
+  border: 2px solid black;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid #C2C7C7;
+}
+
+.home ul {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.login input{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.home ul li {
+  display: flex;
+}
+
+
+.register input{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+input[type='text'], input[type='password'], input[type='email'] {
+  width:350px;
+  padding:10px;
+  margin-bottom:20px;
+  font-size:16px;
+  font-family: 'Oxygen', sans-serif;
+}
+
+button[type='submit'] {
+  border: 1.5px solid #dedede;
+  padding:8px 25px;
+  font-family: 'Oxygen', sans-serif;
+  font-size:16px;
+  background:white;
+}
+
+button[type='submit']:hover{
+   background: #bdbdbd;
+  border: 1.5px solid #bdbdbd;
+  color:#303E63;
+  cursor: pointer;
+}
+
+
+footer {
+  background:#2F3030;
+  border-top: 3px solid black;
+  display:flex;
+  flex-direction: column;
+  color:white;
+  text-align: center;
+  padding:20px;
+  font-family:baskervile;
+  font-size:1.5em;
+  letter-spacing: 0.05em;
+  position: fixed;
+  bottom:0;
+  height: 25px;
+  width: 100vw;
+}
+
+.header {
+  background-color: #222;
+  height: 100px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3em;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

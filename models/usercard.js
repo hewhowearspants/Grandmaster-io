@@ -34,4 +34,13 @@ return db.none(`
   `,[id]);
 }
 
+Usercard.findFiveUserCards = userid => {
+  return db.manyOrNone(`
+  SELECT * FROM users_cards
+  WHERE user_id = $1
+  ORDER BY RANDOM()
+  LIMIT 5
+  `, [userid]);
+};
+
 module.exports = Usercard;

@@ -2,6 +2,17 @@ const Usercard = require('../models/usercard');
 
 const usercardsController={};
 
+usercardsController.findUserCards = (req, res) => {
+  Usercard.findUserCards(req.user.id)
+  .then(usercards=>{
+    res.json(usercards);
+  })
+  .catch(err=>{
+    console.log(err);
+    res.status(500).json(err);
+  });
+};
+
 usercardsController.addToUser = (req, res) => {
   Usercard.addToUser({
     cardId: req.body.cardId,
@@ -18,6 +29,6 @@ usercardsController.addToUser = (req, res) => {
     console.log(err);
     res.status(500).json(err);
   });
-}
+};
 
 module.exports = usercardsController;

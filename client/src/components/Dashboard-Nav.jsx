@@ -5,10 +5,10 @@ class DashboardNav extends Component {
     return (
       <div className='dashboard-nav'>
         <ul>
-          <li>Your Cards</li>
-          <li>Card Collection</li>
-          <li>Get New Card</li>
-          <li>Leaderboard</li>
+          <li onClick={() => this.props.setContent('user-cards')}>Your Cards</li>
+          <li onClick={() => this.props.setContent('card-collection')}>Card Collection</li>
+          <li onClick={() => this.props.setContent('get-new-card')}>Get New Card</li>
+          <li onClick={() => this.props.setContent('leaderboard')}>Leaderboard</li>
         </ul>
       </div>
     )

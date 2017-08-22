@@ -18,7 +18,7 @@ class NewUser extends Component{
             })
         })
         .then(()=>{
-            this.state.cardData.map((data)=>{
+            this.state.cardData.forEach((data)=>{
                 axios.post('/user/new',{
                     cardId:data.id,
                     name:data.name,

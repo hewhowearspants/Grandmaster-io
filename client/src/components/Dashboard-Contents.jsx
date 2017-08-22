@@ -1,35 +1,20 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from 'react-router-dom'
 
 import UserCards from './UserCards';
+import CardCollection from './CardCollection';
+import NewCard from './NewCard';
+import Leaderboard from './Leaderboard';
 
 class DashboardContents extends Component {  
-  // renderCardCollection() {
-  //   if (this.props.cards) {
-  //     return (this.props.cards.map((card) => {
-  //         return (
-  //           <div className='card'>
-  //             <p>{card.name}</p>
-  //             <p>{card.class}</p>
-  //           </div>
-  //         )
-  //     }))
-  //   } else return <h2>Loading</h2>
-  // }
   
   render() {
     return (
-      <Router>
-        <div className='dashboard-contents'>
-          {/* {this.renderCardCollection()} */}
-          {/* <Route path='/user/card' render={() => <UserCards />} /> */}
-          <UserCards />
-        </div>
-      </Router>
+      <div className='dashboard-contents'>
+        {this.props.currentContent === 'user-cards' ? <UserCards userCards={this.props.userCards} /> : ''}
+        {this.props.currentContent === 'card-collection' ? <CardCollection cards={this.props.cards} /> : ''}
+        {this.props.currentContent === 'get-new-card' ? <NewCard /> : ''}
+        {this.props.currentcontent === 'leaderboard' ? <Leaderboard /> : ''}
+      </div>
     )
   }
 }

@@ -41,6 +41,8 @@ const userRoutes=require('./routes/user-routes');
 app.use('/user',userRoutes);
 const cardRoutes=require('./routes/card-routes');
 app.use('/cards', cardRoutes);
+const usercardRoutes=require('./routes/usercard-routes');
+app.use('/usercard',usercardRoutes);
 
 app.use('*',(req,res)=>{
     res.status(400).json({

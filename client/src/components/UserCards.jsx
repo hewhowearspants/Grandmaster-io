@@ -5,7 +5,7 @@ class UserCards extends Component {
   constructor(){
     super();
     this.state={
-      userCardData:null,
+      userCardData: null,
     }
   }
 

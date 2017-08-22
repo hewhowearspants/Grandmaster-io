@@ -47,7 +47,7 @@ usercardsController.update = (req, res) => {
 usercardsController.delete = (req, res) => {
   Usercard.destroy(req.params.id)
   .then(() => {
-    console.log(deleted);
+    console.log('deleted');
   })
   .catch(err => {
     console.log(err);

@@ -16,6 +16,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
+import NewUser from './components/NewUser';
 
 
 class App extends Component {
@@ -28,11 +29,13 @@ class App extends Component {
       user: null,
       currentPage: 'home',
       fireRedirect: false,
+      isNewUser: false,
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.setPage = this.setPage.bind(this);    
     this.logOut = this.logOut.bind(this);    
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
+    this.jumpToUserHome = this.jumpToUserHome.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +71,12 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
+  jumpToUserHome(){
+    this.setState({
+      fireRedirect:true,
+    })
+  }
+
   handleRegisterSubmit(e, username, password, email, displayName) {
     e.preventDefault();
     axios.post('/auth/register', {
@@ -75,13 +84,15 @@ class App extends Component {
       password,
       email,
       displayName,
-    }).then(res => {
+    })
+    .then(res => {
       this.setState({
         auth: res.data.auth,
         user: res.data.user,
-        fireRedirect: true,
+        isNewUser: true,
       });
-    }).catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
   }
 
   logOut() {
@@ -102,9 +113,12 @@ class App extends Component {
         <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} />
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
-          <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
+          {/* <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} /> */}
           <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData}/>} />
+          {/* <Route exact path='/user/new' render={()=><NewUser />} /> */}
           {this.state.fireRedirect ? <Redirect push to={'/user'} /> : '' }
+          <Route exact path='/register' render={()=>(this.state.isNewUser ? <NewUser jumpToUserHome={this.jumpToUserHome}/> : <Register handleRegisterSubmit={this.handleRegisterSubmit} />) }/>
+          {/* {this.state.isNewUser ? <Redirect push to={'/user/new'} /> : ''} */}
         </main>
         <Footer />
       </div>

@@ -9,4 +9,6 @@ usercardRoutes.post('/new',authHelpers.loginRequired,usercardsController.addToUs
 usercardRoutes.put('/:id', authHelpers.loginRequired, usercardsController.update);
 usercardRoutes.delete('/:id', authHelpers.loginRequired, usercardsController.delete);
 
+usercardRoutes.get('/start', authHelpers.loginRequired, usercardsController.findFiveUserCards);
+
 module.exports = usercardRoutes;

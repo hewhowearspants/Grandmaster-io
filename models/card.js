@@ -9,9 +9,16 @@ Card.findAll = () => {
 Card.findTen = () => {
   return db.query(`
   SELECT * FROM cards
-  WHERE id > 0
   ORDER BY RANDOM()
   LIMIT 10
+  `);
+}
+
+Card.findOne = () => {
+  return db.query(`
+  SELECT * FROM cards
+  ORDER BY RANDOM()
+  LIMIT 1
   `);
 }
 

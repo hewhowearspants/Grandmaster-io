@@ -73,18 +73,18 @@ class App extends Component {
     .then(res => {
       console.log(res.data)
       this.setState({
-        userCardData:res.data
+        userCardData: res.data
       })
     })
     .then(()=>{
       this.state.userCardData.forEach((data)=>{
         axios.post('/usercard/new',{
-          cardId:data.id,
-          name:data.name,
-          class:data.class,
-          attack:data.attack,
-          defense:data.defense,
-          imageUrl:data.image_url
+          cardId: data.id,
+          name: data.name,
+          class: data.class,
+          attack: data.attack,
+          defense: data.defense,
+          imageUrl: data.image_url
         })
         .then(res=>{
           console.log(res)

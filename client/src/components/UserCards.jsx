@@ -5,7 +5,7 @@ class UserCards extends Component {
   constructor(){
     super();
     this.state={
-      userCardData:null,
+      userCardData: null,
     }
   }
 
@@ -30,7 +30,9 @@ class UserCards extends Component {
             return <div key={data.id} className='single-card'>
                               <div className='card-name'><b>{data.name}</b></div>
                               <div className='card-class'><p>class: {data.class}</p></div>
-                              {/* <div className='card-img'><img src={data.image_url} alt='' /></div> */}
+                              <div className='card-attack'><p>atack: {data.attack}</p></div>
+                              <div className='card-defense'><p>defense: {data.defense}</p></div>
+                              <div className='card-img'><img src={data.image_url} alt='' /></div>
                             </div>
           }) : ''
         }

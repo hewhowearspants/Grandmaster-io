@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import Card from './Card';
+
 class UserCards extends Component {  
   constructor(){
     super();

@@ -20,4 +20,17 @@ usercardsController.addToUser = (req, res) => {
   });
 }
 
+usercardsController.update = (req, res) => {
+  card.update({
+    name: req.body.name,
+  }, req.params.id)
+  .then(card => {
+    res.json(card);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+}
+
 module.exports = usercardsController;

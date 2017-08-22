@@ -37,5 +37,15 @@ cardsController.update = (req, res) => {
   });
 }
 
+cardsController.delete = (req, res) => {
+  Card.destroy(req.params.id)
+  .then(() => {
+    console.log(deleted);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  })
+}
 
 module.exports = cardsController;

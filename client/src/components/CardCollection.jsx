@@ -16,7 +16,7 @@ class CardCollection extends Component {
   render() {
     return (
       <div className='card-collection'>
-        {this.renderCardCollection()};
+        {this.renderCardCollection()}
       </div>
     )
   }

@@ -18,4 +18,15 @@ Usercard.addToUser = (card,userid) => {
   `, [card.cardId, card.name, card.class, card.attack, card.defense, card.imageUrl, userid]);
 };
 
+
+Usercard.update = (card,id)=>{
+  return db.one(`
+  UPDATE users_cards SET
+  name=$1,
+  WHERE card_id=$2
+  RETURNING *
+  `,[card.name, card.cardId])
+}
+
+
 module.exports=Usercard;

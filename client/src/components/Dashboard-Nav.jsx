@@ -6,7 +6,7 @@ class DashboardNav extends Component {
       <div className='dashboard-nav'>
         <ul>
           <li onClick={() => this.props.setContent('user-cards')}>Your Cards</li>
-          <li onClick={() => this.props.setContent('card-collection')}>Card Collection</li>
+          <li onClick={() => this.props.setContent('card-collection')}>Collection</li>
           <li onClick={() => this.props.setContent('get-new-card')}>Get New Card</li>
           <li onClick={() => this.props.setContent('leaderboard')}>Leaderboard</li>
         </ul>

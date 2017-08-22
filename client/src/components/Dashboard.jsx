@@ -23,7 +23,6 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='dashboard'>
-        <h3>Dashboard</h3>
         <DashboardNav setContent={this.setContent} />
         <DashboardContents cards={this.props.cards} userCards={this.props.userCards} currentContent={this.state.currentContent}/>
       </div>

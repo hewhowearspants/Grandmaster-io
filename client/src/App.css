@@ -13,16 +13,51 @@ h3 {
 font-size: 2.5em;
 }
 
+p {
+  margin: 0;
+}
+
 .dashboard-nav ul li {
   font-family:baskerville;
-  font-size: 3em;
+  font-size: 2em;
   color:#000000;
   margin-bottom:-10px;
+}
+
+.dashboard {
+  display:flex;
+  height: calc(100% - 68px);
+  margin-bottom: 68px;
+}
+
+.dashboard-nav {
+  background-color: coral;
+  width: 260px;
+  min-width: 260px;
+}
+
+.dashboard-contents {
+  overflow: auto;
+  flex-grow: 1;
+  display: inline-block;
+}
+
+.dashboard-contents .UserCards {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.dashboard-contents .card-collection {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
 }
 
 ul {
   margin: 0px;
   padding: 0px;
+  list-style: none;
 }
 
 li {
@@ -75,7 +110,6 @@ main {
 .home ul li {
   display: flex;
 }
-
 
 .register input{
   display: flex;
@@ -150,40 +184,57 @@ footer {
   color: white;
 }
 
-.Card {
-  width:63%;
-  margin:0 auto;
-  background:red;
-}
-
 .card {
-  width:40vh;
+  width:150px;
+  height: 200px;
   display:flex;
   flex-direction: column;
-  float:left;
+  justify-content: space-between;
+  float:left; 
   padding:5px;
 }
 
-.card-name{
-  line-height: 0.08em;
-  margin-top:13px;
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 12px
 }
 
-.card-name p{
+.card-top .delete-button,
+.card-top .edit-button {
+  /* padding: 5px 12px; */
+  opacity: 0;
+  transition: .2s all;
+}
+
+.UserCards .card:hover .delete-button,
+.UserCards .card:hover .edit-button {
+  opacity: 1;
+}
+
+.card-name{
+  /* line-height: 0.08em; */
+}
+
+.card-name p {
   font-size:13px;
+}
+
+.card-name p:nth-child(2) {
+  color: cornsilk;
+  margin-top: 3px;
 }
 
 .card-numbers {
   display: flex;
   justify-content: space-between;
-  width:200px;
-  margin-left:22px;
-  margin-top:217px;
+  padding: 5px 10px;
 }
 
 .card-numbers p {
   width:50px;
-  font-size:14px;
+  font-size: 14px;
+  margin: 0px;
 }
 
 .card.Pawn{

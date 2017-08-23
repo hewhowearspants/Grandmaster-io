@@ -30,7 +30,10 @@ class Dashboard extends Component {
           newCard={this.props.newCard} 
           currentContent={this.state.currentContent} 
           getNewUserCard={this.props.getNewUserCard} 
-          deleteUserCard={this.props.deleteUserCard} 
+          deleteUserCard={this.props.deleteUserCard}
+          userSubmitEdit={this.props.userSubmitEdit} 
+          userSelectedCardToEdit={this.props.userSelectedCardToEdit} 
+          currentCardId={this.props.currentCardId}
         />
       </div>
     )

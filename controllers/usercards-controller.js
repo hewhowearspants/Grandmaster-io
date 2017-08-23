@@ -32,9 +32,8 @@ usercardsController.addToUser = (req, res) => {
 };
 
 usercardsController.update = (req, res) => {
-  Usercard.update({
-    name: req.body.name,
-  }, req.params.id)
+  console.log(req.params);
+  Usercard.update(req.body.name, req.params.id)
   .then(card => {
     res.json(card);
   })

@@ -7,6 +7,7 @@ const session=require('express-session');
 const passport=require('passport');
 
 const app=express();
+const server = require('http').createServer(app);
 require('dotenv').config();
 
 app.use(logger('dev'));
@@ -27,13 +28,28 @@ app.use(passport.session());
 app.use(express.static('public'));
 
 const PORT=process.env.PORT||3001;
-app.listen(PORT,()=>{
-    console.log(`~Dream~Team~ up in here running on dat port ${PORT}! Sup~?`)
+server.listen(PORT, (err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(`~Dream~Team~ up in here running on dat port ${PORT}! Sup~?`)
+    }
 });
+
 
 app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'client','build','index.html'));
 });
+
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+    console.log(`${socket.id} connected`);
+    
+    socket.on('disconnect', () => {
+        console.log(`${socket.id} disconnected`);
+    })
+})
 
 const authRoutes=require('./routes/auth-routes');
 app.use('/auth',authRoutes);

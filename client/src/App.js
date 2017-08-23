@@ -23,16 +23,18 @@ class App extends Component {
       auth: false,
       cardData: null,
       cardDataLoaded: false,
-      userCardData:null,
+      userCardData: null,
       user: null,
       currentPage: 'home',
-      fireRedirect: false,
+      fireRedirectToDashboard: false,
+      fireRedirectToLogin: false,
     }
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
-    this.setPage = this.setPage.bind(this);    
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
     this.logOut = this.logOut.bind(this);    
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
-    this.newUserRegister = this.newUserRegister.bind(this);
+    this.getUserCards = this.getUserCards.bind(this);
+    this.getNewUserCards = this.getNewUserCards.bind(this);
+    this.requireLogin = this.requireLogin.bind(this);
   }
 
   componentDidMount() {
@@ -44,13 +46,16 @@ class App extends Component {
           cardDataLoaded: true,
         });
       }).catch(err => console.log(err));
+
+    this.requireLogin();
   }
 
-  setPage(page){
-    console.log('click');
-    this.setState({
-      currentPage: page,
-    })
+  requireLogin() {
+    if(!this.state.auth) {
+      this.setState({
+        fireRedirectToLogin: true,
+      });
+    };
   }
 
   //AUTH
@@ -128,6 +133,7 @@ class App extends Component {
       console.log(res);
       this.setState({
         auth:false,
+        fireRedirectToLogin: true,
       });
     }).catch(err => console.log(err));
   }
@@ -140,8 +146,9 @@ class App extends Component {
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
-          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} />} />
-          {this.state.fireRedirect ? <Redirect push to={'/user'} /> : '' }
+          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} userCards={this.state.userCardData} />} />
+          {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
+          {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
         </main>
         <Footer />
       </div>

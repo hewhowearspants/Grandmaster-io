@@ -6,7 +6,7 @@
 }
 
 body{
-  background:rgba(57,72,120, 0.2);
+  background:#E8DDAF;
 }
 
 h3 {
@@ -18,21 +18,32 @@ p {
 }
 
 .dashboard-nav ul li {
-  font-family:baskerville;
+  font-family: 'UnifrakturCook', cursive;
   font-size: 2em;
+  line-height: .8em;
+  letter-spacing: 0.07em;
   margin-bottom:-10px;
   cursor: pointer;
   text-align: right;
 }
 
+.dashboard h1 {
+  font-family: 'UnifrakturCook', cursive;
+  font-size:52px;
+  text-align: right;
+  margin-right:15px;
+  margin-bottom:20px;
+}
+
 .dashboard {
   display:flex;
-  height: calc(100% - 68px);
-  margin-bottom: 68px;
+  height: calc(100% - 30px);
+  margin-bottom: 44px;
 }
 
 .dashboard-nav {
-  background-color: coral;
+  background-color: #9CA7D5;
+  color:#12183B;
   width: 260px;
   min-width: 260px;
 }
@@ -76,22 +87,21 @@ main {
 .home, .register {
   display: flex;
   flex: 1;
-  height: 100%;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   font-size: 2em;
   flex-direction: column;
   flex-wrap: wrap;
-  font-family: baskerville;
+  font-family: 'UnifrakturCook', cursive;
   line-height: .3em;
-  font-size: 24px;
-  color: #303E63;
-  background: white;
-  border: 2px solid black;
-  width: 80%;
+  font-size: 28px;
+  color: #12183B;
+  background-image: url('/images/background.png');
+  background-size: cover;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   padding: 20px;
-  border: 2px solid #C2C7C7;
 }
 
 .home ul {
@@ -112,6 +122,11 @@ main {
   display: flex;
 }
 
+.home li a{
+  color: #12183B;
+  margin-left:5px;
+}
+
 .register input{
   display: flex;
   flex-direction: column;
@@ -128,17 +143,18 @@ input[type='text'], input[type='password'], input[type='email'] {
 }
 
 button[type='submit'] {
-  border: 1.5px solid #dedede;
+  border: 1.5px solid #12183B;
   padding:8px 25px;
   font-family: 'Oxygen', sans-serif;
   font-size:16px;
-  background:white;
+  background:#12183B;
+  color:#FBF6E0;
 }
 
 button[type='submit']:hover{
-   background: #bdbdbd;
-  border: 1.5px solid #bdbdbd;
-  color:#303E63;
+   background: #485095;
+  border: 1.5px solid #485095;
+  color:#FBF6E0;
   cursor: pointer;
 }
 
@@ -158,32 +174,42 @@ background: #bdbdbd;
 }
 
 footer {
-  background:#2F3030;
-  border-top: 3px solid black;
+  background:#12183B;
   display:flex;
   flex-direction: column;
-  color:white;
+  color:#FAF5E0;
   text-align: center;
-  padding:20px;
-  font-family:baskervile;
-  font-size:1.5em;
-  letter-spacing: 0.05em;
+  padding:10px;
+  font-family: 'UnifrakturCook', cursive;
+  font-size:18px;
+  letter-spacing: 0.2em;
   position: fixed;
   bottom:0;
-  height: 25px;
   width: 100vw;
 }
 
 .header {
-  background-color: #222;
-  height: 100px;
-  padding: 20px;
+  background:#12183B;
+  padding: 10px;
   display: flex;
+  font-family: 'UnifrakturCook', cursive;
   justify-content: space-between;
   align-items: center;
   font-size: 3em;
-  color: white;
+  color:#FAF5E0;
+  letter-spacing: 0.1em;
 }
+
+header li, a{
+  font-family: 'UnifrakturCook', cursive;
+  font-size:24px;
+  display: -webkit-inline-flex;
+  letter-spacing: 0.07em;
+  color:#FAF5E0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 
 .card {
   width:150px;
@@ -197,19 +223,19 @@ footer {
 
 .card-top {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 5px 12px
 }
 
-.card-top .delete-button,
-.card-top .edit-button {
+.card-wrapper .delete-button,
+.card-wrapper .edit-button {
   /* padding: 5px 12px; */
   opacity: 0;
   transition: .2s all;
 }
 
-.UserCards .card:hover .delete-button,
-.UserCards .card:hover .edit-button {
+.UserCards .card-wrapper:hover .delete-button,
+.UserCards .card-wrapper:hover .edit-button {
   opacity: 1;
 }
 
@@ -229,6 +255,38 @@ footer {
 
 .UserCards .card-name input:focus {
   outline: none;
+}
+
+.UserCards .card-wrapper:hover{
+  background:rgba(0,0,0,0.9);
+  opacity:0.8;
+}
+
+.card-wrapper{
+  position:relative;
+}
+
+
+.card-wrapper .delete-button,
+.card-wrapper .edit-button{
+  position:absolute;
+  top:45%;
+}
+
+.card-wrapper .edit-button{
+  top:30%;
+  left:40%;
+  padding:4px;
+  color:#E8DDAF;
+  background:black;
+}
+
+.card-wrapper .delete-button{
+  top:50%;
+  left:40%;
+  color:#E8DDAF;
+  padding:5px;
+  background:black;
 }
 
 .card-name{
@@ -326,8 +384,8 @@ footer {
 }
 
 .selected {
-  background-color: black;
-  color: coral;
+  background-color: #485095;
+  color: #CBD2EA;
 }
 
 @keyframes App-logo-spin {

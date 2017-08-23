@@ -13,6 +13,7 @@ class GameRoom extends Component{
             oppoSelection: null,
             userCardDrawn: false,
             oppoCardDrawn: false,
+            cardsInField: 0,
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
@@ -38,6 +39,7 @@ class GameRoom extends Component{
             this.setState({
                 userSelection: data,
                 userCardDrawn: true,
+                cardsInField: this.state.cardsInField + 1,
             })
         }
     }
@@ -47,6 +49,7 @@ class GameRoom extends Component{
             this.setState({
                 oppoSelection: data,
                 oppoCardDrawn: true,
+                cardsInField: this.state.cardsInField + 1,
             })
         }
     }
@@ -57,13 +60,14 @@ class GameRoom extends Component{
             oppoSelection: null,
             userCardDrawn: false,
             oppoCardDrawn: false,
+            cardsInField: 0,
         })
     }
 
     render(){
         return(
             <div className = 'game-room'>
-                <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} />
+                <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
                 <h3>User's Card</h3>
                 <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
                 <h3>Opponent's Card</h3>

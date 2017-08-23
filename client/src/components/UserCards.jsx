@@ -18,10 +18,3 @@ class UserCards extends Component {
 }
 
 export default UserCards;
-
-/* 
- <div className='card-name'><b>{data.name}</b>
-                                                      <p>{data.class}</p></div>
-                              <div className='card-numbers'><p>Attack {data.attack}</p>
-                                                            <p>Defense {data.defense}</p></div>
-*/

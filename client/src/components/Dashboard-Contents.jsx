@@ -4,6 +4,7 @@ import UserCards from './UserCards';
 import CardCollection from './CardCollection';
 import NewCard from './NewCard';
 import Leaderboard from './Leaderboard';
+import UserProfile from './UserProfile';
 
 class DashboardContents extends Component {  
   
@@ -17,7 +18,13 @@ class DashboardContents extends Component {
                                                         currentCardId={this.props.currentCardId}/> : ''}
         {this.props.currentContent === 'card-collection' ? <CardCollection cards={this.props.cards} /> : ''}
         {this.props.currentContent === 'get-new-card' ? <NewCard newCard={this.props.newCard} getNewUserCard={this.props.getNewUserCard} /> : ''}
-        {this.props.currentcontent === 'leaderboard' ? <Leaderboard /> : ''}
+        {this.props.currentContent === 'leaderboard' ? <Leaderboard /> : ''}
+        {this.props.currentContent === 'user-profile' ? <UserProfile userSubmitNewName={this.props.userSubmitNewName}
+                                                                    userSelectedNameToEdit={this.props.userSelectedNameToEdit} 
+                                                                    currentUserId={this.props.currentUserId}
+                                                                    user={this.props.user}
+                                                                    email={this.props.email}
+                                                                    display_name={this.props.display_name} /> : ''}
       </div>
     )
   }

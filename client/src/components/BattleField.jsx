@@ -6,12 +6,17 @@ class BattleField extends Component {
         this.state = {
             userHp: 30,
             oppoHp: 30,
+            round: 0,
+            // disabled: true,
         }
         this.getBattleLog = this.getBattleLog.bind(this);
     }
 
     getBattleLog(){
         if(this.props.userSelection && this.props.oppoSelection){
+            this.setState({
+                round: this.state.round + 1,
+            })
             if(this.props.userSelection.defense < this.props.oppoSelection.attack
                  && this.props.userSelection.attack > this.props.oppoSelection.defense){
                 this.setState({
@@ -53,7 +58,7 @@ class BattleField extends Component {
                         <p>{this.props.oppoSelection.defense}</p>
                     </div>
                 : ''}
-                <button onClick = {() => this.getBattleLog() & this.props.resetBattleField()}>Get Log</button>
+                <button onClick = {() => this.getBattleLog() & this.props.resetBattleField()} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
                 <div className = 'battle-log'>
                     <div className = 'user-hp'><b>{this.state.userHp}</b></div>
                     <div className = 'oppo-hp'><b>{this.state.oppoHp}</b></div>

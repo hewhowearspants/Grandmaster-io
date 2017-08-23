@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
+import GameRoom from './components/GameRoom';
 
 
 class App extends Component {
@@ -167,6 +168,7 @@ class App extends Component {
           <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} userCards={this.state.userCardData} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
+          <Route exact path='/joingame' render={() => <GameRoom />} />
         </main>
         <Footer />
       </div>

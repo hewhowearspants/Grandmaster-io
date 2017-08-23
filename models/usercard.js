@@ -6,10 +6,11 @@ Usercard.findUserCards = userid => {
     return db.manyOrNone(`
     SELECT * FROM users_cards
     WHERE user_id = $1
+    ORDER BY card_id, id ASC
     `, [userid]);
 };
 
-Usercard.addToUser = (card,userid) => {
+Usercard.addToUser = (card, userid) => {
   return db.one(`
   INSERT INTO users_cards
   (card_id, name, class, attack, defense, image_url, user_id)
@@ -18,13 +19,13 @@ Usercard.addToUser = (card,userid) => {
   `, [card.cardId, card.name, card.class, card.attack, card.defense, card.imageUrl, userid]);
 };
 
-Usercard.update = (card, id)=>{
+Usercard.update = (name, id)=>{
   return db.one(`
   UPDATE users_cards SET
-  name = $1,
+  name = $1
   WHERE id = $2
   RETURNING *
-  `,[card.name, card.id])
+  `,[name, id])
 }
 
 Usercard.destroy = (id) => {

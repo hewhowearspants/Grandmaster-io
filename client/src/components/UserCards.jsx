@@ -4,6 +4,7 @@ import Card from './Card';
 
 class UserCards extends Component { 
 
+
   deleteCard(id) {
     axios.delete(`/usercard/${id}`)
       .then(res => {
@@ -24,13 +25,14 @@ class UserCards extends Component {
         console.log(err);
       });
   }
+  
 
   render() {
     return (
       <div className='UserCards'>
         {this.props.userCards ? 
           this.props.userCards.map(card=>{
-            return <Card key={card.id} deleteCard={this.deleteCard} card={card} />
+            return <Card key={card.id} userSubmitEdit={this.props.userSubmitEdit} userSelectedCardToEdit={this.props.userSelectedCardToEdit} currentCardId={this.props.currentCardId} deleteCard={this.deleteCard} card={card} />
           }) : ''
         }
       </div>

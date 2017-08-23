@@ -1,35 +1,15 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import Card from './Card';
 
 class UserCards extends Component {  
-  constructor(){
-    super();
-    this.state={
-      userCardData: null,
-    }
-  }
-
-  componentDidMount(){
-    axios.get('/usercard')
-    .then(res=>{
-      console.log(res.data)
-      this.setState({
-        userCardData:res.data,
-      })
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
 
   render() {
     return (
       <div className='UserCards'>
-        {this.state.userCardData ? 
-          this.state.userCardData.map(data=>{
-            return <Card key={data.id} card={data} />
+        {this.props.userCards ? 
+          this.props.userCards.map(card=>{
+            return <Card key={card.id} card={card} />
           }) : ''
         }
       </div>

@@ -68,12 +68,30 @@ class App extends Component {
       this.setState({
         auth: res.data.auth,
         user: res.data.user,
-        fireRedirect: true,
       });
-    }).catch(err => console.log(err));
+    }).then(() => {
+      this.getUserCards();
+      this.setState({
+        fireRedirectToDashboard: true
+      })
+    })
+    .catch(err => console.log(err));
   }
 
-  newUserRegister(){
+  getUserCards() {
+    axios.get('/usercard')
+    .then(res=>{
+      console.log(res.data)
+      this.setState({
+        userCardData: res.data,
+      })
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
+
+  getNewUserCards(){
     axios.get('/user/new')
     .then(res => {
       console.log(res.data)
@@ -119,9 +137,9 @@ class App extends Component {
       });
     })
     .then(
-      this.newUserRegister,
+      this.getNewUserCards,
       this.setState({
-        fireRedirect: true,
+        fireRedirectToDashboard: true,
       })
     )
     .catch(err => console.log(err));

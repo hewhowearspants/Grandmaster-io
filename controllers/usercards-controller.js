@@ -45,12 +45,15 @@ usercardsController.update = (req, res) => {
 
 usercardsController.delete = (req, res) => {
   Usercard.destroy(req.params.id)
-  .then(() => {
-    console.log('deleted');
+  .then((card) => {
+    res.json({
+      message: 'ok',
+      data: card,
+    })
   })
   .catch(err => {
     console.log(err);
-    res.status(500).json(err);
+    res.status(500).json({ err });
   })
 }
 

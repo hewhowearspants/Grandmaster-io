@@ -1,38 +1,18 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Card from './Card';
 
 class UserCards extends Component { 
-
-
-  deleteCard(id) {
-    axios.delete(`/usercard/${id}`)
-      .then(res => {
-        const updatedCards = [...this.state.userCardData];
-        console.log(updatedCards);
-        let deletedIndex;
-        updatedCards.forEach((card, index) => {
-          // console.log(card, id);
-          if (card.id === id) {
-            deletedIndex = index;
-          };
-        });
-        updatedCards.splice(deletedIndex, 1)
-        this.setState({
-          userCardData: updatedCards,
-        });
-      }).catch(err => {
-        console.log(err);
-      });
-  }
-  
-
   render() {
     return (
       <div className='UserCards'>
         {this.props.userCards ? 
           this.props.userCards.map(card=>{
-            return <Card key={card.id} userSubmitEdit={this.props.userSubmitEdit} userSelectedCardToEdit={this.props.userSelectedCardToEdit} currentCardId={this.props.currentCardId} deleteCard={this.deleteCard} card={card} />
+            return <Card key={card.id} 
+                     deleteUserCard={this.props.deleteUserCard}
+                     userSubmitEdit={this.props.userSubmitEdit} 
+                     userSelectedCardToEdit={this.props.userSelectedCardToEdit} 
+                     currentCardId={this.props.currentCardId}
+                     card={card} />
           }) : ''
         }
       </div>

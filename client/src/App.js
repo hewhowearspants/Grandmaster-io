@@ -25,6 +25,7 @@ class App extends Component {
       cardData: null,
       cardDataLoaded: false,
       userCardData: null,
+      newCardData: false,
       user: null,
       currentPage: 'home',
       fireRedirectToDashboard: false,
@@ -35,7 +36,9 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);    
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
     this.getUserCards = this.getUserCards.bind(this);
-    this.getNewUserCards = this.getNewUserCards.bind(this);
+    this.getInitialUserCards = this.getInitialUserCards.bind(this);
+    this.getNewUserCard = this.getNewUserCard.bind(this);
+    this.deleteUserCard = this.deleteUserCard.bind(this);
     this.requireLogin = this.requireLogin.bind(this);
     this.userSubmitEdit = this.userSubmitEdit.bind(this);
     this.userSelectedCardToEdit = this.userSelectedCardToEdit.bind(this);
@@ -95,7 +98,7 @@ class App extends Component {
     })
   }
 
-  getNewUserCards(){
+  getInitialUserCards(){
     axios.get('/user/new')
     .then(res => {
       console.log(res.data)
@@ -126,6 +129,55 @@ class App extends Component {
     })
   }
 
+  getNewUserCard(){
+    axios.get('/cards/new')
+    .then(res => {
+      console.log(res.data)
+      this.setState({
+        newCardData: res.data,
+      })
+    })
+    .then(() => {
+      axios.post('/usercard/new', {           
+        cardId: this.state.newCardData[0].id,
+        name: this.state.newCardData[0].name,
+        class: this.state.newCardData[0].class,
+        attack: this.state.newCardData[0].attack,
+        defense: this.state.newCardData[0].defense,
+        imageUrl: this.state.newCardData[0].image_url
+        })
+        .then(res=>{
+          this.getUserCards();
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+      })
+    .catch(err=>{
+        console.log(err);
+    })
+  }
+
+  deleteUserCard(id) {
+    axios.delete(`/usercard/${id}`).then((res) => {
+        console.log('deleted them damn cards!');
+        const updatedCards = [...this.state.userCardData];
+        let deletedIndex;
+        updatedCards.forEach((card, index) => {
+          if (card.id === id) {
+            deletedIndex = index;
+          };
+        });
+        updatedCards.splice(deletedIndex, 1);
+        console.log(updatedCards);
+        this.setState({
+          userCardData: updatedCards,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+  }
+
   handleRegisterSubmit(e, username, password, email, displayName) {
     e.preventDefault();
     axios.post('/auth/register', {
@@ -141,7 +193,7 @@ class App extends Component {
       });
     })
     .then(
-      this.getNewUserCards,
+      this.getInitialUserCards,
       this.setState({
         fireRedirectToDashboard: true,
       })
@@ -190,7 +242,15 @@ class App extends Component {
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
-          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} userSubmitEdit={this.userSubmitEdit} userSelectedCardToEdit={this.userSelectedCardToEdit} currentCardId={this.state.currentCardId} userCards={this.state.userCardData} />} />
+          <Route exact path='/user' render={() => <Dashboard 
+                                                    cards={this.state.cardData} 
+                                                    userCards={this.state.userCardData} 
+                                                    newCard={this.state.newCardData}
+                                                    userSubmitEdit={this.userSubmitEdit} 
+                                                    userSelectedCardToEdit={this.userSelectedCardToEdit} 
+                                                    currentCardId={this.state.currentCardId}
+                                                    getNewUserCard={this.getNewUserCard} 
+                                                    deleteUserCard={this.deleteUserCard} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameRoom />} />

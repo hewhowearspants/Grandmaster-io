@@ -213,6 +213,24 @@ footer {
   opacity: 1;
 }
 
+.UserCards .card-name input {
+  width: 40px;
+  background-color: inherit;
+  border: none;
+  border-bottom: 1px solid black;  
+  height: 10px;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+  text-align: center;
+  font-style: italic;
+  margin: 0;
+}
+
+.UserCards .card-name input:focus {
+  outline: none;
+}
+
 .card-name{
   /* line-height: 0.08em; */
 }

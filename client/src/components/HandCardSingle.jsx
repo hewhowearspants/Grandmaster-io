@@ -5,7 +5,7 @@ class HandCardSingle extends Component {
     constructor(){
         super();
         this.state = {
-            display: 'block',
+            displayNone: false,
         }
         this.setDisplay = this.setDisplay.bind(this);
     }
@@ -13,19 +13,24 @@ class HandCardSingle extends Component {
     setDisplay(){
         if(this.props.cardDrawn === false){
             this.setState({
-                display: 'none',
+                displayNone: true,
             })
         }
     }
 
     render(){
         return (
-        <div className = 'card' onClick = {() => this.props.select(this.props.card) & this.setDisplay()} style = {{display: this.state.display}}>
-            <p>{this.props.card.name}</p>
-            <p>{this.props.card.class}</p>
-            <img src = {this.props.card.image_url} alt = '' />
-            <p>{this.props.card.attack}</p>
-            <p>{this.props.card.defense}</p>
+        <div className = {`card ${this.props.card.class} ${this.state.displayNone ? 'hidden' : ''}`} onClick = {() => this.props.select(this.props.card) & this.setDisplay()}>
+            <div className='card-top'>
+                <div className='card-name'>
+                    <b>{this.props.card.name}</b>
+                    <p>{this.props.card.class}</p>
+                </div>
+            </div>
+            <div className='card-numbers'>
+                <p>ATT {this.props.card.attack}</p>
+                <p>DEF {this.props.card.defense}</p>
+            </div>
         </div>
         )
     }

@@ -34,6 +34,12 @@ class Dashboard extends Component {
           userSubmitEdit={this.props.userSubmitEdit} 
           userSelectedCardToEdit={this.props.userSelectedCardToEdit} 
           currentCardId={this.props.currentCardId}
+          userSubmitNewName={this.props.userSubmitNewName}
+          userSelectedNameToEdit={this.props.userSelectedNameToEdit}
+          currentUserId={this.props.currentUserId}
+          user={this.props.user}
+          email={this.props.email}
+          display_name={this.props.display_name}
         />
       </div>
     )

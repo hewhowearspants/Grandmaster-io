@@ -1,5 +1,5 @@
-const options={
-    query:(e)=>{
+const options = {
+    query:(e) => {
         console.log(e.query);
     }
 };
@@ -9,15 +9,15 @@ const pgp=require('pg-promise')(options);
 function setDatabase(){
     if(process.env.NODE_ENV==='development'||!process.env.NODE_ENV){
         return pgp({
-            database:'dream_team_dev',
-            port:5432,
-            host:'localhost',
+            database: 'dream_team_dev',
+            port: 5432,
+            host: 'localhost',
         })
-    }else{
+    } else {
         return pgp(process.env.DATABASE_URL);
     }
 }
 
-const db=setDatabase();
+const db = setDatabase();
 
-module.exports=db;
+module.exports = db;

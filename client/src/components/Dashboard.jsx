@@ -24,7 +24,7 @@ class Dashboard extends Component {
     return (
       <div className='dashboard'>
         <DashboardNav setContent={this.setContent} currentContent={this.state.currentContent} />
-        <DashboardContents cards={this.props.cards} userCards={this.props.userCards} currentContent={this.state.currentContent}/>
+        <DashboardContents cards={this.props.cards} userCards={this.props.userCards} currentContent={this.state.currentContent} userSubmitEdit={this.props.userSubmitEdit} userSelectedCardToEdit={this.props.userSelectedCardToEdit} currentCardId={this.props.currentCardId} />
       </div>
     )
   }

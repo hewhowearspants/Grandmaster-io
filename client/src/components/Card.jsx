@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import UserCards from './UserCards';
-
 class Card extends Component {
   render() {
     return (

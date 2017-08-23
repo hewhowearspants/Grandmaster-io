@@ -27,7 +27,7 @@ class App extends Component {
       userCardData: null,
       newCardData: false,
       user: null,
-      currentPage: 'home',
+      currentPage: 'dashboard',
       fireRedirectToDashboard: false,
       fireRedirectToLogin: false,
       currentCardId: null,
@@ -42,6 +42,7 @@ class App extends Component {
     this.requireLogin = this.requireLogin.bind(this);
     this.userSubmitEdit = this.userSubmitEdit.bind(this);
     this.userSelectedCardToEdit = this.userSelectedCardToEdit.bind(this);
+    this.setCurrentPage = this.setCurrentPage.bind(this);
   }
 
   componentDidMount() {
@@ -207,7 +208,7 @@ class App extends Component {
       console.log(res);
       this.setState({
         auth:false,
-        fireRedirectToLogin: true,
+        fireRedirectToDashboard: false,
       });
     }).catch(err => console.log(err));
   }
@@ -234,11 +235,17 @@ class App extends Component {
     })
   }
 
+  setCurrentPage(page){
+    this.setState({
+      currentPage: page
+    })
+  }
+
   render() {
     return (
       <Router>
       <div className="App">
-        <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} />
+        <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} setCurrentPage={this.setCurrentPage} currentPage={this.state.currentPage}/>
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />

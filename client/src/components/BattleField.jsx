@@ -4,8 +4,8 @@ class BattleField extends Component {
     constructor(){
         super();
         this.state = {
-            userHp: 30,
-            oppoHp: 30,
+            userHp: 20,
+            oppoHp: 20,
             round: 1,
             winner: null,
         }
@@ -56,22 +56,32 @@ class BattleField extends Component {
         return (
             <div className = 'battlefield'>
                 {this.props.userSelection ? 
-                    <div className = 'card user'>
-                        <p>{this.props.userSelection.name}</p>
-                        <p>{this.props.userSelection.class}</p>
-                        <img src = {this.props.userSelection.image_url} alt = '' />
-                        <p>{this.props.userSelection.attack}</p>
-                        <p>{this.props.userSelection.defense}</p>
+                    <div className = {`card ${this.props.userSelection.class} battlefield_select`}>
+                        <div className='card-top'>
+                            <div className='card-name'>
+                                <b>{this.props.userSelection.name}</b>
+                                <p>{this.props.userSelection.class}</p>
+                            </div>
+                        </div>
+                        <div className='card-numbers'>
+                            <p>{this.props.userSelection.attack}</p>
+                            <p>{this.props.userSelection.defense}</p>
+                        </div>
                     </div>
                 : ''}
                 {this.props.oppoSelection ?
-                    <div className = 'card oppo'>
-                        <p>{this.props.oppoSelection.name}</p>
-                        <p>{this.props.oppoSelection.class}</p>
-                        <img src = {this.props.oppoSelection.image_url} alt = '' />
+                    <div className = {`card ${this.props.oppoSelection.class} battlefield_select`}>
+                    <div className='card-top'>
+                        <div className='card-name'>
+                            <b>{this.props.oppoSelection.name}</b>
+                            <p>{this.props.oppoSelection.class}</p>
+                        </div>
+                    </div>
+                    <div className='card-numbers'>
                         <p>{this.props.oppoSelection.attack}</p>
                         <p>{this.props.oppoSelection.defense}</p>
                     </div>
+                </div>
                 : ''}
                 <button onClick = {() => this.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
                 <div className = 'battle-log'>

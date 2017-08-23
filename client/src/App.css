@@ -355,7 +355,15 @@ header li, a{
   border:2 px solid green;
 }
 
+.hidden {
+  display: none;
+}
 
+.battlefield_select {
+  border:2px solid red;
+  width:30vh;
+  height:40vh;
+}
 
 
 

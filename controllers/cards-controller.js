@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 
-const cardsController={};
+const cardsController = {};
 
 cardsController.index = (req, res) => {
   Card.findAll()

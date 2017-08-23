@@ -37,6 +37,7 @@ class App extends Component {
     this.getUserCards = this.getUserCards.bind(this);
     this.getNewUserCards = this.getNewUserCards.bind(this);
     this.requireLogin = this.requireLogin.bind(this);
+    this.userSubmitEdit = this.userSubmitEdit.bind(this);
     this.userSelectedCardToEdit = this.userSelectedCardToEdit.bind(this);
   }
 
@@ -159,6 +160,21 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
+  userSubmitEdit(event)  {
+    event.preventDefault();
+    console.log(this.state.currentCardId)
+    axios.put(`/usercard/${this.state.currentCardId}`, {
+      name: event.target.name.value,
+    }).then((res) => {
+      this.getUserCards();
+    }).then(() => {
+      this.setState({
+        currentCardId: null,
+        // fireRedirect: true,
+      })
+    }).catch((err) => {console.log(err) });
+  }
+
   userSelectedCardToEdit(id) {
     console.log(id);
     this.setState({
@@ -174,7 +190,7 @@ class App extends Component {
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
-          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} userSubmitEdit={this.userSubmitEdit} currentCardId={this.state.currentCardId} userCards={this.state.userCardData} />} />
+          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} userSubmitEdit={this.userSubmitEdit} userSelectedCardToEdit={this.userSelectedCardToEdit} currentCardId={this.state.currentCardId} userCards={this.state.userCardData} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameRoom />} />

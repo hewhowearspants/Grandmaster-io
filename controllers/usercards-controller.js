@@ -61,16 +61,13 @@ usercardsController.findFiveUserCards = (req, res) => {
     return Usercard.findFiveUserCards(1)
            .then(opponentCard => {
              return {
-               user:userCard,
-               oppo:opponentCard
+               userCard:userCard,
+               opponentCard:opponentCard
              }
-           })
-           .catch(err => {
-             console.log(err);
            })
   })
   .then(data => {
-    console.log(data);
+    res.json(data);
   })
   .catch(err => {
     console.log(err);

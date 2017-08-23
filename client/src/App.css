@@ -20,8 +20,9 @@ p {
 .dashboard-nav ul li {
   font-family:baskerville;
   font-size: 2em;
-  color:#000000;
   margin-bottom:-10px;
+  cursor: pointer;
+  text-align: right;
 }
 
 .dashboard {
@@ -304,6 +305,11 @@ footer {
 
 .App-intro {
   font-size: large;
+}
+
+.selected {
+  background-color: black;
+  color: coral;
 }
 
 @keyframes App-logo-spin {

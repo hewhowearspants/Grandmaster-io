@@ -19,7 +19,7 @@ Usercard.addToUser = (card, userid) => {
   `, [card.cardId, card.name, card.class, card.attack, card.defense, card.imageUrl, userid]);
 };
 
-Usercard.update = (name, id)=>{
+Usercard.update = (name, id) => {
   return db.one(`
   UPDATE users_cards SET
   name = $1

@@ -31,6 +31,7 @@ class App extends Component {
       fireRedirectToDashboard: false,
       fireRedirectToLogin: false,
       currentCardId: null,
+      currentUserId: null,
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
     this.logOut = this.logOut.bind(this);    
@@ -40,9 +41,11 @@ class App extends Component {
     this.getNewUserCard = this.getNewUserCard.bind(this);
     this.deleteUserCard = this.deleteUserCard.bind(this);
     this.requireLogin = this.requireLogin.bind(this);
-    this.userSubmitEdit = this.userSubmitEdit.bind(this);
     this.userSelectedCardToEdit = this.userSelectedCardToEdit.bind(this);
     this.setCurrentPage = this.setCurrentPage.bind(this);
+    this.userSubmitEdit = this.userSubmitEdit.bind(this);
+    this.userSelectedNameToEdit = this.userSelectedNameToEdit.bind(this);
+    this.userSubmitNewName = this.userSubmitNewName.bind(this);
   }
 
   componentDidMount() {
@@ -213,6 +216,13 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
+  userSelectedCardToEdit(id) {
+    console.log(id);
+    this.setState({
+      currentCardId: id,
+    })
+  }
+
   userSubmitEdit(event)  {
     event.preventDefault();
     console.log(this.state.currentCardId)
@@ -223,15 +233,14 @@ class App extends Component {
     }).then(() => {
       this.setState({
         currentCardId: null,
-        // fireRedirect: true,
       })
     }).catch((err) => {console.log(err) });
   }
 
-  userSelectedCardToEdit(id) {
+  userSelectedNameToEdit(id) {
     console.log(id);
     this.setState({
-      currentCardId: id,
+      currentUserId: id,
     })
   }
 
@@ -239,6 +248,31 @@ class App extends Component {
     this.setState({
       currentPage: page
     })
+  }
+  
+    userSubmitNewName(event, display_name, email, id)  {
+    event.preventDefault();
+    console.log(display_name);
+    axios.put(`/user/${id}`, {
+      displayName: display_name,
+      email: email,
+    }).then((res) => {
+      axios.post('/auth/login', {
+        username: res.data.username,
+        password: res.data.password_digest,
+      }).then(res => {
+        this.setState({
+          auth: res.data.auth,
+          user: res.data.user,
+        })
+      })
+    }).then(() => {
+      this.setState({
+        fireRedirectToDashboard: false,
+        fireRedirectToLogin: false,
+        currentUserId: null,
+      })
+    }).catch((err) => {console.log(err) });
   }
 
   render() {
@@ -257,7 +291,13 @@ class App extends Component {
                                                     userSelectedCardToEdit={this.userSelectedCardToEdit} 
                                                     currentCardId={this.state.currentCardId}
                                                     getNewUserCard={this.getNewUserCard} 
-                                                    deleteUserCard={this.deleteUserCard} />} />
+                                                    deleteUserCard={this.deleteUserCard}
+                                                    user={this.state.user}
+                                                    email={this.state.email}
+                                                    display_name={this.state.display_name}
+                                                    userSubmitNewName={this.userSubmitNewName}
+                                                    userSelectedNameToEdit={this.userSelectedNameToEdit}
+                                                    currentUserId={this.state.currentUserId} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameRoom />} />

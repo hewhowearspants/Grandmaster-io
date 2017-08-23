@@ -1,13 +1,13 @@
 const Usercard = require('../models/usercard');
 
-const usercardsController={};
+const usercardsController = {};
 
 usercardsController.findUserCards = (req, res) => {
   Usercard.findUserCards(req.user.id)
-  .then(usercards=>{
+  .then(usercards => {
     res.json(usercards);
   })
-  .catch(err=>{
+  .catch(err => {
     console.log(err);
     res.status(500).json(err);
   });
@@ -63,8 +63,8 @@ usercardsController.findFiveUserCards = (req, res) => {
     return Usercard.findFiveUserCards(1)
            .then(opponentCard => {
              return {
-               userCard:userCard,
-               opponentCard:opponentCard
+               userCard: userCard,
+               opponentCard: opponentCard
              }
            })
   })

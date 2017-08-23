@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS users (
   username VARCHAR(255) UNIQUE NOT NULL,
   password_digest TEXT NOT NULL,
   display_name VARCHAR(255),
-  email VARCHAR(255)
+  email VARCHAR(255),
+  wins INT,
+  currency INT
 );
 
 CREATE TABLE IF NOT EXISTS cards (

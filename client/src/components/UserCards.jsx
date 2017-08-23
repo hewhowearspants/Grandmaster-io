@@ -30,7 +30,7 @@ class UserCards extends Component {
       <div className='UserCards'>
         {this.props.userCards ? 
           this.props.userCards.map(card=>{
-            return <Card key={card.id} deleteCard={this.deleteCard} card={card} />
+            return <Card key={card.id} deleteUserCard={this.props.deleteUserCard} card={card} />
           }) : ''
         }
       </div>

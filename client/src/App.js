@@ -217,7 +217,12 @@ class App extends Component {
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
-          <Route exact path='/user' render={() => <Dashboard cards={this.state.cardData} userCards={this.state.userCardData} />} />
+          <Route exact path='/user' render={() => <Dashboard 
+                                                    cards={this.state.cardData} 
+                                                    userCards={this.state.userCardData} 
+                                                    newCard={this.state.newCardData} 
+                                                    getNewUserCard={this.getNewUserCard} 
+                                                    deleteUserCard={this.deleteUserCard} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameRoom />} />

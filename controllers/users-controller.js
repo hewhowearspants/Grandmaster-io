@@ -38,13 +38,31 @@ usersController.index = (req,res) => {
 usersController.update = (req, res) => {
   console.log(req.params);
   User.update(req.body.displayName, req.body.email, req.params.id)
-  .then(user => {
-    res.json(user);
+  .then((user) => {
+    res.json({
+      message: 'ok',
+      user: user,
+      auth: true,
+    })
   })
   .catch(err => {
     console.log(err);
     res.status(500).json(err);
   });
+}
+
+usersController.delete = (req, res) => {
+  User.destroy(req.params.id)
+  .then((user) => {
+    res.json({
+      message: 'ok',
+      user: user,
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  })
 }
 
 module.exports = usersController;

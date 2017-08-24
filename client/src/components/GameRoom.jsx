@@ -57,7 +57,7 @@ class GameRoom extends Component{
         event.preventDefault();
         console.log(this.state.text);
         socket.emit('message', {
-            message: {displayName: 'some douchebag', 
+            message: {displayName: this.props.user.display_name, 
                         message: this.state.text},
             room: this.props.id,
         })
@@ -120,7 +120,7 @@ class GameRoom extends Component{
                 <div className='message-box'>
                 <div className='message-display'>
                     {this.state.messages.map((message)=>{
-                        return <p>{message.displayName}: {message.message}</p>
+                        return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
                         })}
                 </div>
                 <div className='message-input'>

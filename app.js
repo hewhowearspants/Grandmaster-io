@@ -121,7 +121,7 @@ io.on('connection', (socket) => {
                 usercard.image_url = '/images/back_card.png'
             })
         })
-        io.sockets.in(data.room).emit('load players', players[data.room]);
+        io.sockets.in(data.room).emit('load players', playerData);
         console.log(playerData[0].userCards[0])
     })
 

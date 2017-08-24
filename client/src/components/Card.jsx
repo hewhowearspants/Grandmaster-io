@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import UserCards from './UserCards';
-
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +10,6 @@ class Card extends Component {
   }
 
   handleInputChange(event) {
-    const name = event.target.name;
     const value = event.target.value;
     this.setState({
       name: value,

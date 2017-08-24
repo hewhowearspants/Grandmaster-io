@@ -24,7 +24,15 @@ User.update = (display_name, email, id)=>{
   email = $2
   WHERE id = $3
   RETURNING *
-  `,[display_name, email, id])
+  `,[display_name, email, id]);
+};
+
+User.showLeaderboard = () => {
+    return db.query(`
+    SELECT * FROM users
+    ORDER BY wins DESC
+    LIMIT 10
+    `);
 };
 
 module.exports = User;

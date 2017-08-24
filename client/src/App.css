@@ -5,6 +5,24 @@
   height: 100vh;
 }
 
+.logo {
+  position: absolute;
+  z-index: -1;
+  left: -400px; 
+  top: -375px; 
+  height: 1000px;
+  width: 1000px;
+  opacity: .65;
+  transform-origin: 500px 550px;
+  filter: blur(3px) saturate(80%);
+  animation: App-logo-spin infinite 75s linear;  
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 body{
   background:#E8DDAF;
 }
@@ -445,9 +463,4 @@ header li, a{
 .selected {
   background-color: #485095;
   color: #CBD2EA;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

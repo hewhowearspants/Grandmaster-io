@@ -117,11 +117,17 @@ class GameRoom extends Component{
     render(){
         return(
             <div className = 'game-room'>
-                <h3>User's Card</h3>
-                <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                <div className="users-hand">
+                    <h3>User's Card</h3>
+                    <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                </div>
                 <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
-                <h3>Opponent's Card</h3>
-                <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
+
+                 <div className="oppo-hand">
+                    <h3>Opponent's Card</h3>
+                    <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
+                </div>
+                
                 {/* <ChatBox messages = {this.state.messages} /> */}
                 <div className='message-box'>
                 <div className='message-display'>

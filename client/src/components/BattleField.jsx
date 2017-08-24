@@ -83,11 +83,11 @@ class BattleField extends Component {
                     </div>
                 </div>
                 : ''}
-                <button onClick = {() => this.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
                 <div className = 'battle-log'>
+                    <div className = 'round-count'><h2>{(this.state.round <= 5) ? `Round: ${this.state.round}` : `${this.state.winner} Won!`}</h2></div>
                     <div className = 'hp'><b>User HP: {this.state.userHp}</b></div>
                     <div className = 'hp'><b>Opponent HP: {this.state.oppoHp}</b></div>
-                    <div className = 'round-count'><h3>{(this.state.round <= 5) ? `Round: ${this.state.round}` : `${this.state.winner} Won!`}</h3></div>
+                    <button onClick = {() => this.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
                 </div>
             </div>
         )

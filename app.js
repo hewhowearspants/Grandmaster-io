@@ -42,11 +42,23 @@ app.get('/',(req,res)=>{
 });
 
 const io = require('socket.io')(server);
+
 var messages = {
     1: [],
     2: [],
     3: []
+};
+var users = {
+    1: [],
+    2: [],
+    3: []
 }
+var userSelected = {};
+var userHP = {};
+var userCards = {};
+var players = [];
+var round = {};
+
 
 
 io.on('connection', (socket) => {
@@ -59,7 +71,12 @@ io.on('connection', (socket) => {
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${socket.id} joined room ${data.room}`);
-        socket.emit('load messages', messages[data.room]); 
+        socket.emit('load messages', messages[data.room]);
+        users[data.room].push({
+            username: data.username, 
+            displayName: data.displayName, 
+            cardInfo: data.cardInfo,
+        })
     });
 
     socket.on('message', (data) => {

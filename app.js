@@ -76,11 +76,27 @@ io.on('connection', (socket) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
         socket.emit('load messages', messages[data.room]);
-        socket.emit('load users', users[data.room]);
+        const playerData = [...players[data.room]];
+        playerData.forEach((player) => {
+            player.userCards.forEach((usercard) => {
+                usercard.id = null,
+                usercard.card_id = null,
+                usercard.name = null,
+                usercard.class = null,
+                usercard.attack = null,
+                usercard.defense = null,
+                usercard.image_url = '/images/back_card.png'
+            })
+        })
+        socket.emit('load players', playerData);
         users[data.room].push({
             username: data.username, 
             displayName: data.displayName, 
         })
+        io.sockets.in(data.room).emit('load users', users[data.room]);
+        if(players[data.room].length === 2){
+                socket.emit('players full')
+        }
     });
 
     socket.on('join game', (data) => {
@@ -90,10 +106,23 @@ io.on('connection', (socket) => {
                 userCards: data.userCards,
             })
             if(players[data.room].length === 2){
-                socket.emit('players full')
+                io.sockets.in(data.room).emit('players full')
             }
         }
-        console.log(players[data.room])
+        const playerData = [...players[data.room]];
+        playerData.forEach((player) => {
+            player.userCards.forEach((usercard) => {
+                usercard.id = null,
+                usercard.card_id = null,
+                usercard.name = null,
+                usercard.class = null,
+                usercard.attack = null,
+                usercard.defense = null,
+                usercard.image_url = '/images/back_card.png'
+            })
+        })
+        io.sockets.in(data.room).emit('load players', playerData);
+        console.log(playerData[0].userCards[0])
     })
 
     socket.on('message', (data) => {

@@ -1,12 +1,12 @@
-const express=require('express');
-const logger=require('morgan');
-const path=require('path');
-const bodyParser=require('body-parser');
-const cookieParser=require('cookie-parser');
-const session=require('express-session');
-const passport=require('passport');
+const express = require('express');
+const logger = require('morgan');
+const path = require('path');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const passport = require('passport');
 
-const app=express();
+const app = express();
 const server = require('http').createServer(app);
 require('dotenv').config();
 
@@ -16,10 +16,10 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(
     session({
-        key:process.env.SECRET_KEY,
-        secret:process.env.SECRET_KEY,
-        resave:false,
-        saveUninitialized:true,
+        key: process.env.SECRET_KEY,
+        secret: process.env.SECRET_KEY,
+        resave: false,
+        saveUninitialized: true,
     })
 );
 app.use(passport.initialize());
@@ -37,7 +37,7 @@ server.listen(PORT, (err) => {
 });
 
 
-app.get('/',(req,res)=>{
+app.get('/',(req,res) => {
     res.sendFile(path.join(__dirname,'client','build','index.html'));
 });
 
@@ -100,7 +100,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join game', (data) => {
-        if(players[data.room].length < 2){
+        if(players[data.room].length < 2) {
             players[data.room].push({
                 username: data.username,
                 userCards: data.userCards,
@@ -138,16 +138,16 @@ io.on('connection', (socket) => {
     });
 });
 
-const authRoutes=require('./routes/auth-routes');
+const authRoutes = require('./routes/auth-routes');
 app.use('/auth',authRoutes);
-const userRoutes=require('./routes/user-routes');
+const userRoutes = require('./routes/user-routes');
 app.use('/user',userRoutes);
-const cardRoutes=require('./routes/card-routes');
+const cardRoutes = require('./routes/card-routes');
 app.use('/cards', cardRoutes);
-const usercardRoutes=require('./routes/usercard-routes');
+const usercardRoutes = require('./routes/usercard-routes');
 app.use('/usercard',usercardRoutes);
 
-app.use('*',(req,res)=>{
+app.use('*',(req,res) => {
     res.status(400).json({
         message:'Not found!',
     });

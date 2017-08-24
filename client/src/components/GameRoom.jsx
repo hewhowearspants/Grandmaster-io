@@ -7,11 +7,13 @@ import io from 'socket.io-client';
 
 const socket = io('http://localhost:3001')
 
-class GameRoom extends Component{
-    constructor(){
+class GameRoom extends Component {
+    constructor() {
         super();
-        this.state={
+        this.state = {
             userCardData: null,
+            oppoNameData: null,
+            userNameData: null,
             oppoCardData: null,
             userSelection: null,
             oppoSelection: null,
@@ -23,6 +25,7 @@ class GameRoom extends Component{
             users: [],
             joined: false,
             playersFull: false,
+            playerData: null,
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
@@ -32,7 +35,7 @@ class GameRoom extends Component{
         this.joinGame = this.joinGame.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         const userCardsCopy = [...this.props.userCards];
         const userChoice = [];
         for(var i = 0; i < 5; i++) {
@@ -67,7 +70,23 @@ class GameRoom extends Component{
                 users: users,
             })
         })
-        socket.on('players full', ()=> {
+        socket.on('load players', (playerData) => {
+            console.log('got players' + JSON.stringify(playerData));
+            if(playerData.length === 1) {
+                this.setState({
+                    oppoCardData: playerData[0].userCards,
+                    oppoNameData: playerData[0].username,
+                })
+            } else if(playerData.length === 2) {
+                this.setState({
+                    oppoCardData: playerData[0].userCards,
+                    oppoNameData: playerData[0].username,
+                    userCardData: playerData[1].userCards,
+                    userNameData: playerData[1].username,
+                })
+            }
+        })
+        socket.on('players full', () => {
             this.setState({
                 playersFull: true,
             })
@@ -169,7 +188,7 @@ class GameRoom extends Component{
                 </div>
 
                  <div className="oppo-hand">
-                    <h3>Opponent's Card</h3>
+                    <h3>{`${this.state.oppoNameData}'s Card` || 'Waiting Oppo'}</h3>
                     <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
                 </div>
                 

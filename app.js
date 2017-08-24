@@ -55,6 +55,11 @@ io.on('connection', (socket) => {
         console.log(`${socket.id} joined room ${data.room}`);
     });
 
+    socket.on('message', (data) => {
+        console.log(data.message, data.room);
+        io.sockets.in(data.room).emit('receive message', data);
+    })
+
     socket.on('leave room', (data) => {
         socket.leave(data.room);
         console.log(`${socket.id} left room ${data.room}`);

@@ -18,18 +18,18 @@ class BattleField extends Component {
             round: this.state.round + 1,
         })
         if(this.props.userSelection.defense < this.props.oppoSelection.attack
-                && this.props.userSelection.attack > this.props.oppoSelection.defense){
+                && this.props.userSelection.attack > this.props.oppoSelection.defense) {
             this.setState({
                 userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
                 oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
             })
-        }else if(this.props.userSelection.defense < this.props.oppoSelection.attack
+        } else if(this.props.userSelection.defense < this.props.oppoSelection.attack
             && this.props.userSelection.attack <= this.props.oppoSelection.defense){
             this.setState({
                 userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
             })
-        }else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
-            && this.props.userSelection.attack > this.props.oppoSelection.defense){
+        } else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
+            && this.props.userSelection.attack > this.props.oppoSelection.defense) {
             this.setState({
                 oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
             })
@@ -37,15 +37,15 @@ class BattleField extends Component {
     }
 
     getWinner(){
-        if(this.state.userHp > this.state.oppoHp){
+        if(this.state.userHp > this.state.oppoHp) {
             this.setState({
                 winner: 'User'
             })
-        }else if(this.state.userHp < this.state.oppoHp){
+        } else if (this.state.userHp < this.state.oppoHp) {
             this.setState({
                 winner: 'Opponent'
             })
-        }else if(this.state.userHp === this.state.oppoHp){
+        } else if (this.state.userHp === this.state.oppoHp) {
             this.setState({
                 winner: 'Game Tied! Both Players'
             })

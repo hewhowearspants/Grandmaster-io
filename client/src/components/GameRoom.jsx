@@ -28,18 +28,27 @@ class GameRoom extends Component{
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     }
 
-    componentWillMount(){
-        axios.get('/usercard/start')
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-                userCardData: res.data.userCard,
-                oppoCardData: res.data.opponentCard,
-            })
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    componentDidMount(){
+        // axios.get('/usercard/start')
+        // .then(res => {
+        //     console.log(res.data);
+        //     this.setState({
+        //         userCardData: res.data.userCard,
+        //         oppoCardData: res.data.opponentCard,
+        //     })
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        // })
+        const userCardsCopy = [...this.props.userCards];
+        const userChoice = [];
+        for(var i=0; i<5; i++){
+            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
+            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
+        };
+        this.setState({
+            userCardData: userChoice,
+        });
         socket.emit('join room', {
             room: this.props.id,
         });

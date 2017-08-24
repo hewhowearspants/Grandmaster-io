@@ -56,7 +56,11 @@ var users = {
 var userSelected = {};
 var userHP = {};
 var userCards = {};
-var players = [];
+var players = {
+    1: [],
+    2: [],
+    3: []
+};
 var round = {};
 
 
@@ -78,6 +82,19 @@ io.on('connection', (socket) => {
             displayName: data.displayName, 
         })
     });
+
+    socket.on('join game', (data) => {
+        if(players[data.room].length < 2){
+            players[data.room].push({
+                username: data.username,
+                userCards: data.userCards,
+            })
+            if(players[data.room].length === 2){
+                socket.emit('players full')
+            }
+        }
+        console.log(players[data.room])
+    })
 
     socket.on('message', (data) => {
         console.log(data.message, data.room);

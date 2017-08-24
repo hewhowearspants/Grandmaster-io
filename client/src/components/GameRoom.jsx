@@ -148,7 +148,25 @@ class GameRoom extends Component{
                     <h3>{this.props.user.display_name} 's Card</h3>
                     <UsersHands className = 'user-hand' playersFull = {this.state.playersFull} joinGame = {this.joinGame} joined = {this.state.joined} select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
                 </div>
-                <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
+
+                <div className="mid-section">
+                    <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
+                    
+                    <div className='message-box'>
+                        <div className='message-display'>
+                            {this.state.messages ? this.state.messages.map((message)=>{
+                                return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                                }) : '' }
+                        </div>
+                        <div className='message-input'>
+                            <form onSubmit={this.handleMessageSubmit}>
+                                <input type='text' onChange={this.handleInputChange} />
+                                <button type='submit'>Send!</button>
+                            </form>
+                        </div>
+                    </div>
+                
+                </div>
 
                  <div className="oppo-hand">
                     <h3>Opponent's Card</h3>
@@ -156,19 +174,7 @@ class GameRoom extends Component{
                 </div>
                 
                 {/* <ChatBox messages = {this.state.messages} /> */}
-                <div className='message-box'>
-                    <div className='message-display'>
-                        {this.state.messages ? this.state.messages.map((message)=>{
-                            return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
-                            }) : '' }
-                    </div>
-                    <div className='message-input'>
-                        <form onSubmit={this.handleMessageSubmit}>
-                            <input type='text' onChange={this.handleInputChange} />
-                            <button type='submit'>Send!</button>
-                        </form>
-                    </div>
-                </div>
+                
             </div>
         )
     }

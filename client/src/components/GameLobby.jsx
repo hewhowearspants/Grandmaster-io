@@ -5,6 +5,7 @@ class GameLobby extends Component {
     render() {
         return (
             <div className='game-lobby'>
+                <h1>Pick A Room!</h1>
                 <div className='game-room'><Link to='/joingame/1'>Room 1</Link></div>
                 <div className='game-room'><Link to='/joingame/2'>Room 2</Link></div>
                 <div className='game-room'><Link to='/joingame/3'>Room 3</Link></div>

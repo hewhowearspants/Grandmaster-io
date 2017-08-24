@@ -70,12 +70,12 @@ io.on('connection', (socket) => {
 
     socket.on('join room', (data) => {
         socket.join(data.room);
-        console.log(`${socket.id} joined room ${data.room}`);
+        console.log(`${data.username} joined room ${data.room}`);
         socket.emit('load messages', messages[data.room]);
+        socket.emit('load users', users[data.room]);
         users[data.room].push({
             username: data.username, 
             displayName: data.displayName, 
-            cardInfo: data.cardInfo,
         })
     });
 

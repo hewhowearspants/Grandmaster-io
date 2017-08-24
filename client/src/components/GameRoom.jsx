@@ -140,24 +140,18 @@ class GameRoom extends Component{
                 
                 {/* <ChatBox messages = {this.state.messages} /> */}
                 <div className='message-box'>
-                <div className='message-display'>
-<<<<<<< HEAD
-                    {this.state.messages.map((message)=>{
-                        return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
-                        })}
-=======
-                    {this.state.messages ? this.state.messages.map((message)=>{
-                        return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
-                        }) : '' }
->>>>>>> 9e069ec1d5c1321725e974aa6d12c28bb3950427
+                    <div className='message-display'>
+                        {this.state.messages ? this.state.messages.map((message)=>{
+                            return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                            }) : '' }
+                    </div>
+                    <div className='message-input'>
+                        <form onSubmit={this.handleMessageSubmit}>
+                            <input type='text' onChange={this.handleInputChange} />
+                            <button type='submit'>Send!</button>
+                        </form>
+                    </div>
                 </div>
-                <div className='message-input'>
-                    <form onSubmit={this.handleMessageSubmit}>
-                        <input type='text' onChange={this.handleInputChange} />
-                        <button type='submit'>Send!</button>
-                    </form>
-                </div>
-            </div>
             </div>
         )
     }

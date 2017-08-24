@@ -365,7 +365,58 @@ header li, a{
   height:40vh;
 }
 
+.battle-log h2 {
+  font-family: 'UnifrakturCook', cursive;
+  color:#12183B;
+  font-size:76px;
+  margin-top:20px;
+}
 
+.battlefield {
+  width:60%;
+  margin: 0 auto;
+  height:100%;
+  display:flex;
+  flex-direction: row;
+}
+
+.card-hands{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.users-hand {
+  display:flex;
+  width:20%;
+  flex-direction: column-reverse;
+}
+
+.oppo-hand {
+  width:20%;
+}
+
+
+.game-room {
+  display: flex;
+}
+
+.game-room h3 {
+  font-family: 'UnifrakturCook', cursive;
+  color:#12183B;
+  font-size:35px;
+}
+
+.hp {
+  width:80%;
+  background:red;
+  margin:0 auto;
+  font-family: 'UnifrakturCook', cursive;
+  color:#631F1F;
+  font-size:30px;
+  display: flex;
+  flex-direction: column;
+}
 
 
 

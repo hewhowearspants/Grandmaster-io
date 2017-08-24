@@ -40,6 +40,7 @@ class Dashboard extends Component {
           user={this.props.user}
           email={this.props.email}
           display_name={this.props.display_name}
+          deleteUser={this.props.deleteUser}
         />
       </div>
     )

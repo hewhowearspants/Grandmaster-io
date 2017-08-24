@@ -256,9 +256,10 @@ class App extends Component {
   userSubmitNewName(event, display_name, email, id)  {
     event.preventDefault();
     console.log(display_name);
-    axios.put(`/user/${id}`, {
-      displayName: display_name,
-      email: email,
+    console.log(this.state.currentUserId);
+    axios.put(`/user/${this.state.currentUserId}`, {
+      displayName: event.target.display_name.value,
+      email: event.target.email.value,
     }).then((res) => {
       axios.post('/auth/login', {
         username: res.data.username,

@@ -8,6 +8,7 @@ userRoutes.get('/',authHelpers.loginRequired,usersController.index);
 userRoutes.get('/new',authHelpers.loginRequired,cardsController.findTen);
 
 userRoutes.put('/:id', authHelpers.loginRequired, usersController.update);
+userRoutes.delete('/:id', authHelpers.loginRequired, usersController.delete);
 
 
 module.exports = userRoutes;

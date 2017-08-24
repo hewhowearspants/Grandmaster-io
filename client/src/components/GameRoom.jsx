@@ -20,6 +20,7 @@ class GameRoom extends Component{
             cardsInField: 0,
             messages: [],
             text: '',
+            users: [],
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
@@ -29,20 +30,9 @@ class GameRoom extends Component{
     }
 
     componentDidMount(){
-        // axios.get('/usercard/start')
-        // .then(res => {
-        //     console.log(res.data);
-        //     this.setState({
-        //         userCardData: res.data.userCard,
-        //         oppoCardData: res.data.opponentCard,
-        //     })
-        // })
-        // .catch(err => {
-        //     console.log(err);
-        // })
         const userCardsCopy = [...this.props.userCards];
         const userChoice = [];
-        for(var i=0; i<5; i++){
+        for(var i = 0; i < 5; i++) {
             const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
             userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
         };
@@ -51,6 +41,8 @@ class GameRoom extends Component{
         });
         socket.emit('join room', {
             room: this.props.id,
+            username: this.props.user.username,
+            displayName: this.props.user.display_name,
         });
         socket.on('receive message', (data) => {
             console.log(data.message);
@@ -64,6 +56,12 @@ class GameRoom extends Component{
             console.log('got messages'+ JSON.stringify(messages));
             this.setState({
                 messages: messages,
+            })
+        })
+        socket.on('load users', (users) => {
+            console.log('got users'+ JSON.stringify(users));
+            this.setState({
+                users: users,
             })
         })
     }

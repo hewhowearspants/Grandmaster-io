@@ -42,6 +42,12 @@ app.get('/',(req,res)=>{
 });
 
 const io = require('socket.io')(server);
+var messages = {
+    1: [],
+    2: [],
+    3: []
+}
+
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
@@ -53,11 +59,14 @@ io.on('connection', (socket) => {
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${socket.id} joined room ${data.room}`);
+        socket.emit('load messages', messages[data.room]); 
     });
 
     socket.on('message', (data) => {
         console.log(data.message, data.room);
         io.sockets.in(data.room).emit('receive message', data);
+        messages[data.room].push(data.message);
+        console.log(messages[data.room]);
     })
 
     socket.on('leave room', (data) => {

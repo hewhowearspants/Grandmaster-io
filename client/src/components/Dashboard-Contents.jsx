@@ -25,7 +25,6 @@ class DashboardContents extends Component {
                                                                     email={this.props.email}
                                                                     display_name={this.props.display_name}
                                                                     deleteUser={this.props.deleteUser} /> : ''}
-                                                                    display_name={this.props.display_name} /> : ''}
         {this.props.currentContent === 'leaderboard' ? <Leaderboard leaderInfo={this.props.leaderInfo} /> : ''}
       </div>
     )

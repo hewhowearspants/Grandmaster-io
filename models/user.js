@@ -35,4 +35,11 @@ User.showLeaderboard = () => {
     `);
 };
 
+User.destroy = (id, user_id) => {
+return db.none(`
+  DELETE FROM users_cards where user_id = $1;
+  DELETE FROM users WHERE id = $1
+  `,[id]);
+}
+
 module.exports = User;

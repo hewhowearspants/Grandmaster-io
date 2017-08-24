@@ -24,6 +24,9 @@ class UserProfile extends Component {
   render() {
     return (
       <div className='user-profile'>
+        <div className='delete-button'>
+          <i className="fa fa-times fa-2x" onClick={()=> {this.props.deleteUser(this.props.user.id) }}>Delete Profile?</i>
+        </div>
         <div className='edit-button'>
           <button className='edit-name' onClick={()=> {this.props.userSelectedNameToEdit(this.props.user.id)}}></button>
         </div>

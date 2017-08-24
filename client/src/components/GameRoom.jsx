@@ -73,17 +73,31 @@ class GameRoom extends Component {
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
             if(playerData.length === 1) {
-                this.setState({
-                    oppoCardData: playerData[0].userCards,
-                    oppoNameData: playerData[0].username,
-                })
+                if(playerData[0].username !== this.props.user.username) {
+                    this.setState({
+                        oppoCardData: playerData[0].userCards,
+                        oppoNameData: playerData[0].username,
+                    })
+                }
             } else if(playerData.length === 2) {
-                this.setState({
-                    oppoCardData: playerData[0].userCards,
-                    oppoNameData: playerData[0].username,
-                    userCardData: playerData[1].userCards,
-                    userNameData: playerData[1].username,
-                })
+                if(playerData[0].username !== this.props.user.username && playerData[1].username !== this.props.user.username) {
+                    this.setState({
+                        oppoCardData: playerData[0].userCards,
+                        oppoNameData: playerData[0].username,
+                        userCardData: playerData[1].userCards,
+                        userNameData: playerData[1].username,
+                    });
+                } else if(playerData[0].username === this.props.user.username) {
+                    this.setState({
+                        oppoCardData: playerData[1].userCards,
+                        oppoNameData: playerData[1].username,
+                    })
+                } else if(playerData[1].username === this.props.user.username) {
+                    this.setState({
+                        oppoCardData: playerData[0].userCards,
+                        oppoNameData: playerData[0].username,
+                    })
+                }
             }
         })
         socket.on('players full', () => {

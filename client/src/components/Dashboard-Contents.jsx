@@ -18,7 +18,6 @@ class DashboardContents extends Component {
                                                         currentCardId={this.props.currentCardId}/> : ''}
         {this.props.currentContent === 'card-collection' ? <CardCollection cards={this.props.cards} /> : ''}
         {this.props.currentContent === 'get-new-card' ? <NewCard newCard={this.props.newCard} getNewUserCard={this.props.getNewUserCard} /> : ''}
-        {this.props.currentContent === 'leaderboard' ? <Leaderboard /> : ''}
         {this.props.currentContent === 'user-profile' ? <UserProfile userSubmitNewName={this.props.userSubmitNewName}
                                                                     userSelectedNameToEdit={this.props.userSelectedNameToEdit} 
                                                                     currentUserId={this.props.currentUserId}
@@ -26,6 +25,8 @@ class DashboardContents extends Component {
                                                                     email={this.props.email}
                                                                     display_name={this.props.display_name}
                                                                     deleteUser={this.props.deleteUser} /> : ''}
+                                                                    display_name={this.props.display_name} /> : ''}
+        {this.props.currentContent === 'leaderboard' ? <Leaderboard leaderInfo={this.props.leaderInfo} /> : ''}
       </div>
     )
   }

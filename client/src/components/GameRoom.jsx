@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import BattleField from './BattleField';
 import UsersHands from './UsersHands';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3001')
 
 class GameRoom extends Component{
     constructor(){
@@ -31,6 +34,21 @@ class GameRoom extends Component{
         })
         .catch(err => {
             console.log(err);
+        })
+    }
+
+    componentDidMount() {
+        socket.emit('join room', {
+            room: this.props.id,
+        });
+        socket.on('receive message', (data) => {
+            console.log(data.message);
+        });
+    }
+
+    componentWillUnmount() {
+        socket.emit('leave room', {
+            room: this.props.id,
         })
     }
 

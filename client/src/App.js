@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
+import GameLobby from './components/GameLobby';
 import GameRoom from './components/GameRoom';
 
 
@@ -316,7 +317,8 @@ class App extends Component {
                                                     deleteUser={this.deleteUser} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
-          <Route exact path='/joingame' render={() => <GameRoom />} />
+          <Route exact path='/joingame' render={() => <GameLobby />} />
+          <Route exact path='/joingame/:id' render={(props) => <GameRoom id={props.match.params.id}/>} />
         </main>
         <Footer />
       </div>

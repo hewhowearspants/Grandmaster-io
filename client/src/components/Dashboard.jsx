@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import DashboardNav from './Dashboard-Nav';
 import DashboardContents from './Dashboard-Contents';
@@ -9,9 +10,21 @@ class Dashboard extends Component {
 
     this.state = {
       currentContent: 'user-cards',
+      leaderInfo: null,
     };
 
     this.setContent = this.setContent.bind(this);
+  }
+
+  componentDidMount(){
+    axios.get('/user/leaderboard')
+    .then(res => {
+        console.log(res.data.data)
+        this.setState({
+            leaderInfo: res.data.data,
+        })
+    })
+    .catch(err => console.log(err));
   }
 
   setContent(page) {
@@ -41,6 +54,7 @@ class Dashboard extends Component {
           email={this.props.email}
           display_name={this.props.display_name}
           deleteUser={this.props.deleteUser}
+          leaderInfo={this.state.leaderInfo}
         />
       </div>
     )

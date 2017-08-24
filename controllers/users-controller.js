@@ -47,4 +47,19 @@ usersController.update = (req, res) => {
   });
 }
 
-module.exports = usersController;
+usersController.showLeaderboard = (req, res) => {
+    User.showLeaderboard()
+    .then((users) => {
+        res.json({
+            message: 'ok',
+            data: users
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    })
+}
+
+module.exports=usersController;
+

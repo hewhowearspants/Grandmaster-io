@@ -60,7 +60,7 @@ class App extends Component {
         });
       }).catch(err => console.log(err));
 
-    // this.requireLogin();
+    this.requireLogin();
   }
 
   requireLogin() {

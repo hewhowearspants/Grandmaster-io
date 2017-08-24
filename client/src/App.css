@@ -160,7 +160,7 @@ input[type='text'], input[type='password'], input[type='email'] {
   font-family: 'Oxygen', sans-serif;
 }
 
-button[type='submit'] {
+button {
   border: 1.5px solid #12183B;
   padding:8px 25px;
   font-family: 'Oxygen', sans-serif;
@@ -169,7 +169,7 @@ button[type='submit'] {
   color:#FBF6E0;
 }
 
-button[type='submit']:hover{
+button:hover{
    background: #485095;
   border: 1.5px solid #485095;
   color:#FBF6E0;
@@ -199,7 +199,7 @@ footer {
   text-align: center;
   padding:10px;
   font-family: 'UnifrakturCook', cursive;
-  font-size:18px;
+  font-size:14px;
   letter-spacing: 0.2em;
   position: fixed;
   bottom:0;
@@ -208,19 +208,19 @@ footer {
 
 .header {
   background:#12183B;
-  padding: 10px;
+  padding: 2px 0px 2px 20px;
   display: flex;
   font-family: 'UnifrakturCook', cursive;
   justify-content: space-between;
   align-items: center;
-  font-size: 3em;
+  font-size: 2.6em;
   color:#FAF5E0;
   letter-spacing: 0.1em;
 }
 
 header li, a{
   font-family: 'UnifrakturCook', cursive;
-  font-size:24px;
+  font-size:22px;
   display: -webkit-inline-flex;
   letter-spacing: 0.07em;
   color:#FAF5E0;
@@ -378,24 +378,56 @@ header li, a{
 }
 
 .battlefield_select {
-  border:2px solid red;
-  width:30vh;
-  height:40vh;
+  width:33vh;
+  height:43vh;
+  margin-left:50px;
+  margin-right:50px;
+  animation-name:spin;
+  animation-duration:1s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  position:relative;
+}
+
+@keyframes spin{
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+  }
 }
 
 .battle-log h2 {
   font-family: 'UnifrakturCook', cursive;
   color:#12183B;
-  font-size:76px;
-  margin-top:20px;
+  font-size:60px;
+  margin-top:5px;
 }
 
-.battlefield {
+.mid-section {
   width:60%;
   margin: 0 auto;
   height:100%;
   display:flex;
-  flex-direction: row;
+  flex-direction:column;
+}
+
+.battle-log{
+  width:90%;
+  margin: 0 auto;
+}
+
+.battlefield {
+  width:100%;
+  margin: 0 auto;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-selected {
+  display:flex;
 }
 
 .card-hands{
@@ -426,19 +458,82 @@ header li, a{
 }
 
 .hp {
-  width:80%;
-  background:red;
+  width:85%;
   margin:0 auto;
   font-family: 'UnifrakturCook', cursive;
   color:#631F1F;
   font-size:30px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top:-40px;
 }
 
+.message-input input[type='text']{
+  position:fixed;
+  bottom:5%;
+  left:30%;
+}
 
+.message-input button[type='submit']{
+  position:fixed;
+  bottom:9%;
+  left:61%;
+}
 
+.battle-log button {
+  padding:5px;
+  border-radius:15%;
+}
 
+.new-card button{
+  border: 1.5px solid #12183B;
+  padding:8px 25px;
+  font-family: 'Oxygen', sans-serif;
+  font-size:16px;
+  background:#12183B;
+  color:#FBF6E0;
+  margin-bottom:30px;
+}
+
+.new-card button:hover{
+   background: #485095;
+  border: 1.5px solid #485095;
+  color:#FBF6E0;
+  cursor: pointer;
+}
+
+.new-card {
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-lobby h1 {
+  font-size: 60px;
+  font-family: 'UnifrakturCook', cursive;
+  color:#12183B;
+  letter-spacing: 0.13em;
+  margin-top:-20px;
+}
+
+.game-lobby a {
+  font-size:46px;
+  color:#485095;
+}
+
+.game-lobby {
+  width:80%;
+  height:100%;
+  margin: 0 auto;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 
 

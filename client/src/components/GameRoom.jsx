@@ -28,18 +28,27 @@ class GameRoom extends Component{
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
     }
 
-    componentWillMount(){
-        axios.get('/usercard/start')
-        .then(res => {
-            console.log(res.data);
-            this.setState({
-                userCardData: res.data.userCard,
-                oppoCardData: res.data.opponentCard,
-            })
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    componentDidMount(){
+        // axios.get('/usercard/start')
+        // .then(res => {
+        //     console.log(res.data);
+        //     this.setState({
+        //         userCardData: res.data.userCard,
+        //         oppoCardData: res.data.opponentCard,
+        //     })
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        // })
+        const userCardsCopy = [...this.props.userCards];
+        const userChoice = [];
+        for(var i=0; i<5; i++){
+            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
+            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
+        };
+        this.setState({
+            userCardData: userChoice,
+        });
         socket.emit('join room', {
             room: this.props.id,
         });
@@ -51,14 +60,20 @@ class GameRoom extends Component{
                 messages: updatedMessages,
             })
         });
+        socket.on('load messages', (messages) => {
+            console.log('got messages'+ JSON.stringify(messages));
+            this.setState({
+                messages: messages,
+            })
+        })
     }
 
     handleMessageSubmit(event) {
         event.preventDefault();
         console.log(this.state.text);
         socket.emit('message', {
-            message: {displayName: this.props.user.display_name, 
-                        message: this.state.text},
+            message: {displayName: this.props.user.display_name,
+                          message: this.state.text},
             room: this.props.id,
         })
         event.target.reset();
@@ -111,17 +126,30 @@ class GameRoom extends Component{
     render(){
         return(
             <div className = 'game-room'>
-                <h3>User's Card</h3>
-                <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                <img className='logo' src="../images/compass.png" alt='' />
+                <div className="users-hand">
+                    <h3>User's Card</h3>
+                    <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                </div>
                 <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
-                <h3>Opponent's Card</h3>
-                <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
+
+                 <div className="oppo-hand">
+                    <h3>Opponent's Card</h3>
+                    <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
+                </div>
+                
                 {/* <ChatBox messages = {this.state.messages} /> */}
                 <div className='message-box'>
                 <div className='message-display'>
+<<<<<<< HEAD
                     {this.state.messages.map((message)=>{
                         return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
                         })}
+=======
+                    {this.state.messages ? this.state.messages.map((message)=>{
+                        return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                        }) : '' }
+>>>>>>> 9e069ec1d5c1321725e974aa6d12c28bb3950427
                 </div>
                 <div className='message-input'>
                     <form onSubmit={this.handleMessageSubmit}>

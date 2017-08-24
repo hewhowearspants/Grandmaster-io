@@ -60,7 +60,7 @@ class App extends Component {
         });
       }).catch(err => console.log(err));
 
-    // this.requireLogin();
+    this.requireLogin();
   }
 
   requireLogin() {
@@ -185,19 +185,6 @@ class App extends Component {
       });
   }
 
-  deleteUser(id) {
-    axios.delete(`/user/${id}`)
-    .then((res) => {
-      console.log('deleted yuuuu bish');
-      this.setState({
-        user: null,
-        fireRedirectToLogin: true,
-        });
-      }).catch(err => {
-        console.log(err);
-      });
-  }
-
   handleRegisterSubmit(e, username, password, email, displayName) {
     e.preventDefault();
     axios.post('/auth/register', {
@@ -266,7 +253,7 @@ class App extends Component {
     })
   }
   
-    userSubmitNewName(event, display_name, email, id)  {
+  userSubmitNewName(event, display_name, email, id)  {
     event.preventDefault();
     console.log(display_name);
     axios.put(`/user/${id}`, {
@@ -286,10 +273,22 @@ class App extends Component {
       this.setState({
         fireRedirectToDashboard: false,
         fireRedirectToLogin: false,
-        currentUserId: null,
       })
     }).catch((err) => {console.log(err) });
   }
+
+  deleteUser(id) {
+    axios.delete(`/user/${id}`)
+    .then((res) => {
+      this.setState({
+        user: null,
+        fireRedirectToLogin: true,
+        fireRedirectToDashboard: false,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+    }
 
   render() {
     return (
@@ -318,7 +317,7 @@ class App extends Component {
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameLobby />} />
-          <Route exact path='/joingame/:id' render={(props) => <GameRoom user={this.state.user} id={props.match.params.id}/>} />
+          <Route exact path='/joingame/:id' render={(props) => <GameRoom user={this.state.user} id={props.match.params.id} userCards={this.state.userCardData} />} />
         </main>
         <Footer />
       </div>

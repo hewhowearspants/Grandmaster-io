@@ -5,6 +5,24 @@
   height: 100vh;
 }
 
+.logo {
+  position: absolute;
+  z-index: -1;
+  left: -400px; 
+  top: -375px; 
+  height: 1000px;
+  width: 1000px;
+  opacity: .65;
+  transform-origin: 500px 550px;
+  filter: blur(3px) saturate(80%);
+  animation: App-logo-spin infinite 75s linear;  
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 body{
   background:#E8DDAF;
 }
@@ -365,7 +383,58 @@ header li, a{
   height:40vh;
 }
 
+.battle-log h2 {
+  font-family: 'UnifrakturCook', cursive;
+  color:#12183B;
+  font-size:76px;
+  margin-top:20px;
+}
 
+.battlefield {
+  width:60%;
+  margin: 0 auto;
+  height:100%;
+  display:flex;
+  flex-direction: row;
+}
+
+.card-hands{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.users-hand {
+  display:flex;
+  width:20%;
+  flex-direction: column-reverse;
+}
+
+.oppo-hand {
+  width:20%;
+}
+
+
+.game-room {
+  display: flex;
+}
+
+.game-room h3 {
+  font-family: 'UnifrakturCook', cursive;
+  color:#12183B;
+  font-size:35px;
+}
+
+.hp {
+  width:80%;
+  background:red;
+  margin:0 auto;
+  font-family: 'UnifrakturCook', cursive;
+  color:#631F1F;
+  font-size:30px;
+  display: flex;
+  flex-direction: column;
+}
 
 
 
@@ -394,9 +463,4 @@ header li, a{
 .selected {
   background-color: #485095;
   color: #CBD2EA;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

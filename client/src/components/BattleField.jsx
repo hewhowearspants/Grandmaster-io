@@ -55,6 +55,14 @@ class BattleField extends Component {
     render() {
         return (
             <div className = 'battlefield'>
+                <div className = 'battle-log'>
+                    <div className = 'round-count'><h2>{(this.state.round <= 5) ? `Round: ${this.state.round}` : `${this.state.winner} Won!`}</h2></div>
+                    <div className = 'hp'><b>User HP: {this.state.userHp}</b>
+                        <b>Opponent HP: {this.state.oppoHp}</b>
+                    </div>
+                    <button onClick = {() => this.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
+                </div>
+                <div className="card-selected">
                 {this.props.userSelection ? 
                     <div className = {`card ${this.props.userSelection.class} battlefield_select`}>
                         <div className='card-top'>
@@ -83,12 +91,7 @@ class BattleField extends Component {
                     </div>
                 </div>
                 : ''}
-                <div className = 'battle-log'>
-                    <div className = 'round-count'><h2>{(this.state.round <= 5) ? `Round: ${this.state.round}` : `${this.state.winner} Won!`}</h2></div>
-                    <div className = 'hp'><b>User HP: {this.state.userHp}</b></div>
-                    <div className = 'hp'><b>Opponent HP: {this.state.oppoHp}</b></div>
-                    <button onClick = {() => this.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
-                </div>
+            </div>
             </div>
         )
     }

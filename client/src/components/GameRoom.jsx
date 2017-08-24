@@ -117,6 +117,7 @@ class GameRoom extends Component{
     render(){
         return(
             <div className = 'game-room'>
+                <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
                     <h3>User's Card</h3>
                     <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />

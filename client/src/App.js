@@ -317,7 +317,7 @@ class App extends Component {
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameLobby />} />
-          <Route exact path='/joingame/:id' render={(props) => <GameRoom user={this.state.user} id={props.match.params.id}/>} />
+          <Route exact path='/joingame/:id' render={(props) => <GameRoom user={this.state.user} id={props.match.params.id} userCards={this.state.userCardData} />} />
         </main>
         <Footer />
       </div>

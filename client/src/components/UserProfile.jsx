@@ -24,22 +24,22 @@ class UserProfile extends Component {
   render() {
     return (
       <div className='user-profile'>
-        <div className='delete-button'>
-          <i className="fa fa-times fa-2x" onClick={()=> {this.props.deleteUser(this.props.user.id) }}>Delete Profile?</i>
-        </div>
-        <div className='edit-button'>
-          <button className='edit-name' onClick={()=> {this.props.userSelectedNameToEdit(this.props.user.id)}}></button>
-        </div>
         <div className='user'>
-          {/* {this.props.currentUserId === this.props.user.id ? */}
+          {this.props.currentUserId === this.props.user.id ?
             <form onSubmit={()=>this.props.userSubmitNewName(this.state.display_name, this.state.email, this.state.id)}>
               <input type='text' name='display_name' placeholder='username' value={this.state.display_name} onChange={this.handleInputChange} />
               <input type='text' name='email' placeholder='email' value={this.state.email} onChange={this.handleInputChange} />
               <button type='submit'>Submit</button>
             </form> 
-            {/* : <b>{this.props.user.display_name} {this.props.user.email}</b> } */}
+            : <h2>{this.props.user.display_name} {this.props.user.email}</h2> }
         </div>
-          {/* <p>{this.props.user.display_name}</p> */}
+        <div className='delete-button'>
+          <i className="fa fa-times fa-2x" onClick={()=> {this.props.deleteUser(this.props.user.id) }}>Delete Profile?</i>
+        </div>
+        <div className='edit-button'>
+          <i className="fa fa-pencil fa-2x" onClick={()=> {this.props.userSelectedNameToEdit(this.props.user.id)}}>Edit Profile?</i>
+        </div>
+
       </div>
     )
   }

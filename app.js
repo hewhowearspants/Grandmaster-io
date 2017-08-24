@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
         socket.leave(data.room);
         console.log(`${socket.id} left room ${data.room}`);
     });
-})
+});
 
 const authRoutes=require('./routes/auth-routes');
 app.use('/auth',authRoutes);

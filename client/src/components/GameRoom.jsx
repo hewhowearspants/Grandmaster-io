@@ -51,14 +51,20 @@ class GameRoom extends Component{
                 messages: updatedMessages,
             })
         });
+        socket.on('load messages', (messages) => {
+            console.log('got messages'+ JSON.stringify(messages));
+            this.setState({
+                messages: messages,
+            })
+        })
     }
 
     handleMessageSubmit(event) {
         event.preventDefault();
         console.log(this.state.text);
         socket.emit('message', {
-            message: {displayName: 'some douchebag', 
-                        message: this.state.text},
+            message: {displayName: this.props.user.display_name,
+                          message: this.state.text},
             room: this.props.id,
         })
         event.target.reset();
@@ -119,9 +125,9 @@ class GameRoom extends Component{
                 {/* <ChatBox messages = {this.state.messages} /> */}
                 <div className='message-box'>
                 <div className='message-display'>
-                    {this.state.messages.map((message)=>{
-                        return <p>{message.displayName}: {message.message}</p>
-                        })}
+                    {this.state.messages ? this.state.messages.map((message)=>{
+                        return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                        }) : '' }
                 </div>
                 <div className='message-input'>
                     <form onSubmit={this.handleMessageSubmit}>

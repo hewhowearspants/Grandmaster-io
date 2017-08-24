@@ -48,7 +48,17 @@ io.on('connection', (socket) => {
     
     socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
-    })
+    });
+
+    socket.on('join room', (data) => {
+        socket.join(data.room);
+        console.log(`${socket.id} joined room ${data.room}`);
+    });
+
+    socket.on('leave room', (data) => {
+        socket.leave(data.room);
+        console.log(`${socket.id} left room ${data.room}`);
+    });
 })
 
 const authRoutes=require('./routes/auth-routes');

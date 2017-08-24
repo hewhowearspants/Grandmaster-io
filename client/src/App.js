@@ -46,6 +46,7 @@ class App extends Component {
     this.userSubmitEdit = this.userSubmitEdit.bind(this);
     this.userSelectedNameToEdit = this.userSelectedNameToEdit.bind(this);
     this.userSubmitNewName = this.userSubmitNewName.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
   }
 
   componentDidMount() {
@@ -163,7 +164,8 @@ class App extends Component {
   }
 
   deleteUserCard(id) {
-    axios.delete(`/usercard/${id}`).then((res) => {
+    axios.delete(`/usercard/${id}`)
+    .then((res) => {
         console.log('deleted them damn cards!');
         const updatedCards = [...this.state.userCardData];
         let deletedIndex;
@@ -176,6 +178,19 @@ class App extends Component {
         console.log(updatedCards);
         this.setState({
           userCardData: updatedCards,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+  }
+
+  deleteUser(id) {
+    axios.delete(`/user/${id}`)
+    .then((res) => {
+      console.log('deleted yuuuu bish');
+      this.setState({
+        user: null,
+        fireRedirectToLogin: true,
         });
       }).catch(err => {
         console.log(err);
@@ -297,7 +312,8 @@ class App extends Component {
                                                     display_name={this.state.display_name}
                                                     userSubmitNewName={this.userSubmitNewName}
                                                     userSelectedNameToEdit={this.userSelectedNameToEdit}
-                                                    currentUserId={this.state.currentUserId} />} />
+                                                    currentUserId={this.state.currentUserId}
+                                                    deleteUser={this.deleteUser} />} />
           {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
           {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameRoom />} />

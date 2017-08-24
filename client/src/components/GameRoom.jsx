@@ -21,12 +21,15 @@ class GameRoom extends Component{
             messages: [],
             text: '',
             users: [],
+            joined: false,
+            playersFull: false,
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
         this.resetBattleField = this.resetBattleField.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+        this.joinGame = this.joinGame.bind(this);
     }
 
     componentDidMount(){
@@ -64,6 +67,11 @@ class GameRoom extends Component{
                 users: users,
             })
         })
+        socket.on('players full', ()=> {
+            this.setState({
+                playersFull: true,
+            })
+        })
     }
 
     handleMessageSubmit(event) {
@@ -71,8 +79,8 @@ class GameRoom extends Component{
         console.log(this.state.text);
         socket.emit('message', {
             message: {displayName: this.props.user.display_name,
-                          message: this.state.text},
-            room: this.props.id,
+                message: this.state.text},
+                room: this.props.id,
         })
         event.target.reset();
     }
@@ -121,13 +129,24 @@ class GameRoom extends Component{
         })
     }
 
+    joinGame() {
+        this.setState({
+            joined: true,
+        })
+        socket.emit('join game', {
+            userCards: this.state.userCardData,
+            username: this.props.user.username,
+            room: this.props.id,
+        })
+    }
+
     render(){
         return(
             <div className = 'game-room'>
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
-                    <h3>User's Card</h3>
-                    <UsersHands className = 'user-hand' select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                    <h3>{this.props.user.display_name} 's Card</h3>
+                    <UsersHands className = 'user-hand' playersFull = {this.state.playersFull} joinGame = {this.joinGame} joined = {this.state.joined} select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
                 </div>
                 <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
 

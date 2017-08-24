@@ -8,7 +8,7 @@ class UsersHands extends Component {
                 {this.props.joined ?
                     this.props.data.map(data => {
                         return <HandCardSingle select = {() => this.props.select(data)} key = {this.props.data.indexOf(data)} card = {data} makeSelection = {this.makeSelection} cardDrawn = {this.props.cardDrawn} />
-                    }) : <button onClick = {this.props.joinGame} disabled = {this.props.playersFull ? 'true' : 'false' }>Join Game!</button>
+                    }) : <button onClick = {this.props.joinGame} disabled = {this.props.playersFull ? true : false }>Join Game!</button>
                 }
             </div>
         )

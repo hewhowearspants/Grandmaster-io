@@ -6,6 +6,7 @@ const authHelpers = require('../services/auth/auth-helpers');
 
 userRoutes.get('/',authHelpers.loginRequired,usersController.index);
 userRoutes.get('/new',authHelpers.loginRequired,cardsController.findTen);
+userRoutes.get('/leaderboard', authHelpers.loginRequired, usersController.showLeaderboard);
 
 userRoutes.put('/:id', authHelpers.loginRequired, usersController.update);
 

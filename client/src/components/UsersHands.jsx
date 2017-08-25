@@ -5,10 +5,10 @@ class UsersHands extends Component {
     render() {
         return (
             <div>
-                {this.props.joined ?
-                    this.props.data.map(data => {
-                        return <HandCardSingle select = {() => this.props.select(data)} key = {this.props.data.indexOf(data)} card = {data} makeSelection = {this.makeSelection} cardDrawn = {this.props.cardDrawn} />
-                    }) : <button onClick = {this.props.joinGame} disabled = {this.props.playersFull ? true : false }>Join Game!</button>
+                {this.props.cardData ?
+                    this.props.cardData.map(card => {
+                        return <HandCardSingle select = {() => this.props.select(card)} key = {this.props.cardData.indexOf(card)} card = {card} makeSelection = {this.makeSelection} cardDrawn = {this.props.cardDrawn} />
+                    }) : ''
                 }
             </div>
         )

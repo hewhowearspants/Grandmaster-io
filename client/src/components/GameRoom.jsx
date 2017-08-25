@@ -186,7 +186,13 @@ class GameRoom extends Component {
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
                     <h3>{this.state.userNameData ? `${this.state.userNameData}'s Card` : 'Waiting Player'}</h3>
-                    <UsersHands className = 'user-hand' playersFull = {this.state.playersFull} joinGame = {this.joinGame} joined = {this.state.joined} select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                    {this.state.userCardData ? <UsersHands className = 'user-hand' 
+                                                            playersFull = {this.state.playersFull} 
+                                                            joinGame = {this.joinGame} 
+                                                            joined = {this.state.joined} 
+                                                            select = {this.makeUserSelection} 
+                                                            cardData = {this.state.userCardData} 
+                                                            cardDrawn = {this.state.userCardDrawn} /> : ''}
                 </div>
 
                 <div className="mid-section">

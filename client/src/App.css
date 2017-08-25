@@ -117,10 +117,11 @@ main {
   color: #12183B;
   background-image: url('/images/background.png');
   background-size: cover;
+  background-position-x: center;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 35px);
   margin: 0 auto;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .home ul {

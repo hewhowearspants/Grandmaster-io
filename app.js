@@ -157,14 +157,10 @@ io.on('connection', (socket) => {
 
     socket.on('next round', data => {
         players[data.room].forEach((player)=>{
-            if(player.username === data.username){
                 player.userSelection = null;
-            }
         })
         publicPlayers[data.room].forEach((player)=>{
-            if(player.username === data.username){
                 player.userSelection = null;
-            }
         })
     })
 

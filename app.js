@@ -125,7 +125,6 @@ io.on('connection', (socket) => {
             })
         })
         io.sockets.in(data.room).emit('load players', playerData);
-        console.log(playerData[0].userCards[0])
     })
 
     socket.on('message', (data) => {

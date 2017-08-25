@@ -17,14 +17,14 @@ User.create = user => {
     `,[user.username, user.password_digest, user.displayName, user.email]);
 };
 
-User.update = (display_name, email, id)=>{
+User.update = (displayName, email, id)=>{
   return db.one(`
   UPDATE users SET
   display_name = $1,
   email = $2
   WHERE id = $3
   RETURNING *
-  `,[display_name, email, id]);
+  `,[displayName, email, id]);
 };
 
 User.showLeaderboard = () => {

@@ -225,8 +225,9 @@ header li, a{
   letter-spacing: 0.07em;
   color:#FAF5E0;
   text-decoration: none;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
+
 
 
 .card {

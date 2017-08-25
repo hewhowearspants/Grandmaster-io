@@ -9,11 +9,8 @@ class Dashboard extends Component {
     super();
 
     this.state = {
-      currentContent: 'user-cards',
       leaderInfo: null,
     };
-
-    this.setContent = this.setContent.bind(this);
   }
 
   componentDidMount(){
@@ -26,22 +23,16 @@ class Dashboard extends Component {
     })
     .catch(err => console.log(err));
   }
-
-  setContent(page) {
-    this.setState({
-      currentContent: page,
-    });
-  }
   
   render() {
     return (
       <div className='dashboard'>
-        <DashboardNav setContent={this.setContent} currentContent={this.state.currentContent} />
+        <DashboardNav setContent={this.props.setContent} currentContent={this.props.currentContent} />
         <DashboardContents 
           cards={this.props.cards} 
           userCards={this.props.userCards} 
           newCard={this.props.newCard} 
-          currentContent={this.state.currentContent} 
+          currentContent={this.props.currentContent} 
           getNewUserCard={this.props.getNewUserCard} 
           deleteUserCard={this.props.deleteUserCard}
           userSubmitEdit={this.props.userSubmitEdit} 

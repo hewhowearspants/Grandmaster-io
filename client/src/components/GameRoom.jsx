@@ -99,6 +99,7 @@ class GameRoom extends Component {
                         userCardData: playerData[1].userCards,
                         userNameData: playerData[1].username,
                     });
+                    console.log('this user is'+this.props.user.username)
                 } else if(playerData[0].username === this.props.user.username) {
                     this.setState({
                         oppoCardData: playerData[1].userCards,
@@ -119,21 +120,22 @@ class GameRoom extends Component {
         });
         socket.on('fight', (data) => {
             console.log(data)
-            if(data[0].username === this.state.userNameData){
+            if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username){
                 this.setState({
                     userHp: data[0].userHp,
                     oppoHp: data[1].userHp,
+                    userSelection: data[0].userSelection,
                     oppoSelection: data[1].userSelection,
                 });
                 // console.log(data[0].userSelection)
-            }else if(data[1].username === this.state.userNameData){
+            }else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username){
                 this.setState({
                     userHp: data[1].userHp,
                     oppoHp: data[0].userHp,
+                    userSelection: data[1].userSelection,
                     oppoSelection: data[0].userSelection,
                 });
             }else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username){
-                console.log(data)
                 this.setState({
                     oppoHp: data[0].userHp,
                     userHp: data[1].userHp,

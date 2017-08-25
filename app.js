@@ -102,7 +102,6 @@ io.on('connection', (socket) => {
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
         console.log(users[data.room]);
-        console.log(players[data.room]);
         if(players[data.room].length < 2) {
             players[data.room].push({
                 username: data.username,
@@ -126,7 +125,7 @@ io.on('connection', (socket) => {
         })
         io.sockets.in(data.room).emit('load players', playerData);
     })
-
+    
     socket.on('message', (data) => {
         console.log(data.message, data.room);
         io.sockets.in(data.room).emit('receive message', data);
@@ -137,12 +136,32 @@ io.on('connection', (socket) => {
 
     socket.on('leave room', (data) => {
         socket.leave(data.room);
+        players[data.room] = players[data.room].filter((player) => {
+            return player.username!==data.username;
+        });
+        const playerData = [...players[data.room]];
+        playerData.forEach((player) => {
+            player.userCards.forEach((usercard) => {
+                usercard.id = null,
+                usercard.card_id = null,
+                usercard.name = null,
+                usercard.class = null,
+                usercard.attack = null,
+                usercard.defense = null,
+                usercard.image_url = '/images/back_card.png'
+            })
+        });
+        users[data.room] = users[data.room].filter((user) => {
+            return user.username!==data.username;
+        });
+        io.sockets.in(data.room).emit('load players', playerData);
+        io.sockets.in(data.room).emit('load users', users[data.room]);
         console.log(`${data.username} left room ${data.room}`);
         if(data.opponame){
             console.log(`${data.opponame} won the game`);
         }else{
             console.log('Game over')
-        }
+        };
     });
 });
 

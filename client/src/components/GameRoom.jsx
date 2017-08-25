@@ -37,15 +37,6 @@ class GameRoom extends Component {
     }
 
     componentDidMount() {
-        const userCardsCopy = [...this.props.userCards];
-        const userChoice = [];
-        for(var i = 0; i < 5; i++) {
-            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
-            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
-        };
-        this.setState({
-            userCardData: userChoice,
-        });
         socket.emit('join room', {
             room: this.props.id,
             username: this.props.user.username,
@@ -130,6 +121,7 @@ class GameRoom extends Component {
     componentWillUnmount() {
         this.setState({
             userNameData: null,
+            userCardData: null,
         })
         socket.emit('leave room', {
             room: this.props.id,
@@ -177,12 +169,19 @@ class GameRoom extends Component {
     }
 
     joinGame() {
+        const userCardsCopy = [...this.props.userCards];
+        const userChoice = [];
+        for(var i = 0; i < 5; i++) {
+            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
+            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
+        };
         this.setState({
             joined: true,
             userNameData: this.props.user.username,
+            userCardData: userChoice,
         })
         socket.emit('join game', {
-            userCards: this.state.userCardData,
+            userCards: userChoice,
             username: this.props.user.username,
             room: this.props.id,
             opponame: this.state.oppoNameData
@@ -196,12 +195,19 @@ class GameRoom extends Component {
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
                     <h3>{this.state.userNameData ? `${this.state.userNameData}'s Card` : 'Waiting Player'}</h3>
-                    <UsersHands className = 'user-hand' playersFull = {this.state.playersFull} joinGame = {this.joinGame} joined = {this.state.joined} select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
+                    {this.state.userCardData ? <UsersHands className = 'user-hand' 
+                                                            playersFull = {this.state.playersFull} 
+                                                            joinGame = {this.joinGame} 
+                                                            joined = {this.state.joined} 
+                                                            select = {this.makeUserSelection} 
+                                                            cardData = {this.state.userCardData} 
+                                                            cardDrawn = {this.state.userCardDrawn} /> : ''}
                 </div>
 
                 <div className="mid-section">
                     <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField} confirmSelection={this.confirmSelection}/>
-                    
+                    {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
+
                     <div className='message-box'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{
@@ -220,10 +226,16 @@ class GameRoom extends Component {
 
                  <div className="oppo-hand">
                     <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}'s Card` : 'Waiting Player'}</h3>
-                    <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
+                    {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
+                    {this.state.oppoCardData ?
+                        this.state.oppoCardData.map(card => {
+                            return (
+                                <div className = 'card' style={{background: `url(${card.image_url}`, backgroundSize: 'cover'}}>
+                                </div>
+                            )
+                        }) : ''
+                    }
                 </div>
-                
-                {/* <ChatBox messages = {this.state.messages} /> */}
                 
             </div>
         )

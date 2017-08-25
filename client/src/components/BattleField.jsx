@@ -66,7 +66,9 @@ class BattleField extends Component {
                             <p>{this.props.userSelection.defense}</p>
                         </div>
                     </div>
-                    <button onClick={this.props.confirmSelection}>Confirm</button>
+                    {this.props.confirmed ? 
+                        '' : <button onClick={this.props.confirmSelection}>Confirm</button>
+                    }
                 </div>
                 : ''}
                 {this.props.oppoSelection ?

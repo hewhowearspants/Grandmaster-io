@@ -5,7 +5,7 @@ import UsersHands from './UsersHands';
 import ChatBox from './ChatBox';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001')
+var socket
 
 class GameRoom extends Component {
     constructor() {
@@ -37,6 +37,7 @@ class GameRoom extends Component {
     }
 
     componentDidMount() {
+        socket = io.connect();
         socket.emit('join room', {
             room: this.props.id,
             username: this.props.user.username,
@@ -65,10 +66,24 @@ class GameRoom extends Component {
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
             if(playerData.length === 1) {
+                this.setState({
+                    playersFull: false,
+                })
                 if(playerData[0].username !== this.props.user.username) {
                     this.setState({
                         oppoCardData: playerData[0].userCards,
                         oppoNameData: playerData[0].username,
+                    })
+                    if (this.state.userNameData) {
+                        this.setState({
+                            userCardData: null,
+                            userNameData: null,
+                        })
+                    }
+                } else {
+                    this.setState({
+                        oppoCardData: null,
+                        oppoNameData: null,
                     })
                 }
             } else if(playerData.length === 2) {

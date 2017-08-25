@@ -5,7 +5,7 @@ import UsersHands from './UsersHands';
 import ChatBox from './ChatBox';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001')
+var socket
 
 class GameRoom extends Component {
     constructor() {
@@ -37,6 +37,7 @@ class GameRoom extends Component {
     }
 
     componentDidMount() {
+        socket = io.connect();
         socket.emit('join room', {
             room: this.props.id,
             username: this.props.user.username,

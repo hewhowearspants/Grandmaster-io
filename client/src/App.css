@@ -512,6 +512,7 @@ header li, a{
   align-items: center;
 }
 
+
 .game-lobby h1 {
   font-size: 60px;
   font-family: 'UnifrakturCook', cursive;
@@ -535,6 +536,37 @@ header li, a{
   justify-content: center;
 }
 
+.leader-board {
+  width:80%;
+  margin: 0 auto;
+  display:flex;
+  flex-direction: column;
+}
+
+.leader-board h3 {
+  font-family: 'UnifrakturCook', cursive;
+  color:#12183B;
+  font-size:66px;
+}
+
+.leader-single h4 {
+  text-align: left;
+}
+
+.leader-single b {
+  color:white;
+}
+
+.inside-leaderboard {
+  display:block;
+  height: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  position:relative;
+  overflow: hidden;
+}
 
 
 

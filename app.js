@@ -139,6 +139,7 @@ io.on('connection', (socket) => {
         publicPlayers[data.room].forEach((player)=>{
             if(player.username === data.username){
                 player.userSelection = true;
+                player.userCards.pop();
             }
         })
         io.sockets.in(data.room).emit('load players', publicPlayers[data.room])
@@ -152,6 +153,19 @@ io.on('connection', (socket) => {
         console.log(players[data.room][0].userHp);
         console.log(players[data.room][1].userHp)
         // console.log(players[data.room]);
+    });
+
+    socket.on('next round', data => {
+        players[data.room].forEach((player)=>{
+            if(player.username === data.username){
+                player.userSelection = null;
+            }
+        })
+        publicPlayers[data.room].forEach((player)=>{
+            if(player.username === data.username){
+                player.userSelection = null;
+            }
+        })
     })
 
     

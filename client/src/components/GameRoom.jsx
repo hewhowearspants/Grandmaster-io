@@ -197,7 +197,7 @@ class GameRoom extends Component {
 
                 <div className="mid-section">
                     <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
-                    
+                    {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
                     <div className='message-box'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{

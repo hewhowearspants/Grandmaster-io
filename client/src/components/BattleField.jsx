@@ -64,6 +64,7 @@ class BattleField extends Component {
                 </div>
                 <div className="card-selected">
                 {this.props.userSelection ? 
+                <div className='user-selection'>
                     <div className = {`card ${this.props.userSelection.class} battlefield_select`}>
                         <div className='card-top'>
                             <div className='card-name'>
@@ -76,6 +77,8 @@ class BattleField extends Component {
                             <p>{this.props.userSelection.defense}</p>
                         </div>
                     </div>
+                    <button onClick={this.props.confirmSelection}>Confirm</button>
+                </div>
                 : ''}
                 {this.props.oppoSelection ?
                     <div className = {`card ${this.props.oppoSelection.class} battlefield_select`}>

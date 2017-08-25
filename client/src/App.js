@@ -32,6 +32,7 @@ class App extends Component {
       currentCardId: null,
       currentUserId: null,
       redirect: '/',
+      currentContent: 'user-cards',      
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
     this.logOut = this.logOut.bind(this);    
@@ -48,6 +49,7 @@ class App extends Component {
     this.userSubmitNewName = this.userSubmitNewName.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.setRedirect = this.setRedirect.bind(this);
+    this.setContent = this.setContent.bind(this);    
   }
 
   componentDidMount() {
@@ -200,6 +202,12 @@ class App extends Component {
     })
   }
 
+  setContent(page) {
+    this.setState({
+      currentContent: page,
+    });
+  }
+
   deleteUser(id) {
     let confirm = window.confirm(`Are you sure you want to delete your profile ${this.state.user.username}?`);
     if(confirm === false) {
@@ -288,26 +296,25 @@ class App extends Component {
     })
   }
   
-  userSubmitNewName(event, display_name, email, id)  {
+  userSubmitNewName(event)  {
     event.preventDefault();
-    console.log(display_name);
-    console.log(this.state.currentUserId);
+    let display_name = event.target.display_name.value;
+    let email = event.target.email.value;
+    // console.log(display_name);
+    // console.log(this.state.currentUserId);
     axios.put(`/user/${this.state.currentUserId}`, {
       displayName: event.target.display_name.value,
       email: event.target.email.value,
     }).then((res) => {
-      axios.post('/auth/login', {
-        username: res.data.username,
-        password: res.data.password_digest,
-      }).then(res => {
+      let newUserData = this.state.user;
+      newUserData.display_name = display_name;
+      newUserData.email = email;
         this.setState({
-          auth: res.data.auth,
-          user: res.data.user,
+          user: newUserData,
+          currentContent: 'user-cards',
+          redirect: '/user',  
+          currentUserId: null,
         })
-      })
-    }).then(() => {
-      this.setState({
-      })
     }).catch((err) => {console.log(err) });
   }
 
@@ -326,11 +333,13 @@ class App extends Component {
     return (
       <Router>
       <div className="App">
-        <Header setPage={this.setPage} auth={this.state.auth} logOut={this.logOut} setCurrentPage={this.setCurrentPage} currentPage={this.state.currentPage}/>
+        <Header setPage={this.setPage} user={this.state.user} display_name={this.props.display_name} auth={this.state.auth} logOut={this.logOut} setCurrentPage={this.setCurrentPage} currentPage={this.state.currentPage}/>
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />
           <Route exact path='/user' render={() => <Dashboard 
+                                                    setContent={this.setContent} 
+                                                    currentContent={this.state.currentContent}
                                                     cards={this.state.cardData} 
                                                     userCards={this.state.userCardData} 
                                                     newCard={this.state.newCardData}

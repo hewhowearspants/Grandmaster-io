@@ -38,7 +38,6 @@ class GameRoom extends Component {
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
         this.joinGame = this.joinGame.bind(this);
         this.confirmSelection = this.confirmSelection.bind(this);
-        this.getBattleLog = this.getBattleLog.bind(this);
         this.getWinner = this.getWinner.bind(this);
     }
 
@@ -211,6 +210,11 @@ class GameRoom extends Component {
             userCardDrawn: false,
             oppoCardDrawn: false,
             cardsInField: 0,
+            round: this.state.round+1,
+        })
+        socket.emit('next round', {
+            username: this.state.userNameData,
+            room: this.props.id,
         })
     }
 
@@ -233,29 +237,6 @@ class GameRoom extends Component {
             opponame: this.state.oppoNameData
         })
         
-    }
-
-    getBattleLog(){
-        this.setState({
-            round: this.state.round + 1,
-        })
-        if(this.props.userSelection.defense < this.props.oppoSelection.attack
-                && this.props.userSelection.attack > this.props.oppoSelection.defense) {
-            this.setState({
-                userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
-                oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
-            })
-        } else if(this.props.userSelection.defense < this.props.oppoSelection.attack
-            && this.props.userSelection.attack <= this.props.oppoSelection.defense){
-            this.setState({
-                userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
-            })
-        } else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
-            && this.props.userSelection.attack > this.props.oppoSelection.defense) {
-            this.setState({
-                oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
-            })
-        }
     }
 
     getWinner(){
@@ -300,7 +281,9 @@ class GameRoom extends Component {
                                  getBattleLog = {this.getBattleLog}
                                  getWinner = {this.getWinner}
                                  round = {this.state.round}
-                                 winner = {this.state.winner} />
+                                 winner = {this.state.winner}
+                                 oppoNameData = {this.state.oppoNameData}
+                                 userNameData = {this.state.userNameData} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

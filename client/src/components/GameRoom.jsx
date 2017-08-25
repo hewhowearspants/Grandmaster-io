@@ -36,15 +36,6 @@ class GameRoom extends Component {
     }
 
     componentDidMount() {
-        const userCardsCopy = [...this.props.userCards];
-        const userChoice = [];
-        for(var i = 0; i < 5; i++) {
-            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
-            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
-        };
-        this.setState({
-            userCardData: userChoice,
-        });
         socket.emit('join room', {
             room: this.props.id,
             username: this.props.user.username,
@@ -129,6 +120,7 @@ class GameRoom extends Component {
     componentWillUnmount() {
         this.setState({
             userNameData: null,
+            userCardData: null,
         })
         socket.emit('leave room', {
             room: this.props.id,
@@ -168,12 +160,19 @@ class GameRoom extends Component {
     }
 
     joinGame() {
+        const userCardsCopy = [...this.props.userCards];
+        const userChoice = [];
+        for(var i = 0; i < 5; i++) {
+            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
+            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
+        };
         this.setState({
             joined: true,
             userNameData: this.props.user.username,
+            userCardData: userChoice,
         })
         socket.emit('join game', {
-            userCards: this.state.userCardData,
+            userCards: userChoice,
             username: this.props.user.username,
             room: this.props.id,
             opponame: this.state.oppoNameData

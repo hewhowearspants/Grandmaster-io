@@ -216,10 +216,16 @@ class GameRoom extends Component {
 
                  <div className="oppo-hand">
                     <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}'s Card` : 'Waiting Player'}</h3>
-                    <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
+                    {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
+                    {this.state.oppoCardData ?
+                        this.state.oppoCardData.map(card => {
+                            return (
+                                <div className = 'card' style={{background: `url(${card.image_url}`, backgroundSize: 'cover'}}>
+                                </div>
+                            )
+                        }) : ''
+                    }
                 </div>
-                
-                {/* <ChatBox messages = {this.state.messages} /> */}
                 
             </div>
         )

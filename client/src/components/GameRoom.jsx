@@ -30,6 +30,7 @@ class GameRoom extends Component {
             oppoHp: 20,
             round: 1,
             winner: null,
+            confirmed: false,
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
@@ -178,7 +179,7 @@ class GameRoom extends Component {
     }
 
     makeUserSelection(data){
-        if(this.state.userSelection === null){
+        if(this.state.confirmed === false){
             this.setState({
                 userSelection: data,
                 userCardDrawn: true,
@@ -198,6 +199,9 @@ class GameRoom extends Component {
     }
 
     confirmSelection(){
+        this.setState({
+            confirmed: true,
+        })
         socket.emit('confirm selection', {
             username: this.state.userNameData,
             selection: this.state.userSelection,
@@ -211,6 +215,7 @@ class GameRoom extends Component {
             oppoSelection: null,
             userCardDrawn: false,
             oppoCardDrawn: false,
+            confirmed: false,
             cardsInField: 0,
             round: this.state.round+1,
         })
@@ -285,7 +290,8 @@ class GameRoom extends Component {
                                  round = {this.state.round}
                                  winner = {this.state.winner}
                                  oppoNameData = {this.state.oppoNameData}
-                                 userNameData = {this.state.userNameData} />
+                                 userNameData = {this.state.userNameData}
+                                 confirmed = {this.state.confirmed} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

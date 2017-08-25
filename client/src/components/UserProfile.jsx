@@ -26,8 +26,8 @@ class UserProfile extends Component {
     return (
       <div className='user-profile'>
         <div className='user'>
-          {this.props.currentUserId === this.props.user.id ?
-            <form onSubmit={()=>this.props.userSubmitNewName(this.state.display_name, this.state.email, this.state.id)}>
+          {this.props.currentUserId ?
+            <form onSubmit={this.props.userSubmitNewName}>
               <input type='text' name='display_name' placeholder='username' value={this.state.display_name} onChange={this.handleInputChange} />
               <input type='text' name='email' placeholder='email' value={this.state.email} onChange={this.handleInputChange} />
               <button type='submit'>Submit</button>

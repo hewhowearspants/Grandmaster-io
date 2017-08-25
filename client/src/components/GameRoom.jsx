@@ -30,6 +30,7 @@ class GameRoom extends Component {
             oppoHp: 20,
             round: 1,
             winner: null,
+            confirmed: false,
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
@@ -99,6 +100,7 @@ class GameRoom extends Component {
                         userCardData: playerData[1].userCards,
                         userNameData: playerData[1].username,
                     });
+                    console.log('this user is'+this.props.user.username)
                 } else if(playerData[0].username === this.props.user.username) {
                     this.setState({
                         oppoCardData: playerData[1].userCards,
@@ -119,21 +121,22 @@ class GameRoom extends Component {
         });
         socket.on('fight', (data) => {
             console.log(data)
-            if(data[0].username === this.state.userNameData){
+            if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username){
                 this.setState({
                     userHp: data[0].userHp,
                     oppoHp: data[1].userHp,
+                    userSelection: data[0].userSelection,
                     oppoSelection: data[1].userSelection,
                 });
                 // console.log(data[0].userSelection)
-            }else if(data[1].username === this.state.userNameData){
+            }else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username){
                 this.setState({
                     userHp: data[1].userHp,
                     oppoHp: data[0].userHp,
+                    userSelection: data[1].userSelection,
                     oppoSelection: data[0].userSelection,
                 });
             }else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username){
-                console.log(data)
                 this.setState({
                     oppoHp: data[0].userHp,
                     userHp: data[1].userHp,
@@ -176,7 +179,7 @@ class GameRoom extends Component {
     }
 
     makeUserSelection(data){
-        if(this.state.userSelection === null){
+        if(this.state.confirmed === false){
             this.setState({
                 userSelection: data,
                 userCardDrawn: true,
@@ -196,6 +199,9 @@ class GameRoom extends Component {
     }
 
     confirmSelection(){
+        this.setState({
+            confirmed: true,
+        })
         socket.emit('confirm selection', {
             username: this.state.userNameData,
             selection: this.state.userSelection,
@@ -209,6 +215,7 @@ class GameRoom extends Component {
             oppoSelection: null,
             userCardDrawn: false,
             oppoCardDrawn: false,
+            confirmed: false,
             cardsInField: 0,
             round: this.state.round+1,
         })
@@ -283,7 +290,8 @@ class GameRoom extends Component {
                                  round = {this.state.round}
                                  winner = {this.state.winner}
                                  oppoNameData = {this.state.oppoNameData}
-                                 userNameData = {this.state.userNameData} />
+                                 userNameData = {this.state.userNameData}
+                                 confirmed = {this.state.confirmed} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

@@ -46,10 +46,10 @@ class BattleField extends Component {
             <div className = 'battlefield'>
                 <div className = 'battle-log'>
                     <div className = 'round-count'><h2>{(this.props.round <= 5) ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
-                    <div className = 'hp'><b>User HP: {this.props.userHp}</b>
-                        <b>Opponent HP: {this.props.oppoHp}</b>
+                    <div className = 'hp'><b>{this.props.userNameData ? `${this.props.userNameData} HP: ${this.props.userHp}` : ''}</b>
+                        <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
                     </div>
-                    <button onClick = {() => this.props.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} style={{visibility:(this.props.cardsInField === 2) ? 'visible' : 'hidden'}}>Get Log</button>
+                    <button onClick = {() => this.props.resetBattleField() & setTimeout(this.props.getWinner,1)} style={{visibility: this.props.userSelection && this.props.oppoSelection ? 'visible' : 'hidden'}}>Next Round!</button>
                 </div>
                 <div className="card-selected">
                 {this.props.userSelection ? 

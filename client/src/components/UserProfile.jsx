@@ -35,7 +35,7 @@ class UserProfile extends Component {
             : <h2>{this.props.user.display_name} {this.props.user.email}</h2> }
         </div>
         <div className='delete-button'>
-          <Link to='/'><i className="fa fa-times fa-2x" onClick={()=> {this.props.deleteUser(this.props.user.id) }}>Delete Profile?</i></Link>
+          <i className="fa fa-times fa-2x" onClick={()=> {this.props.deleteUser(this.props.user.id) }}>Delete Profile?</i>
         </div>
         <div className='edit-button'>
           <i className="fa fa-pencil fa-2x" onClick={()=> {this.props.userSelectedNameToEdit(this.props.user.id)}}>Edit Profile?</i>

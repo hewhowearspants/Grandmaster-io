@@ -38,7 +38,7 @@ server.listen(PORT, (err) => {
 
 
 app.get('/',(req,res) => {
-    res.sendFile(path.join(__dirname,'client','build','index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const io = require('socket.io')(server);

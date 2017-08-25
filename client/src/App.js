@@ -29,11 +29,9 @@ class App extends Component {
       newCardData: false,
       user: null,
       currentPage: 'dashboard',
-      fireRedirectToDashboard: false,
-      fireRedirectToLogin: false,
       currentCardId: null,
       currentUserId: null,
-      redirect: '/user',
+      redirect: '/',
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
     this.logOut = this.logOut.bind(this);    
@@ -68,10 +66,14 @@ class App extends Component {
   requireLogin() {
     if(!this.state.auth) {
       this.setState({
-        fireRedirectToLogin: true,
+        redirect: '/login',
       });
+    } else {
+      this.setState({
+        redirect: '/user',
+      })
+    }
     };
-  }
 
   //AUTH
   handleLoginSubmit(e, username, password) {
@@ -88,7 +90,8 @@ class App extends Component {
       if(this.state.user)
       this.getUserCards();
       this.setState({
-        redirect: '/dashboard',
+        redirect: '/user',
+        auth: true,
       })
     })
     .catch(err => console.log(err));
@@ -168,6 +171,8 @@ class App extends Component {
   }
 
   deleteUserCard(id) {
+    let confirm = window.confirm('are you sure you want to delete this card?');
+    if(confirm === true) {
     axios.delete(`/usercard/${id}`)
     .then((res) => {
         console.log('deleted them damn cards!');
@@ -187,6 +192,7 @@ class App extends Component {
         console.log(err);
       });
   }
+}
 
   setRedirect() {
     this.setState({
@@ -195,7 +201,7 @@ class App extends Component {
   }
 
   deleteUser(id) {
-    let confirm = window.confirm('Are you sure you want to delete your profile?');
+    let confirm = window.confirm(`Are you sure you want to delete your profile ${this.state.user.username}?`);
     if(confirm === false) {
       this.setState({
         redirect: null,
@@ -231,7 +237,7 @@ class App extends Component {
     .then(
       this.getInitialUserCards,
       this.setState({
-        fireRedirectToDashboard: true,
+        redirect: '/user',
       })
     )
     .catch(err => console.log(err));
@@ -243,7 +249,7 @@ class App extends Component {
       console.log(res);
       this.setState({
         auth: false,
-        fireRedirectToDashboard: false,
+        redirect: '/',
       });
     }).catch(err => console.log(err));
   }
@@ -301,8 +307,6 @@ class App extends Component {
       })
     }).then(() => {
       this.setState({
-        fireRedirectToDashboard: false,
-        fireRedirectToLogin: false,
       })
     }).catch((err) => {console.log(err) });
   }
@@ -311,7 +315,7 @@ class App extends Component {
     if(this.state.redirect !== null) {
       let redir = this.state.redirect;
         this.setState({
-          redirect: null
+          redirect: null,
         });
       return ( 
       <Router>
@@ -342,8 +346,6 @@ class App extends Component {
                                                     userSelectedNameToEdit={this.userSelectedNameToEdit}
                                                     currentUserId={this.state.currentUserId}
                                                     deleteUser={this.deleteUser} />} />
-          {this.state.fireRedirectToDashboard ? <Redirect push to={'/user'} /> : '' }
-          {this.state.fireRedirectToLogin ? <Redirect push to={'/'} /> : '' }
           <Route exact path='/joingame' render={() => <GameLobby />} />
           <Route exact path='/joingame/:id' render={(props) => <GameRoom user={this.state.user} id={props.match.params.id} userCards={this.state.userCardData} />} />
         </main>

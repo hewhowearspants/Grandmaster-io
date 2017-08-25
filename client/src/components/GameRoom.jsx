@@ -33,6 +33,7 @@ class GameRoom extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
         this.joinGame = this.joinGame.bind(this);
+        this.confirmSelection = this.confirmSelection.bind(this);
     }
 
     componentDidMount() {
@@ -149,6 +150,14 @@ class GameRoom extends Component {
         }
     }
 
+    confirmSelection(){
+        socket.emit('confirm selection', {
+            username: this.state.userNameData,
+            selection: this.state.userSelection,
+            room: this.props.id,
+        })
+    }
+
     resetBattleField(){
         this.setState({
             userSelection: null,
@@ -196,8 +205,9 @@ class GameRoom extends Component {
                 </div>
 
                 <div className="mid-section">
-                    <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField}/>
+                    <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField} confirmSelection={this.confirmSelection}/>
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
+
                     <div className='message-box'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{

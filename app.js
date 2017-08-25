@@ -53,7 +53,11 @@ var users = {
     2: [],
     3: []
 }
-var userSelected = {};
+var userSelected = {
+    1: [],
+    2: [],
+    3: []
+};
 var userHP = {};
 var userCards = {};
 var players = {
@@ -62,6 +66,11 @@ var players = {
     3: []
 };
 var round = {};
+var publicPlayers = {
+    1: [],
+    2: [],
+    3: []
+}
 
 
 
@@ -76,19 +85,7 @@ io.on('connection', (socket) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
         socket.emit('load messages', messages[data.room]);
-        const playerData = [...players[data.room]];
-        playerData.forEach((player) => {
-            player.userCards.forEach((usercard) => {
-                usercard.id = null,
-                usercard.card_id = null,
-                usercard.name = null,
-                usercard.class = null,
-                usercard.attack = null,
-                usercard.defense = null,
-                usercard.image_url = '/images/back_card.png'
-            })
-        })
-        socket.emit('load players', playerData);
+        socket.emit('load players', publicPlayers[data.room]);
         users[data.room].push({
             username: data.username, 
             displayName: data.displayName, 
@@ -101,29 +98,48 @@ io.on('connection', (socket) => {
 
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
-        console.log(users[data.room]);
+        let publicCards = [];
+        for (let i = 0; i < 5; i++) {
+            publicCards.push({
+                id: null,
+                card_id: null,
+                name: null,
+                class: null,
+                attack: null,
+                defense: null,
+                image_url: '/images/back_card.png'
+            });
+        };
         if(players[data.room].length < 2) {
             players[data.room].push({
                 username: data.username,
                 userCards: data.userCards,
-            })
+                userSelection: null,
+            });
+            publicPlayers[data.room].push({
+                username: data.username,
+                userCards: publicCards,
+                userSelection: false,
+            });
             if(players[data.room].length === 2){
                 io.sockets.in(data.room).emit('players full')
             }
         }
-        const playerData = [...players[data.room]];
-        playerData.forEach((player) => {
-            player.userCards.forEach((usercard) => {
-                usercard.id = null,
-                usercard.card_id = null,
-                usercard.name = null,
-                usercard.class = null,
-                usercard.attack = null,
-                usercard.defense = null,
-                usercard.image_url = '/images/back_card.png'
-            })
+        io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
+    });
+
+    socket.on('confirm selection', data=>{
+        players[data.room].forEach((player)=>{
+            if(player.username === data.username){
+                player.userSelection = data.selection;
+            }
         })
-        io.sockets.in(data.room).emit('load players', playerData);
+        publicPlayers[data.room].forEach((player)=>{
+            if(player.username === data.username){
+                player.userSelection = true;
+            }
+        })
+        io.sockets.in(data.room).emit('load players', publicPlayers[data.room])
     })
     
     socket.on('message', (data) => {
@@ -139,22 +155,13 @@ io.on('connection', (socket) => {
         players[data.room] = players[data.room].filter((player) => {
             return player.username!==data.username;
         });
-        const playerData = [...players[data.room]];
-        playerData.forEach((player) => {
-            player.userCards.forEach((usercard) => {
-                usercard.id = null,
-                usercard.card_id = null,
-                usercard.name = null,
-                usercard.class = null,
-                usercard.attack = null,
-                usercard.defense = null,
-                usercard.image_url = '/images/back_card.png'
-            })
+        publicPlayers[data.room] = publicPlayers[data.room].filter((player) => {
+            return player.username!==data.username;
         });
         users[data.room] = users[data.room].filter((user) => {
             return user.username!==data.username;
         });
-        io.sockets.in(data.room).emit('load players', playerData);
+        io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
         io.sockets.in(data.room).emit('load users', users[data.room]);
         console.log(`${data.username} left room ${data.room}`);
         if(data.opponame){

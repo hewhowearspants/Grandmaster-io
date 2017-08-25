@@ -33,6 +33,7 @@ class App extends Component {
       fireRedirectToLogin: false,
       currentCardId: null,
       currentUserId: null,
+      redirect: '/user',
     }
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
     this.logOut = this.logOut.bind(this);    
@@ -48,6 +49,7 @@ class App extends Component {
     this.userSelectedNameToEdit = this.userSelectedNameToEdit.bind(this);
     this.userSubmitNewName = this.userSubmitNewName.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
+    this.setRedirect = this.setRedirect.bind(this);
   }
 
   componentDidMount() {
@@ -83,9 +85,10 @@ class App extends Component {
         user: res.data.user,
       });
     }).then(() => {
+      if(this.state.user)
       this.getUserCards();
       this.setState({
-        fireRedirectToDashboard: true
+        redirect: '/dashboard',
       })
     })
     .catch(err => console.log(err));
@@ -185,6 +188,32 @@ class App extends Component {
       });
   }
 
+  setRedirect() {
+    this.setState({
+      redirect: null,
+    })
+  }
+
+  deleteUser(id) {
+    let confirm = window.confirm('Are you sure you want to delete your profile?');
+    if(confirm === false) {
+      this.setState({
+        redirect: null,
+      })
+    } else { 
+    axios.delete(`/user/${id}`)
+    .then((res) => {
+      this.setState({
+        user: null,
+        redirect: '/',
+        auth: false,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+  }
+
   handleRegisterSubmit(e, username, password, email, displayName) {
     e.preventDefault();
     axios.post('/auth/register', {
@@ -213,7 +242,7 @@ class App extends Component {
     .then(res => {
       console.log(res);
       this.setState({
-        auth:false,
+        auth: false,
         fireRedirectToDashboard: false,
       });
     }).catch(err => console.log(err));
@@ -249,7 +278,7 @@ class App extends Component {
 
   setCurrentPage(page){
     this.setState({
-      currentPage: page
+      currentPage: page,
     })
   }
   
@@ -278,20 +307,18 @@ class App extends Component {
     }).catch((err) => {console.log(err) });
   }
 
-  deleteUser(id) {
-    axios.delete(`/user/${id}`)
-    .then((res) => {
-      this.setState({
-        user: null,
-        fireRedirectToLogin: true,
-        fireRedirectToDashboard: false,
-        });
-      }).catch(err => {
-        console.log(err);
-      });
-    }
-
   render() {
+    if(this.state.redirect !== null) {
+      let redir = this.state.redirect;
+        this.setState({
+          redirect: null
+        });
+      return ( 
+      <Router>
+        <Redirect push to={redir} />
+      </Router>
+       )
+      } else {
     return (
       <Router>
       <div className="App">
@@ -325,6 +352,7 @@ class App extends Component {
       </Router>
     );
   }
+}
 }
 
 export default App;

@@ -100,6 +100,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join game', (data) => {
+        console.log(`${data.username} has joined the game!`)
+        console.log(users[data.room]);
+        console.log(players[data.room]);
         if(players[data.room].length < 2) {
             players[data.room].push({
                 username: data.username,
@@ -122,7 +125,7 @@ io.on('connection', (socket) => {
             })
         })
         io.sockets.in(data.room).emit('load players', players[data.room]);
-        console.log(playerData[0].userCards[0])
+        // console.log(data)
     })
 
     socket.on('message', (data) => {
@@ -130,11 +133,17 @@ io.on('connection', (socket) => {
         io.sockets.in(data.room).emit('receive message', data);
         messages[data.room].push(data.message);
         console.log(messages[data.room]);
+        // console.log(data)
     })
 
     socket.on('leave room', (data) => {
         socket.leave(data.room);
-        console.log(`${socket.id} left room ${data.room}`);
+        console.log(`${data.username} left room ${data.room}`);
+        if(data.opponame){
+            console.log(`${data.opponame} won the game`);
+        }else{
+            console.log('Game over')
+        }
     });
 });
 

@@ -1,66 +1,55 @@
 import React, { Component } from 'react';
 
 class BattleField extends Component {
-    constructor(){
-        super();
-        this.state = {
-            userHp: 20,
-            oppoHp: 20,
-            round: 1,
-            winner: null,
-        }
-        this.getBattleLog = this.getBattleLog.bind(this);
-        this.getWinner = this.getWinner.bind(this);
-    }
 
-    getBattleLog(){
-        this.setState({
-            round: this.state.round + 1,
-        })
-        if(this.props.userSelection.defense < this.props.oppoSelection.attack
-                && this.props.userSelection.attack > this.props.oppoSelection.defense) {
-            this.setState({
-                userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
-                oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
-            })
-        } else if(this.props.userSelection.defense < this.props.oppoSelection.attack
-            && this.props.userSelection.attack <= this.props.oppoSelection.defense){
-            this.setState({
-                userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
-            })
-        } else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
-            && this.props.userSelection.attack > this.props.oppoSelection.defense) {
-            this.setState({
-                oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
-            })
-        }
-    }
+    // getBattleLog(){
+    //     this.setState({
+    //         round: this.props.round + 1,
+    //     })
+    //     if(this.props.userSelection.defense < this.props.oppoSelection.attack
+    //             && this.props.userSelection.attack > this.props.oppoSelection.defense) {
+    //         this.setState({
+    //             userHp: this.props.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
+    //             oppoHp: this.props.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
+    //         })
+    //     } else if(this.props.userSelection.defense < this.props.oppoSelection.attack
+    //         && this.props.userSelection.attack <= this.props.oppoSelection.defense){
+    //         this.setState({
+    //             userHp: this.props.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
+    //         })
+    //     } else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
+    //         && this.props.userSelection.attack > this.props.oppoSelection.defense) {
+    //         this.setState({
+    //             oppoHp: this.props.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
+    //         })
+    //     }
+    // }
 
-    getWinner(){
-        if(this.state.userHp > this.state.oppoHp) {
-            this.setState({
-                winner: 'User'
-            })
-        } else if (this.state.userHp < this.state.oppoHp) {
-            this.setState({
-                winner: 'Opponent'
-            })
-        } else if (this.state.userHp === this.state.oppoHp) {
-            this.setState({
-                winner: 'Game Tied! Both Players'
-            })
-        }
-    }
+    // getWinner(){
+    //     if(this.props.userHp > this.props.oppoHp) {
+    //         this.setState({
+    //             winner: 'User'
+    //         })
+    //     } else if (this.props.userHp < this.props.oppoHp) {
+    //         this.setState({
+    //             winner: 'Opponent'
+    //         })
+    //     } else if (this.props.userHp === this.props.oppoHp) {
+    //         this.setState({
+    //             winner: 'Game Tied! Both Players'
+    //         })
+    //     }
+    // }
 
     render() {
         return (
             <div className = 'battlefield'>
                 <div className = 'battle-log'>
-                    <div className = 'round-count'><h2>{(this.state.round <= 5) ? `Round: ${this.state.round}` : `${this.state.winner} Won!`}</h2></div>
-                    <div className = 'hp'><b>User HP: {this.state.userHp}</b>
-                        <b>Opponent HP: {this.state.oppoHp}</b>
+                    <div className = 'round-count'><h2>{(this.props.round <= 5) ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
+                    <div className = 'hp'><b>User HP: {this.props.userHp}</b>
+                        <b>Opponent HP: {this.props.oppoHp}</b>
                     </div>
-                    <button onClick = {() => this.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} disabled={(this.props.cardsInField === 2) ? false : true}>Get Log</button>
+                    <button onClick = {() => this.props.getBattleLog() & this.props.resetBattleField() & setTimeout(this.getWinner,1)} style={{visibility:(this.props.cardsInField === 2) ? 'visible' : 'hidden'}}>Get Log</button>
                 </div>
                 <div className="card-selected">
                 {this.props.userSelection ? 

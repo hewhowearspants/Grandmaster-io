@@ -230,19 +230,23 @@ header li, a{
 
 
 .card {
-  width:150px;
+  width:133px;
   height: 200px;
   display:flex;
   flex-direction: column;
   justify-content: space-between;
   float:left; 
   padding:5px;
+  border-radius: 3%;
+  box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 16px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+
 
 .card-top {
   display: flex;
   justify-content: center;
-  padding: 5px 12px
+  padding: 0px 16px
 }
 
 .card-wrapper .delete-button,
@@ -250,11 +254,14 @@ header li, a{
   /* padding: 5px 12px; */
   opacity: 0;
   transition: .2s all;
+  display:none;
 }
 
 .UserCards .card-wrapper:hover .delete-button,
 .UserCards .card-wrapper:hover .edit-button {
   opacity: 1;
+  transition: .2s all;
+  display:unset;
 }
 
 .UserCards .card-name input {
@@ -275,9 +282,20 @@ header li, a{
   outline: none;
 }
 
+.UserCards .card-wrapper{
+  border:7px solid transparent;
+  border-radius: 3%;
+}
+
+.card-collection .card-wrapper{
+  border:7px solid transparent;
+  border-radius: 3%;
+}
+
 .UserCards .card-wrapper:hover{
-  background:rgba(0,0,0,0.9);
   opacity:0.8;
+  border:7px solid black;
+  border-radius: 3%;
 }
 
 .card-wrapper{
@@ -323,7 +341,7 @@ header li, a{
 .card-numbers {
   display: flex;
   justify-content: space-between;
-  padding: 5px 10px;
+  padding: 1px 2px;
 }
 
 .card-numbers p {
@@ -537,7 +555,7 @@ header li, a{
 }
 
 .leader-board {
-  width:80%;
+  width:70%;
   margin: 0 auto;
   display:flex;
   flex-direction: column;
@@ -547,19 +565,40 @@ header li, a{
   font-family: 'UnifrakturCook', cursive;
   color:#12183B;
   font-size:66px;
+  margin-top:40px;
+  margin-bottom:-5px;
+  padding-bottom:30px;
 }
 
 .leader-single h4 {
   text-align: left;
+  margin-right:20px;
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 24px;
+  color:#12183B;
+}
+
+.inside-leaderboard {
+  margin-top:12px;
 }
 
 .leader-single b {
-  color:white;
+  color:#12183B;
+  font-family: 'UnifrakturCook', cursive;
+  font-size:24px;
+  letter-spacing: 0.03em;
+  padding:5px;
+}
+
+
+.leader-start {
+  width:50px;
+  height:100%;
 }
 
 .inside-leaderboard {
   display:block;
-  height: 100%;
+  height: 50px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   border-top-left-radius: 20px;
@@ -568,6 +607,25 @@ header li, a{
   overflow: hidden;
 }
 
+@keyframes scoregrow {
+  0% {
+    width:0%;
+  }
+  100% {
+    width:100%;
+  }
+}
+
+.leader-single {
+  display: flex;
+  margin-top:-10px;
+}
+
+.user-profile {
+  width:80%;
+  margin:0 auto;
+  font-family: 'UnifrakturCook', cursive;
+}
 
 
 

@@ -114,11 +114,13 @@ io.on('connection', (socket) => {
             players[data.room].push({
                 username: data.username,
                 userCards: data.userCards,
+                userHp: 20,
                 userSelection: null,
             });
             publicPlayers[data.room].push({
                 username: data.username,
                 userCards: publicCards,
+                userHp: 20,
                 userSelection: false,
             });
             if(players[data.room].length === 2){
@@ -140,7 +142,44 @@ io.on('connection', (socket) => {
             }
         })
         io.sockets.in(data.room).emit('load players', publicPlayers[data.room])
+        let cardsReadyCount = players[data.room].filter((player) => {
+            return player.userSelection!==null;
+        })
+        if(cardsReadyCount.length === 2){
+            fightFunction(data.room);
+            io.sockets.in(data.room).emit('fight', publicPlayers[data.room]);
+        }
+        console.log(players[data.room][0].userHp);
+        console.log(players[data.room][1].userHp)
+        // console.log(players[data.room]);
     })
+
+    
+    const fightFunction = (room) => {
+        let attackOne = players[room][0].userSelection.attack;
+        let attackTwo = players[room][1].userSelection.attack;
+        let defenseOne= players[room][0].userSelection.defense;
+        let defenseTwo = players[room][1].userSelection.defense;
+        let hpOne = players[room][0].userHp;
+        let hpTwo = players[room][0].userHp;
+        if(defenseOne < attackTwo
+           && attackOne > defenseTwo){
+               hpOne = hpOne - (attackTwo - defenseOne);
+               hpTwo = hpTwo - (attackOne - defenseTwo);
+        }else if(defenseOne < attackTwo
+                 && attackOne <= defenseTwo){
+               hpOne = hpOne - (attackTwo - defenseOne);
+        }else if(defenseOne >= attackTwo
+                 && attackOne > defenseTwo){
+               hpTwo = hpTwo - (attackOne - defenseTwo);
+        }
+        players[room][0].userHp = hpOne;
+        players[room][1].userHp = hpTwo;
+        publicPlayers[room][0].userHp = hpOne;
+        publicPlayers[room][1].userHp = hpTwo;
+        publicPlayers[room][0].userSelection = players[room][0].userSelection;
+        publicPlayers[room][1].userSelection = players[room][1].userSelection;
+    }
     
     socket.on('message', (data) => {
         console.log(data.message, data.room);

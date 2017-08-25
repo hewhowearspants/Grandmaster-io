@@ -26,6 +26,10 @@ class GameRoom extends Component {
             joined: false,
             playersFull: false,
             playerData: null,
+            userHp: 20,
+            oppoHp: 20,
+            round: 1,
+            winner: null,
         }
         this.makeUserSelection = this.makeUserSelection.bind(this);
         this.makeOppoSelection = this.makeOppoSelection.bind(this);
@@ -34,6 +38,8 @@ class GameRoom extends Component {
         this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
         this.joinGame = this.joinGame.bind(this);
         this.confirmSelection = this.confirmSelection.bind(this);
+        this.getBattleLog = this.getBattleLog.bind(this);
+        this.getWinner = this.getWinner.bind(this);
     }
 
     componentDidMount() {
@@ -111,7 +117,32 @@ class GameRoom extends Component {
             this.setState({
                 playersFull: true,
             })
-        })
+        });
+        socket.on('fight', (data) => {
+            console.log(data)
+            if(data[0].username === this.state.userNameData){
+                this.setState({
+                    userHp: data[0].userHp,
+                    oppoHp: data[1].userHp,
+                    oppoSelection: data[1].userSelection,
+                });
+                // console.log(data[0].userSelection)
+            }else if(data[1].username === this.state.userNameData){
+                this.setState({
+                    userHp: data[1].userHp,
+                    oppoHp: data[0].userHp,
+                    oppoSelection: data[0].userSelection,
+                });
+            }else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username){
+                console.log(data)
+                this.setState({
+                    oppoHp: data[0].userHp,
+                    userHp: data[1].userHp,
+                    oppoSelection: data[0].userSelection,
+                    userSelection: data[1].userSelection,
+                });
+            };
+        });
     }
 
     handleMessageSubmit(event) {
@@ -204,6 +235,45 @@ class GameRoom extends Component {
         
     }
 
+    getBattleLog(){
+        this.setState({
+            round: this.state.round + 1,
+        })
+        if(this.props.userSelection.defense < this.props.oppoSelection.attack
+                && this.props.userSelection.attack > this.props.oppoSelection.defense) {
+            this.setState({
+                userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
+                oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
+            })
+        } else if(this.props.userSelection.defense < this.props.oppoSelection.attack
+            && this.props.userSelection.attack <= this.props.oppoSelection.defense){
+            this.setState({
+                userHp: this.state.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
+            })
+        } else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
+            && this.props.userSelection.attack > this.props.oppoSelection.defense) {
+            this.setState({
+                oppoHp: this.state.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
+            })
+        }
+    }
+
+    getWinner(){
+        if(this.state.userHp > this.state.oppoHp) {
+            this.setState({
+                winner: 'User'
+            })
+        } else if (this.state.userHp < this.state.oppoHp) {
+            this.setState({
+                winner: 'Opponent'
+            })
+        } else if (this.state.userHp === this.state.oppoHp) {
+            this.setState({
+                winner: 'Game Tied! Both Players'
+            })
+        }
+    }
+
     render(){
         return(
             <div className = 'game-room'>
@@ -220,7 +290,17 @@ class GameRoom extends Component {
                 </div>
 
                 <div className="mid-section">
-                    <BattleField userSelection = {this.state.userSelection} oppoSelection = {this.state.oppoSelection} resetBattleField = {this.resetBattleField} cardsInField={this.state.cardsInField} confirmSelection={this.confirmSelection}/>
+                    <BattleField userSelection = {this.state.userSelection}
+                                 oppoSelection = {this.state.oppoSelection}
+                                 resetBattleField = {this.resetBattleField}
+                                 cardsInField={this.state.cardsInField} 
+                                 confirmSelection={this.confirmSelection}
+                                 userHp = {this.state.userHp}
+                                 oppoHp = {this.state.oppoHp}
+                                 getBattleLog = {this.getBattleLog}
+                                 getWinner = {this.getWinner}
+                                 round = {this.state.round}
+                                 winner = {this.state.winner} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

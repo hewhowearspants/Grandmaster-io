@@ -170,6 +170,7 @@ class GameRoom extends Component {
     joinGame() {
         this.setState({
             joined: true,
+            userNameData: this.props.user.username,
         })
         socket.emit('join game', {
             userCards: this.state.userCardData,
@@ -185,7 +186,7 @@ class GameRoom extends Component {
             <div className = 'game-room'>
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
-                    <h3>{this.props.user.display_name} 's Card</h3>
+                    <h3>{this.state.userNameData ? `${this.state.userNameData}'s Card` : 'Waiting Player'}</h3>
                     <UsersHands className = 'user-hand' playersFull = {this.state.playersFull} joinGame = {this.joinGame} joined = {this.state.joined} select = {this.makeUserSelection} data = {this.state.userCardData} cardDrawn = {this.state.userCardDrawn} />
                 </div>
 
@@ -209,7 +210,7 @@ class GameRoom extends Component {
                 </div>
 
                  <div className="oppo-hand">
-                    <h3>{`${this.state.oppoNameData}'s Card` || 'Waiting Oppo'}</h3>
+                    <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}'s Card` : 'Waiting Player'}</h3>
                     <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} />
                 </div>
                 

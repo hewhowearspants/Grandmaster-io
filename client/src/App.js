@@ -87,12 +87,12 @@ class App extends Component {
         user: res.data.user,
       });
     }).then(() => {
-      if(this.state.user)
-      this.getUserCards();
-      this.setState({
-        redirect: '/user',
-        auth: true,
-      })
+      if(this.state.user) {
+        this.getUserCards();
+        this.setState({
+          redirect: '/user',
+        })
+      }
     })
     .catch(err => console.log(err));
   }

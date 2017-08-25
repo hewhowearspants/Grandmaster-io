@@ -127,8 +127,13 @@ class GameRoom extends Component {
     }
 
     componentWillUnmount() {
+        this.setState({
+            userNameData: null,
+        })
         socket.emit('leave room', {
             room: this.props.id,
+            username: this.props.user.username,
+            opponame: this.state.oppoNameData,
         })
     }
 
@@ -171,7 +176,9 @@ class GameRoom extends Component {
             userCards: this.state.userCardData,
             username: this.props.user.username,
             room: this.props.id,
+            opponame: this.state.oppoNameData
         })
+        
     }
 
     render(){

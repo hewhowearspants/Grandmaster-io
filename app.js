@@ -150,8 +150,8 @@ io.on('connection', (socket) => {
             fightFunction(data.room);
             io.sockets.in(data.room).emit('fight', publicPlayers[data.room]);
         }
-        console.log(players[data.room][0].userHp);
-        console.log(players[data.room][1].userHp)
+        // console.log(players[data.room][0].userHp);
+        // console.log(players[data.room][1].userHp)
         // console.log(players[data.room]);
     });
 

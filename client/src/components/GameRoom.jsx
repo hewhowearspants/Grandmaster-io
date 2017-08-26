@@ -63,10 +63,11 @@ class GameRoom extends Component {
             })
         })
         socket.on('load users', (users) => {
-            console.log('got users'+ JSON.stringify(users));
+            console.log(`got ${users.length} users ` + JSON.stringify(users));
             this.setState({
                 users: users,
             })
+            this.props.updateLobbyPlayersAndUsers('users', users.length, this.props.id);
         })
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
@@ -120,6 +121,7 @@ class GameRoom extends Component {
                     })
                 }
             }
+            this.props.updateLobbyPlayersAndUsers('players', playerData.length, this.props.id);
         })
         socket.on('players full', () => {
             this.setState({
@@ -180,6 +182,14 @@ class GameRoom extends Component {
             username: this.props.user.username,
             opponame: this.state.oppoNameData,
         })
+        this.props.updateLobbyPlayersAndUsers('users', (this.state.users.length - 1), this.props.id);
+        if (this.state.joined) {
+            this.props.updateLobbyPlayersAndUsers('players', (this.state.playerData.length - 1), this.props.id);
+            this.setState({
+                joined: false,
+            })
+        }
+        socket.io.disconnect();
     }
 
     makeUserSelection(data){

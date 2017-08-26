@@ -69,6 +69,7 @@ class App extends Component {
     this.deleteUser = this.deleteUser.bind(this);
     this.setRedirect = this.setRedirect.bind(this);
     this.setContent = this.setContent.bind(this);    
+    this.updateLobbyPlayersAndUsers = this.updateLobbyPlayersAndUsers.bind(this);
   }
 
   componentDidMount() {
@@ -82,6 +83,28 @@ class App extends Component {
       }).catch(err => console.log(err));
 
     this.requireLogin();
+    this.lobbyRef.on('child_added', type => {
+      let updatedInfo = {};
+
+      this.lobbyRef.child(type.key).on('child_added', room => {
+        updatedInfo[room.key] = room.node_.value_;
+      });
+
+      this.setState({
+        [type.key]: updatedInfo,
+      });
+    })
+    this.lobbyRef.on('child_changed', type => {
+      let updatedInfo = {};
+
+      this.lobbyRef.child(type.key).on('child_added', room => {
+        updatedInfo[room.key] = room.node_.value_;
+      });
+      
+      this.setState({
+        [type.key]: updatedInfo,
+      });
+    })
   }
 
   requireLogin() {
@@ -94,7 +117,12 @@ class App extends Component {
         redirect: '/user',
       })
     }
-    };
+  };
+
+  updateLobbyPlayersAndUsers(type, number, room) {
+    console.log(`${number} ${type} in ${room}`);
+    this.lobbyRef.child(type).child(room).set(number);
+  }
 
   //AUTH
   handleLoginSubmit(e, username, password) {
@@ -373,8 +401,13 @@ class App extends Component {
                                                     userSelectedNameToEdit={this.userSelectedNameToEdit}
                                                     currentUserId={this.state.currentUserId}
                                                     deleteUser={this.deleteUser} />} />
-          <Route exact path='/joingame' render={() => <GameLobby />} />
-          <Route exact path='/joingame/:id' render={(props) => <GameRoom user={this.state.user} id={props.match.params.id} userCards={this.state.userCardData} />} />
+          <Route exact path='/joingame' render={() => <GameLobby players={this.state.players} users={this.state.users} />} />
+          <Route exact path='/joingame/:id' render={(props) => <GameRoom 
+                                                                  user={this.state.user} 
+                                                                  id={props.match.params.id} 
+                                                                  userCards={this.state.userCardData} 
+                                                                  updateLobbyPlayersAndUsers={this.updateLobbyPlayersAndUsers}/>} 
+                                                                />
         </main>
         <Footer />
       </div>

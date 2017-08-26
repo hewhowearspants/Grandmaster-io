@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import * as firebase from 'firebase';
 
 import {
   BrowserRouter as Router,
@@ -21,6 +22,7 @@ import GameRoom from './components/GameRoom';
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       auth: false,
       cardData: null,
@@ -32,8 +34,25 @@ class App extends Component {
       currentCardId: null,
       currentUserId: null,
       redirect: '/',
-      currentContent: 'user-cards',      
+      currentContent: 'user-cards', 
+      users: {1: 0, 2: 0, 3: 0},
+      players: {1: 0, 2: 0, 3: 0},      
     }
+
+    const config = {
+      apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
+      authDomain: "grandmaster-71126.firebaseapp.com",
+      databaseURL: "https://grandmaster-71126.firebaseio.com",
+      projectId: "grandmaster-71126",
+      storageBucket: "",
+      messagingSenderId: "760258177615"
+    };
+
+    firebase.initializeApp(config);
+
+    this.rootRef = firebase.database().ref();
+    this.lobbyRef = this.rootRef.child('lobby');
+
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
     this.logOut = this.logOut.bind(this);    
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
@@ -301,8 +320,6 @@ class App extends Component {
     event.preventDefault();
     let display_name = event.target.display_name.value;
     let email = event.target.email.value;
-    // console.log(display_name);
-    // console.log(this.state.currentUserId);
     axios.put(`/user/${this.state.currentUserId}`, {
       displayName: event.target.display_name.value,
       email: event.target.email.value,

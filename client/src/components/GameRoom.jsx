@@ -3,7 +3,7 @@ import BattleField from './BattleField';
 import UsersHands from './UsersHands';
 import io from 'socket.io-client';
 
-var socket
+var socket;
 
 class GameRoom extends Component {
     constructor() {
@@ -247,7 +247,6 @@ class GameRoom extends Component {
             room: this.props.id,
             opponame: this.state.oppoNameData
         })
-        
     }
 
     getWinner(){

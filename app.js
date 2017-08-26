@@ -195,29 +195,36 @@ io.on('connection', (socket) => {
         console.log(data.message, data.room);
         io.sockets.in(data.room).emit('receive message', data);
         messages[data.room].push(data.message);
-        console.log(messages[data.room]);
-        // console.log(data)
     })
 
     socket.on('leave room', (data) => {
+        console.log(`${data.username} left room ${data.room}`);
         socket.leave(data.room);
+
+        let notification = {message: {message: `${data.username} left the room!`}};
+        let playerIndex;
+
         players[data.room] = players[data.room].filter((player) => {
-            return player.username!==data.username;
+            return player.username !== data.username;
         });
         publicPlayers[data.room] = publicPlayers[data.room].filter((player) => {
-            return player.username!==data.username;
+            return player.username !== data.username;
         });
         users[data.room] = users[data.room].filter((user) => {
-            return user.username!==data.username;
+            return user.username !== data.username;
         });
-        io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
-        io.sockets.in(data.room).emit('load users', users[data.room]);
-        console.log(`${data.username} left room ${data.room}`);
-        if(data.opponame){
-            console.log(`${data.opponame} won the game`);
-        }else{
-            console.log('Game over')
-        };
+
+        console.log(publicPlayers[data.room]);
+
+        socket.broadcast.to(data.room).emit('load players', publicPlayers[data.room]);
+        socket.broadcast.to(data.room).emit('load users', users[data.room]);
+        socket.broadcast.to(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
+        // if(data.opponame){
+        //     console.log(`${data.opponame} won the game`);
+        // }else{
+        //     console.log('Game over')
+        // };
     });
 });
 

@@ -95,14 +95,13 @@ class App extends Component {
           redirect: '/user',
         })
       }
-    })
-    .catch(err => console.log(err));
+    }).catch(err => console.log(err));
   }
 
   getUserCards() {
     axios.get('/usercard')
     .then(res=>{
-      console.log(res.data)
+      // console.log(res.data)
       this.setState({
         userCardData: res.data,
       })
@@ -115,7 +114,7 @@ class App extends Component {
   getInitialUserCards(){
     axios.get('/user/new')
     .then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       this.setState({
         userCardData: res.data
       })
@@ -131,7 +130,7 @@ class App extends Component {
           imageUrl: data.image_url
         })
         .then(res=>{
-          console.log(res)
+          // console.log(res)
         })
         .catch(err=>{
           console.log(err)
@@ -146,7 +145,7 @@ class App extends Component {
   getNewUserCard(){
     axios.get('/cards/new')
     .then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       this.setState({
         newCardData: res.data,
       })
@@ -175,31 +174,39 @@ class App extends Component {
   deleteUserCard(id) {
     let confirm = window.confirm('are you sure you want to delete this card?');
     if(confirm === true) {
-    axios.delete(`/usercard/${id}`)
-    .then((res) => {
-        console.log('deleted them damn cards!');
+      axios.delete(`/usercard/${id}`)
+      .then((res) => {
         const updatedCards = [...this.state.userCardData];
         let deletedIndex;
+
         updatedCards.forEach((card, index) => {
           if (card.id === id) {
             deletedIndex = index;
           };
         });
+
         updatedCards.splice(deletedIndex, 1);
-        console.log(updatedCards);
+
         this.setState({
           userCardData: updatedCards,
         });
+
       }).catch(err => {
         console.log(err);
       });
+    }
   }
-}
 
   setRedirect() {
     this.setState({
       redirect: null,
     })
+  }
+
+  setCurrentPage(page){
+    this.setState({
+      currentPage: page,
+    });
   }
 
   setContent(page) {
@@ -213,17 +220,17 @@ class App extends Component {
     if(confirm === false) {
       this.setState({
         redirect: null,
-      })
+      });
     } else { 
-    axios.delete(`/user/${id}`)
-    .then((res) => {
-      this.setState({
-        user: null,
-        redirect: '/',
-        auth: false,
-        });
+      axios.delete(`/user/${id}`)
+      .then((res) => {
+        this.setState({
+          user: null,
+          redirect: '/',
+          auth: false,
+          });
       }).catch(err => {
-        console.log(err);
+          console.log(err);
       });
     }
   }
@@ -266,7 +273,7 @@ class App extends Component {
     console.log(id);
     this.setState({
       currentCardId: id,
-    })
+    });
   }
 
   userSubmitEdit(event)  {
@@ -287,12 +294,6 @@ class App extends Component {
     console.log(id);
     this.setState({
       currentUserId: id,
-    })
-  }
-
-  setCurrentPage(page){
-    this.setState({
-      currentPage: page,
     })
   }
   
@@ -321,15 +322,15 @@ class App extends Component {
   render() {
     if(this.state.redirect !== null) {
       let redir = this.state.redirect;
-        this.setState({
-          redirect: null,
-        });
+      this.setState({
+        redirect: null,
+      });
       return ( 
-      <Router>
-        <Redirect push to={redir} />
-      </Router>
-       )
-      } else {
+        <Router>
+          <Redirect push to={redir} />
+        </Router>
+      )
+    } else {
     return (
       <Router>
       <div className="App">

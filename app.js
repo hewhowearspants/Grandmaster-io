@@ -176,11 +176,11 @@ io.on('connection', (socket) => {
            && attackOne > defenseTwo){
                hpOne = hpOne - (attackTwo - defenseOne);
                hpTwo = hpTwo - (attackOne - defenseTwo);
-        }else if(defenseOne < attackTwo
-                 && attackOne <= defenseTwo){
+        } else if(defenseOne < attackTwo
+                 && attackOne <= defenseTwo) {
                hpOne = hpOne - (attackTwo - defenseOne);
-        }else if(defenseOne >= attackTwo
-                 && attackOne > defenseTwo){
+        } else if(defenseOne >= attackTwo
+                 && attackOne > defenseTwo) {
                hpTwo = hpTwo - (attackOne - defenseTwo);
         }
         players[room][0].userHp = hpOne;

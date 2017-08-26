@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import BattleField from './BattleField';
 import UsersHands from './UsersHands';
-import ChatBox from './ChatBox';
 import io from 'socket.io-client';
 
 var socket
@@ -44,6 +42,7 @@ class GameRoom extends Component {
 
     componentDidMount() {
         socket = io.connect();
+
         socket.emit('join room', {
             room: this.props.id,
             username: this.props.user.username,
@@ -58,7 +57,7 @@ class GameRoom extends Component {
             })
         });
         socket.on('load messages', (messages) => {
-            console.log('got messages'+ JSON.stringify(messages));
+            console.log('got messages');
             this.setState({
                 messages: messages,
             })
@@ -128,7 +127,6 @@ class GameRoom extends Component {
                     userSelection: data[0].userSelection,
                     oppoSelection: data[1].userSelection,
                 });
-                // console.log(data[0].userSelection)
             }else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username){
                 this.setState({
                     userHp: data[1].userHp,
@@ -149,7 +147,6 @@ class GameRoom extends Component {
 
     handleMessageSubmit(event) {
         event.preventDefault();
-        console.log(this.state.text);
         socket.emit('message', {
             message: {displayName: this.props.user.display_name,
                 message: this.state.text},
@@ -160,7 +157,6 @@ class GameRoom extends Component {
 
     handleInputChange(event) {
         event.preventDefault();
-        console.log(event.target.value);
         this.setState({
             text: event.target.value,
         })

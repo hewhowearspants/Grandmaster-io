@@ -50,8 +50,20 @@ Users
 **Game Chat**
 ![Wireframe 11](/assets/chatbox.jpg)
 
-**components**
+**Components**
 ![Wireframe 12](/assets/components.jpg)
+
+**Board**
+![Wireframe 13](/assets/board.jpg)
+
+**Game Wire**
+![Wireframe 14](/assets/game-wire.png)
+
+**user-dashboard**
+![Wireframe 15](/assets/user-dashboard.png)
+
+**card-back**
+![Wireframe 16](/assets/card-back.png)
 
 
 ## Technologies

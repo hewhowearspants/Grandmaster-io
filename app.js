@@ -84,13 +84,19 @@ io.on('connection', (socket) => {
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
-        socket.emit('load messages', messages[data.room]);
+        let notification = {message: {message: `${data.username} joined the room!`}};
+
         socket.emit('load players', publicPlayers[data.room]);
+
         users[data.room].push({
             username: data.username, 
             displayName: data.displayName, 
         })
+
         io.sockets.in(data.room).emit('load users', users[data.room]);
+        socket.broadcast.to(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
+        socket.emit('load messages', messages[data.room]);
         if(players[data.room].length === 2){
                 socket.emit('players full')
         }

@@ -70,7 +70,15 @@ class GameRoom extends Component {
         })
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
-            if(playerData.length === 1) {
+            if(playerData.length === 0) {
+                this.setState({
+                    oppoCardData: null,
+                    oppoNameData: null,
+                    userCardData: null,
+                    userNameData: null,
+                    playersFull: null,
+                })
+            } else if(playerData.length === 1) {
                 this.setState({
                     playersFull: false,
                 })

@@ -508,17 +508,55 @@ header li, a{
   margin-top:-40px;
 }
 
-.message-input input[type='text']{
+.message-box {
+  color:white;
+  background:rgba(0, 0, 0, 0.7);
+  border:3px solid black;
+  width:400px;
+  height:200px;
   position:fixed;
-  bottom:5%;
-  left:72%;
-  width:200px;
+  bottom:8%;
+  right: 0;
+  margin-right: 20px;
+  /* display: flex; */
+}
+
+.message-display-wrapper {
+  overflow-y: scroll;
+  height: 158px;
+}
+
+.message-display {
+  display: flex;
+  flex-direction: column-reverse;
+  
+}
+
+.message-box p {
+  text-align: left;
+  padding:7px 15px 0px;
+}
+
+.message-input {
+  position:fixed; 
+  bottom: calc(8% + 3px); 
+  right: 23px;
+  width:400px; 
+  height: 42px;
+  align-self: flex-end;
+}
+
+.message-input form {
+  display: flex;
+  flex-direction: row;
 }
 
 .message-input button[type='submit']{
-  position:fixed;
-  bottom:9%;
-  left:91%;
+  /* position:fixed; */
+  /* bottom:9%;
+  left:91%; */
+  height: 42px;
+  padding: 0 5px;
 }
 
 .battle-log button {
@@ -551,7 +589,6 @@ header li, a{
   justify-content: center;
   align-items: center;
 }
-
 
 .game-lobby h1 {
   font-size: 60px;
@@ -612,7 +649,6 @@ header li, a{
   padding:5px;
 }
 
-
 .leader-start {
   width:50px;
   height:100%;
@@ -648,27 +684,6 @@ header li, a{
   margin:0 auto;
   font-family: 'UnifrakturCook', cursive;
 }
-
-.message-box {
-  color:white;
-  background:rgba(0, 0, 0, 0.7);
-  border:3px solid black;
-  width:400px;
-  height:120px;
-  overflow: scroll;
-  position:fixed;
-  bottom:8%;
-  left:33%;
-}
-
-.message-box p {
-  text-align: left;
-  padding:7px 15px 3px;
-  display:flex;
-  flex-direction: column-reverse;
-}
-
-
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

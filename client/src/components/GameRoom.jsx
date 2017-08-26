@@ -299,10 +299,12 @@ class GameRoom extends Component {
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>
+                        <div className='message-display-wrapper'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{
                                 return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
                                 }) : '' }
+                        </div>
                         </div>
                         <div className='message-input'>
                             <form onSubmit={this.handleMessageSubmit}>

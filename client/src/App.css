@@ -472,7 +472,6 @@ header li, a{
   display: flex; 
   flex-direction: column;
   align-items: center;
-  overflow: auto;
   height: 100%;
 }
 
@@ -486,7 +485,7 @@ header li, a{
   justify-content: space-between;
   align-items: center;
   filter: saturate(25%);
-  opacity: .75; 
+  /* opacity: .75;  */
   cursor: pointer;
 }
 
@@ -512,7 +511,7 @@ header li, a{
   margin-bottom: -5px;
   margin-top: 10px;
   opacity: 1;
-  filter: saturate(100%);
+  filter: saturate(125%);
 }
 
 .users-hand .card:hover .card-numbers p:nth-child(1) {

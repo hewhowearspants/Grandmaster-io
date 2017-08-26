@@ -271,7 +271,7 @@ class GameRoom extends Component {
             <div className = 'game-room'>
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
-                    <h3>{this.state.userNameData ? `${this.state.userNameData}'s Card` : 'Waiting Player'}</h3>
+                    <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
                     {this.state.userCardData ? <UsersHands className = 'user-hand' 
                                                             playersFull = {this.state.playersFull} 
                                                             joinGame = {this.joinGame} 
@@ -317,7 +317,7 @@ class GameRoom extends Component {
                 </div>
 
                  <div className="oppo-hand">
-                    <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}'s Card` : 'Waiting Player'}</h3>
+                    <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}` : 'Waiting Player'}</h3>
                     {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
                     {this.state.oppoCardData ?
                         this.state.oppoCardData.map(card => {

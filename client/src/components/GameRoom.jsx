@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import BattleField from './BattleField';
 import UsersHands from './UsersHands';
-import ChatBox from './ChatBox';
 import io from 'socket.io-client';
 
 var socket
@@ -44,6 +42,7 @@ class GameRoom extends Component {
 
     componentDidMount() {
         socket = io.connect();
+
         socket.emit('join room', {
             room: this.props.id,
             username: this.props.user.username,
@@ -58,7 +57,7 @@ class GameRoom extends Component {
             })
         });
         socket.on('load messages', (messages) => {
-            console.log('got messages'+ JSON.stringify(messages));
+            console.log('got messages');
             this.setState({
                 messages: messages,
             })
@@ -71,7 +70,15 @@ class GameRoom extends Component {
         })
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
-            if(playerData.length === 1) {
+            if(playerData.length === 0) {
+                this.setState({
+                    oppoCardData: null,
+                    oppoNameData: null,
+                    userCardData: null,
+                    userNameData: null,
+                    playersFull: null,
+                })
+            } else if(playerData.length === 1) {
                 this.setState({
                     playersFull: false,
                 })
@@ -128,7 +135,6 @@ class GameRoom extends Component {
                     userSelection: data[0].userSelection,
                     oppoSelection: data[1].userSelection,
                 });
-                // console.log(data[0].userSelection)
             }else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username){
                 this.setState({
                     userHp: data[1].userHp,
@@ -149,7 +155,6 @@ class GameRoom extends Component {
 
     handleMessageSubmit(event) {
         event.preventDefault();
-        console.log(this.state.text);
         socket.emit('message', {
             message: {displayName: this.props.user.display_name,
                 message: this.state.text},
@@ -160,7 +165,6 @@ class GameRoom extends Component {
 
     handleInputChange(event) {
         event.preventDefault();
-        console.log(event.target.value);
         this.setState({
             text: event.target.value,
         })
@@ -295,10 +299,12 @@ class GameRoom extends Component {
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>
+                        <div className='message-display-wrapper'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{
                                 return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
                                 }) : '' }
+                        </div>
                         </div>
                         <div className='message-input'>
                             <form onSubmit={this.handleMessageSubmit}>

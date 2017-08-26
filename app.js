@@ -84,13 +84,19 @@ io.on('connection', (socket) => {
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
-        socket.emit('load messages', messages[data.room]);
+        let notification = {message: {message: `${data.username} joined the room!`}};
+
         socket.emit('load players', publicPlayers[data.room]);
+
         users[data.room].push({
             username: data.username, 
             displayName: data.displayName, 
         })
+
         io.sockets.in(data.room).emit('load users', users[data.room]);
+        socket.broadcast.to(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
+        socket.emit('load messages', messages[data.room]);
         if(players[data.room].length === 2){
                 socket.emit('players full')
         }
@@ -98,6 +104,7 @@ io.on('connection', (socket) => {
 
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
+        let notification = {message: {message: `${data.username} ready for battle!`}};
         let publicCards = [];
         for (let i = 0; i < 5; i++) {
             publicCards.push({
@@ -128,6 +135,8 @@ io.on('connection', (socket) => {
             }
         }
         io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
+        io.sockets.in(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
     });
 
     socket.on('confirm selection', data=>{
@@ -176,11 +185,11 @@ io.on('connection', (socket) => {
            && attackOne > defenseTwo){
                hpOne = hpOne - (attackTwo - defenseOne);
                hpTwo = hpTwo - (attackOne - defenseTwo);
-        }else if(defenseOne < attackTwo
-                 && attackOne <= defenseTwo){
+        } else if(defenseOne < attackTwo
+                 && attackOne <= defenseTwo) {
                hpOne = hpOne - (attackTwo - defenseOne);
-        }else if(defenseOne >= attackTwo
-                 && attackOne > defenseTwo){
+        } else if(defenseOne >= attackTwo
+                 && attackOne > defenseTwo) {
                hpTwo = hpTwo - (attackOne - defenseTwo);
         }
         players[room][0].userHp = hpOne;
@@ -195,29 +204,36 @@ io.on('connection', (socket) => {
         console.log(data.message, data.room);
         io.sockets.in(data.room).emit('receive message', data);
         messages[data.room].push(data.message);
-        console.log(messages[data.room]);
-        // console.log(data)
     })
 
     socket.on('leave room', (data) => {
+        console.log(`${data.username} left room ${data.room}`);
         socket.leave(data.room);
+
+        let notification = {message: {message: `${data.username} left the room!`}};
+        let playerIndex;
+
         players[data.room] = players[data.room].filter((player) => {
-            return player.username!==data.username;
+            return player.username !== data.username;
         });
         publicPlayers[data.room] = publicPlayers[data.room].filter((player) => {
-            return player.username!==data.username;
+            return player.username !== data.username;
         });
         users[data.room] = users[data.room].filter((user) => {
-            return user.username!==data.username;
+            return user.username !== data.username;
         });
-        io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
-        io.sockets.in(data.room).emit('load users', users[data.room]);
-        console.log(`${data.username} left room ${data.room}`);
-        if(data.opponame){
-            console.log(`${data.opponame} won the game`);
-        }else{
-            console.log('Game over')
-        };
+
+        console.log(publicPlayers[data.room]);
+
+        socket.broadcast.to(data.room).emit('load players', publicPlayers[data.room]);
+        socket.broadcast.to(data.room).emit('load users', users[data.room]);
+        socket.broadcast.to(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
+        // if(data.opponame){
+        //     console.log(`${data.opponame} won the game`);
+        // }else{
+        //     console.log('Game over')
+        // };
     });
 });
 

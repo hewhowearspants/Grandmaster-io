@@ -244,7 +244,10 @@ header li, a{
   box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 16px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
+.card p, .card b {
+  user-select: none;
+  cursor: default;
+}
 
 .card-top {
   display: flex;
@@ -461,15 +464,62 @@ header li, a{
  width:20%; 
   align-items:center;
   flex-direction: column;
-  overflow: auto;
-  height: 80vh;  
+  overflow: hidden;
+  height: calc(100vh - 38px - 68px);  
 }
 
 .users-hand div {
   display: flex; 
   flex-direction: column;
   align-items: center;
-  overflow: auto;
+  height: 100%;
+}
+
+.users-hand .card {
+  margin-bottom: -170px;
+  width: 150px;
+  height: 220px;
+  transition: .25s all;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  filter: saturate(25%);
+  /* opacity: .75;  */
+  cursor: pointer;
+}
+
+.users-hand .card .card-numbers {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 20px;
+}
+
+.users-hand .card p,
+.users-hand .card b {
+  cursor: inherit;
+}
+
+.users-hand .card-numbers p {
+  transition: .25s all;
+  border-radius: 30px;
+}
+
+.users-hand .card:hover {
+  margin-bottom: -5px;
+  margin-top: 10px;
+  opacity: 1;
+  filter: saturate(125%);
+}
+
+.users-hand .card:hover .card-numbers p:nth-child(1) {
+  background-color: rgba(255,0,0,.45);
+}
+
+.users-hand .card:hover .card-numbers p:nth-child(2) {
+  background-color: rgba(0,200,200,.45);
 }
 
 .oppo-hand {

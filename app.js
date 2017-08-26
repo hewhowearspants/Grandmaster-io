@@ -104,6 +104,7 @@ io.on('connection', (socket) => {
 
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
+        let notification = {message: {message: `${data.username} ready for battle!`}};
         let publicCards = [];
         for (let i = 0; i < 5; i++) {
             publicCards.push({
@@ -134,6 +135,8 @@ io.on('connection', (socket) => {
             }
         }
         io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
+        io.sockets.in(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
     });
 
     socket.on('confirm selection', data=>{

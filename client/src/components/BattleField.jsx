@@ -14,7 +14,8 @@ class BattleField extends Component {
                                              & setTimeout(this.props.getWinner,1) 
                                              & setTimeout(this.props.updateWins,1)} 
                                              style={{visibility: this.props.userSelection 
-                                                     && this.props.oppoSelection ? 'visible' : 'hidden'}}
+                                                     && this.props.oppoSelection
+                                                     && this.props.confirmed ? 'visible' : 'hidden'}}
                                             >Continue!</button>
                 </div>
                 <div className="card-selected">

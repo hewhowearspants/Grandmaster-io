@@ -123,6 +123,13 @@ class GameRoom extends Component {
             }
             this.props.updateLobbyPlayersAndUsers('players', playerData.length, this.props.id);
         })
+        socket.on('load cards', data => {
+            if(this.state.oppoNameData === data.username){
+                this.setState({
+                    oppoSelection: data.userSelection,
+                })
+            }
+        })
         socket.on('players full', () => {
             this.setState({
                 playersFull: true,
@@ -193,12 +200,14 @@ class GameRoom extends Component {
     }
 
     makeUserSelection(data){
-        if(this.state.confirmed === false){
-            this.setState({
-                userSelection: data,
-                userCardDrawn: true,
-                cardsInField: this.state.cardsInField + 1,
-            })
+        if(this.state.userNameData === this.props.user.username){
+            if(this.state.confirmed === false){
+                this.setState({
+                    userSelection: data,
+                    userCardDrawn: true,
+                    cardsInField: this.state.cardsInField + 1,
+                })
+            }
         }
     }
 
@@ -262,15 +271,15 @@ class GameRoom extends Component {
     getWinner(){
         if(this.state.userHp > this.state.oppoHp) {
             this.setState({
-                winner: 'User'
+                winner: this.state.userNameData,
             })
         } else if (this.state.userHp < this.state.oppoHp) {
             this.setState({
-                winner: 'Opponent'
+                winner: this.state.oppoNameData,
             })
         } else if (this.state.userHp === this.state.oppoHp) {
             this.setState({
-                winner: 'Game Tied! Both Players'
+                winner: 'Game Tied! Both Players',
             })
         }
     }
@@ -304,7 +313,8 @@ class GameRoom extends Component {
                                  winner = {this.state.winner}
                                  oppoNameData = {this.state.oppoNameData}
                                  userNameData = {this.state.userNameData}
-                                 confirmed = {this.state.confirmed} />
+                                 confirmed = {this.state.confirmed}
+                                 joined = {this.state.joined} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

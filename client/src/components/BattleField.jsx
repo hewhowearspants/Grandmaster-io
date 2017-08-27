@@ -2,50 +2,11 @@ import React, { Component } from 'react';
 
 class BattleField extends Component {
 
-    // getBattleLog(){
-    //     this.setState({
-    //         round: this.props.round + 1,
-    //     })
-    //     if(this.props.userSelection.defense < this.props.oppoSelection.attack
-    //             && this.props.userSelection.attack > this.props.oppoSelection.defense) {
-    //         this.setState({
-    //             userHp: this.props.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
-    //             oppoHp: this.props.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
-    //         })
-    //     } else if(this.props.userSelection.defense < this.props.oppoSelection.attack
-    //         && this.props.userSelection.attack <= this.props.oppoSelection.defense){
-    //         this.setState({
-    //             userHp: this.props.userHp + this.props.userSelection.defense - this.props.oppoSelection.attack,
-    //         })
-    //     } else if(this.props.userSelection.defense >= this.props.oppoSelection.attack
-    //         && this.props.userSelection.attack > this.props.oppoSelection.defense) {
-    //         this.setState({
-    //             oppoHp: this.props.oppoHp + this.props.oppoSelection.defense - this.props.userSelection.attack,
-    //         })
-    //     }
-    // }
-
-    // getWinner(){
-    //     if(this.props.userHp > this.props.oppoHp) {
-    //         this.setState({
-    //             winner: 'User'
-    //         })
-    //     } else if (this.props.userHp < this.props.oppoHp) {
-    //         this.setState({
-    //             winner: 'Opponent'
-    //         })
-    //     } else if (this.props.userHp === this.props.oppoHp) {
-    //         this.setState({
-    //             winner: 'Game Tied! Both Players'
-    //         })
-    //     }
-    // }
-
     render() {
         return (
             <div className = 'battlefield'>
                 <div className = 'battle-log'>
-                    <div className = 'round-count'><h2>{(this.props.round <= 5) ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
+                    <div className = 'round-count'><h2>{(this.props.userHp > 0 && this.props.oppoHp > 0 && this.props.round <= 5) ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
                     <div className = 'hp'><b>{this.props.userNameData ? `${this.props.userNameData} HP: ${this.props.userHp}` : ''}</b>
                         <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
                     </div>
@@ -66,8 +27,8 @@ class BattleField extends Component {
                             <p>{this.props.userSelection.defense}</p>
                         </div>
                     </div>
-                    {this.props.confirmed ? 
-                        '' : <button onClick={this.props.confirmSelection}>Confirm</button>
+                    {(this.props.joined) ? (this.props.confirmed) ? 
+                        '' : <button onClick={this.props.confirmSelection}>Confirm</button> : ''
                     }
                 </div>
                 : ''}

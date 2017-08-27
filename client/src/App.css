@@ -392,6 +392,11 @@ header li, a{
   color:#CA9A2C;
 }
 
+.card.null{
+  background-image: url('/images/back_card.png');
+  background-size: 100% 100%;
+}
+
 .card-collection{
   background-image: 131px 175px;
   border:2 px solid green;
@@ -533,9 +538,10 @@ header li, a{
   margin-bottom:-175px;
 }
 
-
 .game-room {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .game-room h3 {

@@ -30,14 +30,6 @@ class GameRoom extends Component {
             winner: null,
             confirmed: false,
         }
-        this.makeUserSelection = this.makeUserSelection.bind(this);
-        this.makeOppoSelection = this.makeOppoSelection.bind(this);
-        this.resetBattleField = this.resetBattleField.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
-        this.joinGame = this.joinGame.bind(this);
-        this.confirmSelection = this.confirmSelection.bind(this);
-        this.getWinner = this.getWinner.bind(this);
     }
 
     componentDidMount() {
@@ -128,21 +120,21 @@ class GameRoom extends Component {
         });
         socket.on('fight', (data) => {
             console.log(data)
-            if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username){
+            if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username) {
                 this.setState({
                     userHp: data[0].userHp,
                     oppoHp: data[1].userHp,
                     userSelection: data[0].userSelection,
                     oppoSelection: data[1].userSelection,
                 });
-            }else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username){
+            } else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username) {
                 this.setState({
                     userHp: data[1].userHp,
                     oppoHp: data[0].userHp,
                     userSelection: data[1].userSelection,
                     oppoSelection: data[0].userSelection,
                 });
-            }else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username){
+            } else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username) {
                 this.setState({
                     oppoHp: data[0].userHp,
                     userHp: data[1].userHp,
@@ -153,7 +145,7 @@ class GameRoom extends Component {
         });
     }
 
-    handleMessageSubmit(event) {
+    handleMessageSubmit = (event) => {
         event.preventDefault();
         socket.emit('message', {
             message: {displayName: this.props.user.display_name,
@@ -163,7 +155,7 @@ class GameRoom extends Component {
         event.target.reset();
     }
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         event.preventDefault();
         this.setState({
             text: event.target.value,
@@ -182,8 +174,8 @@ class GameRoom extends Component {
         })
     }
 
-    makeUserSelection(data){
-        if(this.state.confirmed === false){
+    makeUserSelection = (data) => {
+        if(this.state.confirmed === false) {
             this.setState({
                 userSelection: data,
                 userCardDrawn: true,
@@ -192,7 +184,7 @@ class GameRoom extends Component {
         }
     }
 
-    makeOppoSelection(data){
+    makeOppoSelection = (data) => {
         if(this.state.oppoSelection === null){
             this.setState({
                 oppoSelection: data,
@@ -202,7 +194,7 @@ class GameRoom extends Component {
         }
     }
 
-    confirmSelection(){
+    confirmSelection = () => {
         this.setState({
             confirmed: true,
         })
@@ -213,7 +205,7 @@ class GameRoom extends Component {
         })
     }
 
-    resetBattleField(){
+    resetBattleField = () => {
         this.setState({
             userSelection: null,
             oppoSelection: null,
@@ -221,7 +213,7 @@ class GameRoom extends Component {
             oppoCardDrawn: false,
             confirmed: false,
             cardsInField: 0,
-            round: this.state.round+1,
+            round: this.state.round + 1,
         })
         socket.emit('next round', {
             username: this.state.userNameData,
@@ -229,7 +221,7 @@ class GameRoom extends Component {
         })
     }
 
-    joinGame() {
+    joinGame = () => {
         const userCardsCopy = [...this.props.userCards];
         const userChoice = [];
         for(var i = 0; i < 5; i++) {
@@ -245,23 +237,23 @@ class GameRoom extends Component {
             userCards: userChoice,
             username: this.props.user.username,
             room: this.props.id,
-            opponame: this.state.oppoNameData
+            opponame: this.state.oppoNameData,
         })
         
     }
 
-    getWinner(){
+    getWinner = () => {
         if(this.state.userHp > this.state.oppoHp) {
             this.setState({
-                winner: 'User'
+                winner: 'User',
             })
         } else if (this.state.userHp < this.state.oppoHp) {
             this.setState({
-                winner: 'Opponent'
+                winner: 'Opponent',
             })
         } else if (this.state.userHp === this.state.oppoHp) {
             this.setState({
-                winner: 'Game Tied! Both Players'
+                winner: 'Game Tied! Both Players',
             })
         }
     }
@@ -269,8 +261,8 @@ class GameRoom extends Component {
     render(){
         return(
             <div className = 'game-room'>
-                <img className='logo' src="../images/compass.png" alt='' />
-                <div className="users-hand">
+                <img className = 'logo' src='../images/compass.png' alt = '' />
+                <div className = 'users-hand'>
                     <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
                     {this.state.userCardData ? <UsersHands className = 'user-hand' 
                                                             playersFull = {this.state.playersFull} 
@@ -281,12 +273,12 @@ class GameRoom extends Component {
                                                             cardDrawn = {this.state.userCardDrawn} /> : ''}
                 </div>
 
-                <div className="mid-section">
+                <div className = "mid-section">
                     <BattleField userSelection = {this.state.userSelection}
                                  oppoSelection = {this.state.oppoSelection}
                                  resetBattleField = {this.resetBattleField}
-                                 cardsInField={this.state.cardsInField} 
-                                 confirmSelection={this.confirmSelection}
+                                 cardsInField = {this.state.cardsInField} 
+                                 confirmSelection = {this.confirmSelection}
                                  userHp = {this.state.userHp}
                                  oppoHp = {this.state.oppoHp}
                                  getBattleLog = {this.getBattleLog}
@@ -296,33 +288,33 @@ class GameRoom extends Component {
                                  oppoNameData = {this.state.oppoNameData}
                                  userNameData = {this.state.userNameData}
                                  confirmed = {this.state.confirmed} />
-                    {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
+                    {!this.state.joined && !this.state.playersFull ? <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
-                    <div className='message-box'>
-                        <div className='message-display-wrapper'>
-                        <div className='message-display'>
-                            {this.state.messages ? this.state.messages.map((message)=>{
-                                return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                    <div className = 'message-box'>
+                        <div className = 'message-display-wrapper'>
+                        <div className = 'message-display'>
+                            {this.state.messages ? this.state.messages.map(message => {
+                                return <p key = {this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
                                 }) : '' }
                         </div>
                         </div>
-                        <div className='message-input'>
-                            <form onSubmit={this.handleMessageSubmit}>
-                                <input type='text' onChange={this.handleInputChange} />
-                                <button type='submit'>Send!</button>
+                        <div className = 'message-input'>
+                            <form onSubmit = {this.handleMessageSubmit}>
+                                <input type = 'text' onChange = {this.handleInputChange} />
+                                <button type = 'submit'>Send!</button>
                             </form>
                         </div>
                     </div>
                 
                 </div>
 
-                 <div className="oppo-hand">
+                 <div className = 'oppo-hand'>
                     <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}` : 'Waiting Player'}</h3>
                     {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
                     {this.state.oppoCardData ?
                         this.state.oppoCardData.map(card => {
                             return (
-                                <div className = 'card' style={{background: `url(${card.image_url}`, backgroundSize: 'cover'}}>
+                                <div className = 'card' style = {{background: `url(${card.image_url}`, backgroundSize: 'cover'}}>
                                 </div>
                             )
                         }) : ''

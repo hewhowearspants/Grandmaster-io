@@ -17,7 +17,7 @@ User.create = user => {
     `,[user.username, user.password_digest, user.displayName, user.email]);
 };
 
-User.update = (displayName, email, id)=>{
+User.update = (displayName, email, id) => {
   return db.one(`
   UPDATE users SET
   display_name = $1,

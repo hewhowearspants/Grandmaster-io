@@ -220,6 +220,9 @@ io.on('connection', (socket) => {
     socket.on('message', (data) => {
         console.log(data.message, data.room);
         io.sockets.in(data.room).emit('receive message', data);
+        if (messages[data.room].length === 100) {
+            messages[data.room].pop()
+        };
         messages[data.room].push(data.message);
     })
 

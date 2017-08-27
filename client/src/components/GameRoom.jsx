@@ -38,6 +38,7 @@ class GameRoom extends Component {
         this.joinGame = this.joinGame.bind(this);
         this.confirmSelection = this.confirmSelection.bind(this);
         this.getWinner = this.getWinner.bind(this);
+        this.updateWins = this.updateWins.bind(this);
     }
 
     componentDidMount() {
@@ -284,6 +285,15 @@ class GameRoom extends Component {
         }
     }
 
+    updateWins(){
+        if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round > 5){
+            if(this.state.winner === this.props.user.username){
+                this.props.updateWinsNCurrency();
+                console.log('updating in GameRoom'+this.props.user.username)
+            }
+        }
+    }
+
     render(){
         return(
             <div className = 'game-room'>
@@ -314,7 +324,8 @@ class GameRoom extends Component {
                                  oppoNameData = {this.state.oppoNameData}
                                  userNameData = {this.state.userNameData}
                                  confirmed = {this.state.confirmed}
-                                 joined = {this.state.joined} />
+                                 joined = {this.state.joined}
+                                 updateWins = {this.updateWins} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

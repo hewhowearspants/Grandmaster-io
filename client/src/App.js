@@ -70,6 +70,7 @@ class App extends Component {
     this.setRedirect = this.setRedirect.bind(this);
     this.setContent = this.setContent.bind(this);    
     this.updateLobbyPlayersAndUsers = this.updateLobbyPlayersAndUsers.bind(this);
+    this.updateWinsNCurrency = this.updateWinsNCurrency.bind(this);  
   }
 
   componentDidMount() {
@@ -362,6 +363,21 @@ class App extends Component {
           currentUserId: null,
         })
     }).catch((err) => {console.log(err) });
+  };
+
+  updateWinsNCurrency(){
+    this.setState({
+      user: {
+        currency: this.state.user.currency + 10,
+        display_name: this.state.user.display_name,
+        email: this.state.user.email,
+        id: this.state.user.id,
+        password_digest: this.state.user.password_digest,
+        username: this.state.user.username,
+        wins: this.state.user.wins + 1,
+      }
+    })
+    console.log('updating in App.js'+this.state.user.username)
   }
 
   render() {
@@ -406,7 +422,8 @@ class App extends Component {
                                                                   user={this.state.user} 
                                                                   id={props.match.params.id} 
                                                                   userCards={this.state.userCardData} 
-                                                                  updateLobbyPlayersAndUsers={this.updateLobbyPlayersAndUsers}/>} 
+                                                                  updateLobbyPlayersAndUsers={this.updateLobbyPlayersAndUsers}
+                                                                  updateWinsNCurrency={this.updateWinsNCurrency}/>}/>} 
                                                                 />
         </main>
         <Footer />

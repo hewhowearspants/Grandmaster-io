@@ -77,8 +77,12 @@ var publicPlayers = {
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
     
-    socket.on('disconnect', () => {
+    socket.on('disconnect', data => {
         console.log(`${socket.id} disconnected`);
+        // players.forEach((playerRoom) => {
+        //     return playerRoom.socketId !== socket.id;
+        // });
+        // console.log('players are:'+JSON.stringify(players[data.room]))
     });
 
     socket.on('join room', (data) => {
@@ -119,20 +123,22 @@ io.on('connection', (socket) => {
         };
         if(players[data.room].length < 2) {
             players[data.room].push({
+                socketId: socket.id,
                 username: data.username,
                 userCards: data.userCards,
                 userHp: 20,
                 userSelection: null,
             });
             publicPlayers[data.room].push({
+                socketId: socket.id,
                 username: data.username,
                 userCards: publicCards,
                 userHp: 20,
                 userSelection: false,
             });
-            if(players[data.room].length === 2){
-                io.sockets.in(data.room).emit('players full')
-            }
+        }
+        if(players[data.room].length === 2){
+            io.sockets.in(data.room).emit('players full')
         }
         io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
         io.sockets.in(data.room).emit('receive message', notification);

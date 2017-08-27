@@ -77,7 +77,7 @@ var publicPlayers = {
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
     
-    socket.on('disconnect', data => {
+    socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
         // players.forEach((playerRoom) => {
         //     return playerRoom.socketId !== socket.id;

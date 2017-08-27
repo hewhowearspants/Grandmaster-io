@@ -541,7 +541,7 @@ header li, a{
 
 .game-room {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 

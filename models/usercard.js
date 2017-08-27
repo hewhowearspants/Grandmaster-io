@@ -2,7 +2,7 @@ const db = require('../db/config');
 
 const Usercard = {};
 
-Usercard.findUserCards = userid => {
+Usercard.findUserCards = (userid) => {
     return db.manyOrNone(`
     SELECT * FROM users_cards
     WHERE user_id = $1
@@ -35,7 +35,7 @@ return db.none(`
   `,[id]);
 }
 
-Usercard.findFiveUserCards = id => {
+Usercard.findFiveUserCards = (id) => {
   return db.manyOrNone(`
   SELECT * FROM users_cards
   WHERE user_id = $1

@@ -17,18 +17,19 @@ class BattleField extends Component {
                                                      && this.props.oppoSelection
                                                      && this.props.confirmed ? 'visible' : 'hidden'}}
                                             >Continue!</button>
+
                 </div>
-                <div className="card-selected">
+                <div className = "card-selected">
                 {this.props.userSelection ? 
-                <div className='user-selection'>
+                <div className = 'user-selection'>
                     <div className = {`card ${this.props.userSelection.class} battlefield_select`}>
-                        <div className='card-top'>
-                            <div className='card-name'>
+                        <div className = 'card-top'>
+                            <div className = 'card-name'>
                                 <b>{this.props.userSelection.name}</b>
                                 <p>{this.props.userSelection.class}</p>
                             </div>
                         </div>
-                        <div className='card-numbers'>
+                        <div className = 'card-numbers'>
                             <p>{this.props.userSelection.attack}</p>
                             <p>{this.props.userSelection.defense}</p>
                         </div>
@@ -40,13 +41,13 @@ class BattleField extends Component {
                 : ''}
                 {this.props.oppoSelection ?
                     <div className = {`card ${this.props.oppoSelection.class} battlefield_select`}>
-                    <div className='card-top'>
-                        <div className='card-name'>
+                    <div className = 'card-top'>
+                        <div className = 'card-name'>
                             <b>{this.props.oppoSelection.name}</b>
                             <p>{this.props.oppoSelection.class}</p>
                         </div>
                     </div>
-                    <div className='card-numbers'>
+                    <div className = 'card-numbers'>
                         <p>{this.props.oppoSelection.attack}</p>
                         <p>{this.props.oppoSelection.defense}</p>
                     </div>

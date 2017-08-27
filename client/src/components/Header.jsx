@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Header = (props) => {
   return(
     <header>
-      <div className="header">Grandmaster
+      <div className = 'header'>Grandmaster
       <ul>
         {props.auth ? <li className='username'>{props.user.display_name}</li> : '' }
         {props.auth ? <li className='username'>Wins: {props.user.wins}</li> : '' }

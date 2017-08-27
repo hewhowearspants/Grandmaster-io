@@ -8,7 +8,6 @@ class NewCard extends Component {
         this.state = {
             gotNewCard: false,
         }
-        this.getNewCard = this.getNewCard.bind(this);
     }
 
     componentWillUnmount() {
@@ -17,7 +16,7 @@ class NewCard extends Component {
         })
     }
 
-    getNewCard() {
+    getNewCard = () => {
         this.props.getNewUserCard();
         this.setState({
             gotNewCard: true,
@@ -26,9 +25,9 @@ class NewCard extends Component {
 
   render() {
     return (
-      <div className='new-card'>
-          <button className="newCardButton" type="button" onClick={this.getNewCard}>Get new Card!</button>
-        {this.state.gotNewCard && this.props.newCard ? <Card card={this.props.newCard[0]} /> : ''}
+      <div className = 'new-card'>
+          <button className = 'newCardButton' type = 'button' onClick = {this.getNewCard}>Get new Card!</button>
+        {this.state.gotNewCard && this.props.newCard ? <Card card = {this.props.newCard[0]} /> : ''}
       </div>
     )
   }

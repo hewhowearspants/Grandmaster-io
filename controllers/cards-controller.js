@@ -4,10 +4,10 @@ const cardsController = {};
 
 cardsController.index = (req, res) => {
   Card.findAll()
-    .then((cards) => {
+    .then(cards => {
       res.json(cards);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });

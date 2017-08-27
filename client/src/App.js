@@ -38,7 +38,7 @@ class App extends Component {
       users: {1: 0, 2: 0, 3: 0},
       players: {1: 0, 2: 0, 3: 0},      
     }
-
+    
     const config = {
       apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
       authDomain: "grandmaster-71126.firebaseapp.com",
@@ -81,7 +81,8 @@ class App extends Component {
           cardData: res.data,
           cardDataLoaded: true,
         });
-      }).catch(err => console.log(err));
+      }).catch(err => 
+        console.log(err));
 
     this.requireLogin();
     this.lobbyRef.on('child_added', type => {
@@ -108,7 +109,7 @@ class App extends Component {
     })
   }
 
-  requireLogin() {
+  requireLogin = () => {
     if(!this.state.auth) {
       this.setState({
         redirect: '/login',
@@ -126,7 +127,7 @@ class App extends Component {
   }
 
   //AUTH
-  handleLoginSubmit(e, username, password) {
+  handleLoginSubmit = (e, username, password) => {
     e.preventDefault();
     axios.post('/auth/login', {
       username,
@@ -143,54 +144,54 @@ class App extends Component {
           redirect: '/user',
         })
       }
-    }).catch(err => console.log(err));
+    }).catch(err => 
+      console.log(err));
   }
 
-  getUserCards() {
+  getUserCards = () => {
     axios.get('/usercard')
-    .then(res=>{
+    .then(res => {
       // console.log(res.data)
       this.setState({
         userCardData: res.data,
       })
     })
-    .catch(err=>{
-      console.log(err);
-    })
+    .catch(err => 
+      console.log(err));
   }
 
-  getInitialUserCards(){
+  getInitialUserCards = () => {
     axios.get('/user/new')
     .then(res => {
       // console.log(res.data)
       this.setState({
-        userCardData: res.data
+        userCardData: res.data,
       })
     })
-    .then(()=>{
-      this.state.userCardData.forEach((data)=>{
+    .then(() => {
+      this.state.userCardData.forEach(data => {
         axios.post('/usercard/new',{
           cardId: data.id,
           name: data.name,
           class: data.class,
           attack: data.attack,
           defense: data.defense,
-          imageUrl: data.image_url
+          imageUrl: data.image_url,
         })
-        .then(res=>{
+        .then(res => {
           // console.log(res)
         })
-        .catch(err=>{
-          console.log(err)
+        .catch(err => {
+          console.log(err);
         })
       })
     })
-    .catch(err=>{
+    .catch(err => {
         console.log(err);
     })
   }
 
-  getNewUserCard(){
+  getNewUserCard = () => {
     axios.get('/cards/new')
     .then(res => {
       // console.log(res.data)
@@ -205,21 +206,21 @@ class App extends Component {
         class: this.state.newCardData[0].class,
         attack: this.state.newCardData[0].attack,
         defense: this.state.newCardData[0].defense,
-        imageUrl: this.state.newCardData[0].image_url
+        imageUrl: this.state.newCardData[0].image_url,
         })
-        .then(res=>{
+        .then(res => {
           this.getUserCards();
         })
-        .catch(err=>{
-          console.log(err)
+        .catch(err => {
+          console.log(err);
         })
       })
-    .catch(err=>{
+    .catch(err => {
         console.log(err);
     })
   }
 
-  deleteUserCard(id) {
+  deleteUserCard = (id) => {
     let confirm = window.confirm('are you sure you want to delete this card?');
     if(confirm === true) {
       axios.delete(`/usercard/${id}`)
@@ -245,25 +246,25 @@ class App extends Component {
     }
   }
 
-  setRedirect() {
+  setRedirect = () => {
     this.setState({
       redirect: null,
     })
   }
 
-  setCurrentPage(page){
+  setCurrentPage = (page) => {
     this.setState({
       currentPage: page,
     });
   }
 
-  setContent(page) {
+  setContent = (page) => {
     this.setState({
       currentContent: page,
     });
   }
 
-  deleteUser(id) {
+  deleteUser = (id) => {
     let confirm = window.confirm(`Are you sure you want to delete your profile ${this.state.user.username}?`);
     if(confirm === false) {
       this.setState({
@@ -271,7 +272,7 @@ class App extends Component {
       });
     } else { 
       axios.delete(`/user/${id}`)
-      .then((res) => {
+      .then(res => {
         this.setState({
           user: null,
           redirect: '/',
@@ -283,7 +284,7 @@ class App extends Component {
     }
   }
 
-  handleRegisterSubmit(e, username, password, email, displayName) {
+  handleRegisterSubmit = (e, username, password, email, displayName) => {
     e.preventDefault();
     axios.post('/auth/register', {
       username,
@@ -303,10 +304,11 @@ class App extends Component {
         redirect: '/user',
       })
     )
-    .catch(err => console.log(err));
+    .catch(err => 
+      console.log(err));
   }
 
-  logOut() {
+  logOut = () => {
     axios.get('/auth/logout')
     .then(res => {
       console.log(res);
@@ -314,38 +316,41 @@ class App extends Component {
         auth: false,
         redirect: '/',
       });
-    }).catch(err => console.log(err));
+    }).catch(err => 
+      console.log(err));
   }
 
-  userSelectedCardToEdit(id) {
+  userSelectedCardToEdit = (id ) => {
     console.log(id);
     this.setState({
       currentCardId: id,
     });
   }
 
-  userSubmitEdit(event)  {
+  userSubmitEdit = (event) => {
     event.preventDefault();
     console.log(this.state.currentCardId)
     axios.put(`/usercard/${this.state.currentCardId}`, {
       name: event.target.name.value,
-    }).then((res) => {
+    }).then(res => {
       this.getUserCards();
     }).then(() => {
       this.setState({
         currentCardId: null,
       })
-    }).catch((err) => {console.log(err) });
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
-  userSelectedNameToEdit(id) {
+  userSelectedNameToEdit = (id) => {
     console.log(id);
     this.setState({
       currentUserId: id,
     })
   }
   
-  userSubmitNewName(event)  {
+  userSubmitNewName = (event) => {
     event.preventDefault();
     let display_name = event.target.display_name.value;
     let email = event.target.email.value;
@@ -362,7 +367,9 @@ class App extends Component {
           redirect: '/user',  
           currentUserId: null,
         })
-    }).catch((err) => {console.log(err) });
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   updateWinsNCurrency(){
@@ -388,14 +395,14 @@ class App extends Component {
       });
       return ( 
         <Router>
-          <Redirect push to={redir} />
+          <Redirect push to = {redir} />
         </Router>
       )
     } else {
     return (
       <Router>
-      <div className="App">
-        <Header setPage={this.setPage} user={this.state.user} display_name={this.props.display_name} auth={this.state.auth} logOut={this.logOut} setCurrentPage={this.setCurrentPage} currentPage={this.state.currentPage}/>
+      <div className = 'App'>
+        <Header setPage = {this.setPage} user = {this.state.user} display_name = {this.props.display_name} auth = {this.state.auth} logOut = {this.logOut} setCurrentPage = {this.setCurrentPage} currentPage = {this.state.currentPage}/>
         <main>
           <Route exact path='/' render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />} />
           <Route exact path='/register' render={() => <Register handleRegisterSubmit={this.handleRegisterSubmit} />} />

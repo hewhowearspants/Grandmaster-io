@@ -78,7 +78,7 @@ class GameRoom extends Component {
                     oppoNameData: null,
                     userCardData: null,
                     userNameData: null,
-                    playersFull: null,
+                    playersFull: false,
                 })
             } else if(playerData.length === 1) {
                 this.setState({
@@ -200,12 +200,21 @@ class GameRoom extends Component {
         socket.io.disconnect();
     }
 
-    makeUserSelection(data){
+    makeUserSelection(selectedCard){
         if(this.state.userNameData === this.props.user.username){
             if(this.state.confirmed === false){
+                let updatedCards = [...this.state.userCardData];
+                let deleteIndex;
+                updatedCards.forEach((card, index) => {
+                    if (card.id === selectedCard.id) {
+                        deleteIndex = index;
+                    }
+                })
+                updatedCards.splice(deleteIndex, 1);
                 this.setState({
-                    userSelection: data,
+                    userSelection: selectedCard,
                     userCardDrawn: true,
+                    userCardData: updatedCards,
                     cardsInField: this.state.cardsInField + 1,
                 })
             }

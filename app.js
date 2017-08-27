@@ -77,7 +77,7 @@ var publicPlayers = {
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
     
-    socket.on('disconnect', data => {
+    socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
         // players.forEach((playerRoom) => {
         //     return playerRoom.socketId !== socket.id;
@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
         messages[data.room].push(notification.message);
         socket.emit('load messages', messages[data.room]);
         if(players[data.room].length === 2){
-                socket.emit('players full')
+            socket.emit('players full')
         }
     });
 
@@ -220,6 +220,9 @@ io.on('connection', (socket) => {
     socket.on('message', (data) => {
         console.log(data.message, data.room);
         io.sockets.in(data.room).emit('receive message', data);
+        if (messages[data.room].length === 100) {
+            messages[data.room].pop()
+        };
         messages[data.room].push(data.message);
     })
 

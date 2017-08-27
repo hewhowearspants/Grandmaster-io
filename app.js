@@ -143,35 +143,42 @@ io.on('connection', (socket) => {
         players[data.room].forEach((player)=>{
             if(player.username === data.username){
                 player.userSelection = data.selection;
-            }
-        })
+            };
+        });
         publicPlayers[data.room].forEach((player)=>{
             if(player.username === data.username){
-                player.userSelection = true;
+                player.userSelection = {
+                    id: null,
+                    card_id: null,
+                    name: null,
+                    class: null,
+                    attack: null,
+                    defense: null,
+                    image_url: '/images/back_card.png'
+                };
                 player.userCards.pop();
-            }
-        })
-        io.sockets.in(data.room).emit('load players', publicPlayers[data.room])
+                io.sockets.in(data.room).emit('load cards', player);
+            };
+        });
+        io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
         let cardsReadyCount = players[data.room].filter((player) => {
             return player.userSelection!==null;
-        })
+        });
         if(cardsReadyCount.length === 2){
             fightFunction(data.room);
             io.sockets.in(data.room).emit('fight', publicPlayers[data.room]);
-        }
-        // console.log(players[data.room][0].userHp);
-        // console.log(players[data.room][1].userHp)
-        // console.log(players[data.room]);
+            setTimeout(()=>players[data.room].forEach((player)=>{
+                player.userSelection = null;
+            }),1);
+            setTimeout(()=>publicPlayers[data.room].forEach((player)=>{
+                player.userSelection = null;
+            }),1);
+        };
     });
-
-    socket.on('next round', data => {
-        players[data.room].forEach((player)=>{
-                player.userSelection = null;
-        })
-        publicPlayers[data.room].forEach((player)=>{
-                player.userSelection = null;
-        })
-    })
+    
+    // socket.on('next round', data => {
+        
+    // })
 
     
     const fightFunction = (room) => {
@@ -180,8 +187,12 @@ io.on('connection', (socket) => {
         let defenseOne= players[room][0].userSelection.defense;
         let defenseTwo = players[room][1].userSelection.defense;
         let hpOne = players[room][0].userHp;
-        let hpTwo = players[room][0].userHp;
-        if(defenseOne < attackTwo
+        let hpTwo = players[room][1].userHp;
+        if(players[room][0].userSelection.class === 'King' && players[room][1].userSelection.class === 'Queen'){
+            hpTwo = hpTwo - 10;
+        }else if(players[room][1].userSelection.class === 'King' && players[room][0].userSelection.class === 'Queen'){
+            hpOne = hpOne - 10;
+        }else if(defenseOne < attackTwo
            && attackOne > defenseTwo){
                hpOne = hpOne - (attackTwo - defenseOne);
                hpTwo = hpTwo - (attackOne - defenseTwo);

@@ -78,7 +78,7 @@ class GameRoom extends Component {
                     oppoNameData: null,
                     userCardData: null,
                     userNameData: null,
-                    playersFull: null,
+                    playersFull: false,
                 })
             } else if(playerData.length === 1) {
                 this.setState({

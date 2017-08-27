@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
         messages[data.room].push(notification.message);
         socket.emit('load messages', messages[data.room]);
         if(players[data.room].length === 2){
-                socket.emit('players full')
+            socket.emit('players full')
         }
     });
 

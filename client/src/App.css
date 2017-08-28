@@ -856,7 +856,63 @@ header li {
   width:80%;
   margin:0 auto;
   font-family: 'UnifrakturCook', cursive;
+  font-size:46px;
+  color:#12183B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top:-20px;
 }
+
+.user-profile span {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size:28px;
+  color:#484F94;
+  margin-bottom: -20px;
+  letter-spacing: 0.05em;
+}
+
+.user-profile h2 {
+  width:500px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom:30px;
+  line-height: 1em;
+}
+
+.user-profile p{ 
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  color:white;
+  font-size:34px;
+  float:right;
+  margin-left:15px;
+  color:#12183B;
+}
+
+.user-profile i{
+  font-size:28px;
+  color:#12183B;
+}
+
+.user-profile p:hover, i:hover {
+  color:#FDF6CF;
+  transition: .2s all;
+  cursor: pointer;
+}
+
+.user-buttons {
+  padding:20px;
+  margin-top:-20px;
+}
+
+.user-profile input[type='text'] {
+  display: flex;
+  flex-direction: column;
+  margin-top:40px;
+  text-align: center;
+}
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;

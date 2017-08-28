@@ -68,7 +68,6 @@ class GameRoom extends Component {
             this.setState({
                 users: users,
             })
-            this.props.updateLobbyPlayersAndUsers('users', users.length, this.props.id);
         })
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
@@ -122,7 +121,6 @@ class GameRoom extends Component {
                     })
                 }
             }
-            this.props.updateLobbyPlayersAndUsers('players', playerData.length, this.props.id);
         })
         socket.on('load cards', data => {
             if(this.state.oppoNameData === data.username){
@@ -190,9 +188,7 @@ class GameRoom extends Component {
             username: this.props.user.username,
             opponame: this.state.oppoNameData,
         })
-        this.props.updateLobbyPlayersAndUsers('users', (this.state.users.length - 1), this.props.id);
         if (this.state.joined) {
-            this.props.updateLobbyPlayersAndUsers('players', (this.state.playerData.length - 1), this.props.id);
             this.setState({
                 joined: false,
             })
@@ -200,7 +196,7 @@ class GameRoom extends Component {
         socket.io.disconnect();
     }
 
-    makeUserSelection(selectedCard){
+    makeUserSelection(selectedCard) {
         if(this.state.userNameData === this.props.user.username){
             if(this.state.confirmed === false){
                 let updatedCards = [...this.state.userCardData];
@@ -221,7 +217,7 @@ class GameRoom extends Component {
         }
     }
 
-    makeOppoSelection(data){
+    makeOppoSelection(data) {
         if(this.state.oppoSelection === null){
             this.setState({
                 oppoSelection: data,
@@ -231,7 +227,7 @@ class GameRoom extends Component {
         }
     }
 
-    confirmSelection(){
+    confirmSelection() {
         this.setState({
             confirmed: true,
         })
@@ -242,7 +238,7 @@ class GameRoom extends Component {
         })
     }
 
-    resetBattleField(){
+    resetBattleField() {
         this.setState({
             userSelection: null,
             oppoSelection: null,
@@ -278,7 +274,7 @@ class GameRoom extends Component {
         })
     }
 
-    getWinner(){
+    getWinner() {
         if(this.state.userHp > this.state.oppoHp) {
             this.setState({
                 winner: this.state.userNameData,
@@ -294,7 +290,7 @@ class GameRoom extends Component {
         }
     }
 
-    updateWins(){
+    updateWins() {
         if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round > 5){
             if(this.state.winner === this.props.user.username){
                 this.props.updateWinsNCurrency();
@@ -303,9 +299,9 @@ class GameRoom extends Component {
         }
     }
 
-    render(){
+    render() {
         return(
-            <div className = 'game-room'>
+            <div className = 'game-table'>
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
                     <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
@@ -341,14 +337,14 @@ class GameRoom extends Component {
                         <div className='message-display-wrapper'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{
-                                return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                                return <p className={!message.displayName ? 'notification' : ''} key={this.state.messages.indexOf(message)}><span>{message.displayName}</span>: {message.message}</p>
                                 }) : '' }
                         </div>
                         </div>
                         <div className='message-input'>
                             <form onSubmit={this.handleMessageSubmit}>
                                 <input type='text' onChange={this.handleInputChange} />
-                                <button type='submit'>Send!</button>
+                                <button type='submit'>SEND</button>
                             </form>
                         </div>
                     </div>

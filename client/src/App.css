@@ -121,7 +121,6 @@ main {
   width: 100%;
   height: calc(100% - 35px);
   margin: 0 auto;
-  /* padding: 20px; */
 }
 
 .home ul {
@@ -221,13 +220,18 @@ footer {
 }
 
 header li, a{
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'UnifrakturCook', cursive; 
   font-size:22px;
   display: -webkit-inline-flex;
   letter-spacing: 0.07em;
   color:#FAF5E0;
   text-decoration: none;
-  /* cursor: pointer; */
+}
+
+header li {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  cursor: default;
+  user-select: none;
 }
 
 
@@ -308,7 +312,6 @@ header li, a{
   position:relative;
 }
 
-
 .card-wrapper .delete-button,
 .card-wrapper .edit-button{
   position:absolute;
@@ -331,12 +334,34 @@ header li, a{
   background:black;
 }
 
-.card-name{
-  /* line-height: 0.08em; */
+.card-name {
+  margin-top: -4px;
+  padding: 0;
+  letter-spacing: 1px;
 }
 
 .card-name p {
-  font-size:13px;
+  font-size:14px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+
+.card-name b {
+  font-size: 18px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+
+.card-name form {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.card-name input[type='text'] {
+  size: 20px;
+  height: 18px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .card-name p:nth-child(2) {
@@ -348,12 +373,20 @@ header li, a{
   display: flex;
   justify-content: space-between;
   padding: 1px 2px;
+  letter-spacing: 1px;
 }
 
 .card-numbers p {
   width:50px;
-  font-size: 14px;
+  font-size: 16px;
   margin: 0px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-weight: 300;
+}
+
+.card-numbers span {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .card.Pawn{
@@ -399,7 +432,7 @@ header li, a{
 
 .card-collection{
   background-image: 131px 175px;
-  border:2 px solid green;
+  border:2px solid green;
 }
 
 .hidden {
@@ -407,8 +440,8 @@ header li, a{
 }
 
 .battlefield_select {
-  width:33vh;
-  height:43vh;
+  width:200px;
+  height:300px;
   margin-left:50px;
   margin-right:50px;
   animation-name:spin;
@@ -418,9 +451,25 @@ header li, a{
   position:relative;
 }
 
+.battlefield_select .card-name b {
+  font-size: 26px;
+}
+
+.battlefield_select .card-name p {
+  font-size: 20px;
+}
+
+.battlefield_select .card-numbers p {
+  font-size: 20px;
+}
+
+.battlefield_select .card-numbers span {
+  font-size: 28px;
+}
+
 @keyframes spin{
   0% {
-    transform:rotate(0deg);
+    transform:rotate(0deg), translateX(-50px);
   }
   100% {
     transform:rotate(360deg);
@@ -490,8 +539,8 @@ header li, a{
   justify-content: space-between;
   align-items: center;
   filter: saturate(25%);
-  /* opacity: .75;  */
   cursor: pointer;
+  background-size: cover;
 }
 
 .users-hand .card .card-numbers {
@@ -538,13 +587,13 @@ header li, a{
   margin-bottom:-175px;
 }
 
-.game-room {
+.game-table {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
 
-.game-room h3 {
+.game-table h3 {
   font-family: 'UnifrakturCook', cursive;
   color:#12183B;
   font-size:35px;
@@ -566,6 +615,7 @@ header li, a{
 
 .message-box {
   color:white;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
   background:rgba(0, 0, 0, 0.7);
   border:3px solid black;
   width:400px;
@@ -574,7 +624,6 @@ header li, a{
   bottom:8%;
   right: 0;
   margin-right: 20px;
-  /* display: flex; */
 }
 
 .message-display-wrapper {
@@ -585,12 +634,22 @@ header li, a{
 .message-display {
   display: flex;
   flex-direction: column-reverse;
-  
+  font-size: 19px;
+}
+
+.message-display .notification {
+  color: yellow;
 }
 
 .message-box p {
   text-align: left;
   padding:7px 15px 0px;
+  font-weight: 300;
+}
+
+.message-box span {
+  font-weight: 500;
+  color: #7B89FF;
 }
 
 .message-input {
@@ -608,11 +667,12 @@ header li, a{
 }
 
 .message-input button[type='submit']{
-  /* position:fixed; */
-  /* bottom:9%;
-  left:91%; */
   height: 42px;
   padding: 0 5px;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  letter-spacing: 1px;
+  font-size: 18px;
+  color: white;
 }
 
 .battle-log button {
@@ -654,11 +714,6 @@ header li, a{
   margin-top:-20px;
 }
 
-.game-lobby a {
-  font-size:46px;
-  color:#485095;
-}
-
 .game-lobby {
   width:80%;
   height:100%;
@@ -667,6 +722,54 @@ header li, a{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.game-room-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.game-room-wrapper .game-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 5px;
+  position: relative;
+  padding: 10px 0;
+  box-sizing: border-box;
+  transition: .25s all;
+  border-radius: 2%;
+}
+
+.game-room h2 {
+  font-size:92px;
+  padding: 0;
+  margin: 0;
+  color:#485095;
+  position: absolute;  
+  top: 15px; 
+}
+
+.game-room p {
+  color: black;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+
+.game-room:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.game-room:hover h2 {
+  color:#7A88FC;
+}
+
+.game-room:hover p {
+  color:#FBF6E0;
 }
 
 .leader-board {

@@ -69,7 +69,6 @@ class App extends Component {
     this.deleteUser = this.deleteUser.bind(this);
     this.setRedirect = this.setRedirect.bind(this);
     this.setContent = this.setContent.bind(this);    
-    this.updateLobbyPlayersAndUsers = this.updateLobbyPlayersAndUsers.bind(this);
     this.updateWinsNCurrency = this.updateWinsNCurrency.bind(this);  
   }
 
@@ -119,11 +118,6 @@ class App extends Component {
       })
     }
   };
-
-  updateLobbyPlayersAndUsers(type, number, room) {
-    console.log(`${number} ${type} in ${room}`);
-    this.lobbyRef.child(type).child(room).set(number);
-  }
 
   //AUTH
   handleLoginSubmit(e, username, password) {

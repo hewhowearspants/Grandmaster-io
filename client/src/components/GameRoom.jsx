@@ -68,7 +68,6 @@ class GameRoom extends Component {
             this.setState({
                 users: users,
             })
-            this.props.updateLobbyPlayersAndUsers('users', users.length, this.props.id);
         })
         socket.on('load players', (playerData) => {
             console.log('got players' + JSON.stringify(playerData));
@@ -122,7 +121,6 @@ class GameRoom extends Component {
                     })
                 }
             }
-            this.props.updateLobbyPlayersAndUsers('players', playerData.length, this.props.id);
         })
         socket.on('load cards', data => {
             if(this.state.oppoNameData === data.username){
@@ -190,9 +188,7 @@ class GameRoom extends Component {
             username: this.props.user.username,
             opponame: this.state.oppoNameData,
         })
-        this.props.updateLobbyPlayersAndUsers('users', (this.state.users.length - 1), this.props.id);
         if (this.state.joined) {
-            this.props.updateLobbyPlayersAndUsers('players', (this.state.playerData.length - 1), this.props.id);
             this.setState({
                 joined: false,
             })
@@ -303,11 +299,11 @@ class GameRoom extends Component {
         }
     }
 
-    render(){
-        return (
-            <div className = 'game-room'>
-                <img className = 'logo' src = '../images/compass.png' alt = '' />
-                <div className = 'users-hand'>
+    render() {
+        return(
+            <div className = 'game-table'>
+                <img className='logo' src="../images/compass.png" alt='' />
+                <div className="users-hand">
                     <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
                     {this.state.userCardData ? <UsersHands className = 'user-hand' 
                                                             playersFull = {this.state.playersFull} 
@@ -337,18 +333,18 @@ class GameRoom extends Component {
                                  updateWins = {this.updateWins} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
-                    <div className = 'message-box'>
-                        <div className = 'message-display-wrapper'>
-                        <div className = 'message-display'>
-                            {this.state.messages ? this.state.messages.map(message => {
-                                return <p key = {this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                    <div className='message-box'>
+                        <div className='message-display-wrapper'>
+                        <div className='message-display'>
+                            {this.state.messages ? this.state.messages.map((message)=>{
+                                return <p className={!message.displayName ? 'notification' : ''} key={this.state.messages.indexOf(message)}><span>{message.displayName}</span>: {message.message}</p>
                                 }) : '' }
                         </div>
                         </div>
                         <div className = 'message-input'>
                             <form onSubmit = {this.handleMessageSubmit}>
                                 <input type='text' onChange={this.handleInputChange} />
-                                <button type='submit'>Send!</button>
+                                <button type='submit'>SEND</button>
                             </form>
                         </div>
                     </div>

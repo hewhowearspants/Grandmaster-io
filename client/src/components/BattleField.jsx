@@ -28,9 +28,9 @@ class BattleField extends Component {
                                 <p>{this.props.userSelection.class}</p>
                             </div>
                         </div>
-                        <div className = 'card-numbers'>
-                            <p>{this.props.userSelection.attack}</p>
-                            <p>{this.props.userSelection.defense}</p>
+                        <div className='card-numbers'>
+                            <p>ATT: <span>{this.props.userSelection.attack}</span></p>
+                            <p>DEF: <span>{this.props.userSelection.defense}</span></p>
                         </div>
                     </div>
                     {(this.props.joined) ? (this.props.confirmed) ? 

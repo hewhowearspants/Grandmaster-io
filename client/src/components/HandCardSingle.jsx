@@ -19,7 +19,7 @@ class HandCardSingle extends Component {
 
     render(){
         return (
-        <div className = {`card ${this.props.card.class} ${this.state.displayNone ? 'hidden' : ''}`} onClick = {() => this.props.select(this.props.card) & this.setDisplay()} style = {{background: `url(${this.props.card.image_url}`, backgroundSize: 'cover'}}>
+        <div className = {`card ${this.props.card.class} ${this.state.displayNone ? 'hidden' : ''}`} onClick = {() => this.props.select(this.props.card) & this.setDisplay()} >
             <div className = 'card-top'>
                 <div className = 'card-name'>
                     <b>{this.props.card.name}</b>

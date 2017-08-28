@@ -19,8 +19,8 @@ class BattleField extends Component {
                                             >Continue!</button>
                 </div>
                 <div className = 'card-selected'>
-                {this.props.userSelection ? 
                 <div className = 'user-selection'>
+                {this.props.userSelection ? 
                     <div className = {`card ${this.props.userSelection.class} battlefield_select`}>
                         <div className = 'card-top'>
                             <div className = 'card-name'>
@@ -28,16 +28,17 @@ class BattleField extends Component {
                                 <p>{this.props.userSelection.class}</p>
                             </div>
                         </div>
+                        {(this.props.joined) ? (this.props.confirmed) ? 
+                            '' : <button onClick = {this.props.confirmSelection}>Confirm</button> : ''
+                        }
                         <div className='card-numbers'>
                             <p>ATT: <span>{this.props.userSelection.attack}</span></p>
                             <p>DEF: <span>{this.props.userSelection.defense}</span></p>
                         </div>
                     </div>
-                    {(this.props.joined) ? (this.props.confirmed) ? 
-                        '' : <button onClick = {this.props.confirmSelection}>Confirm</button> : ''
-                    }
-                </div>
                 : ''}
+                </div>
+                <div className = 'oppo-selection'>
                 {this.props.oppoSelection ?
                     <div className = {`card ${this.props.oppoSelection.class} battlefield_select`}>
                     <div className = 'card-top'>
@@ -50,8 +51,9 @@ class BattleField extends Component {
                         <p>{this.props.oppoSelection.attack}</p>
                         <p>{this.props.oppoSelection.defense}</p>
                     </div>
-                </div>
+                    </div>
                 : ''}
+                </div>
             </div>
             </div>
         )

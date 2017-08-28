@@ -30,16 +30,6 @@ class GameRoom extends Component {
             winner: null,
             confirmed: false,
         }
-        this.makeUserSelection = this.makeUserSelection.bind(this);
-        this.makeOppoSelection = this.makeOppoSelection.bind(this);
-        this.resetBattleField = this.resetBattleField.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
-        this.joinGame = this.joinGame.bind(this);
-        this.confirmSelection = this.confirmSelection.bind(this);
-        this.getWinner = this.getWinner.bind(this);
-        this.updateWins = this.updateWins.bind(this);
-        this.readyToContinue = this.readyToContinue.bind(this);
     }
 
     componentDidMount() {

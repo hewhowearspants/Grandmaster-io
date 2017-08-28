@@ -1,9 +1,45 @@
-# Team 4 Proposal 
-## Card-Battle 
+https://tranquil-sierra-66936.herokuapp.com/
+
+# Team 4 - Card-Battle 
 ### Members 
 ##### Dan Martin, Carly Warner, Ryan Edwards, MarkMarkMark
 
-### User Story Card-Battle (temp name) 
+## Technologies used
+* CSS - Overall page design and animations
+* Adobe Illustrator - Cards
+* Photoshop - Background images
+* Postgres - Create our database
+* FireBase - Store our information online
+* Auth - Login security
+* SocketIO - Chat and for the online game component
+* React - Front end
+* Express - Back end
+
+### General approach
+    We decided to begin by creating a functional offline application before we took it online and added socket and firebase. We had high goals we thought we could reach, but we still wanted to be smart and not dig ourselves in to a hole. 
+
+    Picking what we were going to do was probably the most time consuming part. We had to brainstorm ideas on paper and list out how we could implement different technologies to the different apps, and we all agreed a game would be the most fun for all of us, and would allow us to reach a manageable MVP with a great deal of room to grow if there was time. There are still many features we would love to add when we have time. 
+
+    The time we spent wireframing and writing user stories, along with database structures, technologies to use, and how each will play a role, it made it much more seamless to split up our work and be most efficient. (Pictures of those whitbeoarding sessions are included). I have a new appreciation for the value of whiteboarding for a project. We would not have come as far as we did as efficiently as we did if it were not for the time we spent preparing. 
+
+### Installation instructions for any dependencies
+    After forking and cloning the repo, all of the necessary dependencies are already in the package.json. So just navigate to the main folder, run yarn install in your terminal, then navigate to the client folder and run yarn install there.
+
+    Create a database in your terminal and name it whatever you like, (we named our dream_team_dev). After you create that, write the line 
+
+        \c whatever_you_called_your_database ;
+        
+    at the top of your migration and seed files.
+Then in your terminal navigate to the db/migration folder and run
+psqf -f migration-082117.sql
+then cd ..
+cd in to db/seeds folder and run
+psql -f seed.sql
+
+This will connect to your databse, then create the tables you need to run the app, and populate the tables with what your app needs to function. 
+
+To run the app, go back to the main folder, run yarn dev in your terminal, then open up a new tab and cd in to the client folder, and run yarn start. Then you are good to go, enjoy :)
+
 
 'Card Battle' is a game app where players can face off against their friends in a battle type style. There will be a register and login option upon the website loading, with implementation of auth and conditionals to determine which options to display across the different pages, along with a logout option once a user has logged in.
 
@@ -18,93 +54,8 @@ Winner will be determined by who has the most health remaining after the round. 
 Users
     Nerdy boys with low self esteem need to compete against others so they can feel better about themselves
 
+[Links to ERD, User Stories, Wireframes](./assets)
 
-## WireFrames
-
-**Login Page**
-![Wireframe 1](/assets/1.jpg)
-
-**Register Page**
-![Wireframe 2](/assets/2.jpg)
-
-**Dashboards**
-![Wireframe 3](/assets/dashboard1.jpg)
-
-![Wireframe 4](/assets/dashboard2.jpg)
-
-![Wireframe 5](/assets/dashboard3.jpg)
-
-![Wireframe 6](/assets/dashboard4.jpg)
-
-**Lobbies**
-![Wireframe 7](/assets/lobby1.jpg)
-
-![Wireframe 8](/assets/lobby2.jpg)
-
-**Game Start 1**
-![Wireframe 9](/assets/gamestart.jpg)
-
-**Game Start 2**
-![Wireframe 10](/assets/gamestart2.jpg)
-
-**Game Chat**
-![Wireframe 11](/assets/chatbox.jpg)
-
-**Components**
-![Wireframe 12](/assets/components.jpg)
-
-**Board**
-![Wireframe 13](/assets/board.jpg)
-
-**Game Wire**
-![Wireframe 14](/assets/game-wire.png)
-
-**user-dashboard**
-![Wireframe 15](/assets/user-dashboard.png)
-
-**card-back**
-![Wireframe 16](/assets/card-back.png)
-
-
-## Technologies
-
-* Auth
-* CSS
-* Postgres
-* FireBase
-* SocketIO
-* React
-* Express
-
-**Phase -2**
-* File Structure
-* Db structure
-* Git Repo
-
-**Phase -1**
-* Seed file for cards (50)
-* Basic express / react routes
-* Set up auth
-* Create components
-* Structure for front end, to be able to access components
-
-**Phase 0** *MVP*
-* SocketIO
-    * Chatroom
-    * Room component
-    * Leaderboard
-* Game logic for 2 players aainst each other
-    * Win condition
-
-**Phase 1**
-* Different game modes
-* Currency
-
-**Phase 2**
-* Animations -> (Book for cards, card click/play animations.. etc.)
-* Challenge another user
-* User profile pictures
-
-**Phase 3**
-* Chatroom features
-* More powerful / diverse cards with more complex purposes
+### Unsolved Problems
+For the most part we solved everything, except - 
+The rounds are not always consistent with the amount of cards the users can play per round, we will fix it though! We worked efficiently and collaboratively on everything, and with constant communication on slack or during the week during class hours and staying after class, everything came together amazing.

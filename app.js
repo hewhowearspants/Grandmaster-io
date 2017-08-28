@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+const firebase = require('firebase');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -72,7 +73,19 @@ var publicPlayers = {
     3: []
 }
 
+const config = {
+      apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
+      authDomain: "grandmaster-71126.firebaseapp.com",
+      databaseURL: "https://grandmaster-71126.firebaseio.com",
+      projectId: "grandmaster-71126",
+      storageBucket: "",
+      messagingSenderId: "760258177615"
+    };
 
+firebase.initializeApp(config);
+
+const rootRef = firebase.database().ref();
+const lobbyRef = rootRef.child('lobby');
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);

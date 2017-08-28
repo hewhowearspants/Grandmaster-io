@@ -11,8 +11,7 @@ class BattleField extends Component {
                         <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
                     </div>
                     <button onClick = {() => this.props.readyToContinue() 
-                                             & setTimeout(this.props.getWinner,1) 
-                                             & setTimeout(this.props.updateWins,1)} 
+                                             } 
                                              style={{visibility: this.props.userSelection 
                                                      && this.props.oppoSelection
                                                      && this.props.confirmed ? 'visible' : 'hidden'}}

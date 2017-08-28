@@ -52,24 +52,7 @@ class App extends Component {
 
     this.rootRef = firebase.database().ref();
     this.lobbyRef = this.rootRef.child('lobby');
-
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this); 
-    this.logOut = this.logOut.bind(this);    
-    this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
-    this.getUserCards = this.getUserCards.bind(this);
-    this.getInitialUserCards = this.getInitialUserCards.bind(this);
-    this.getNewUserCard = this.getNewUserCard.bind(this);
-    this.deleteUserCard = this.deleteUserCard.bind(this);
-    this.requireLogin = this.requireLogin.bind(this);
-    this.userSelectedCardToEdit = this.userSelectedCardToEdit.bind(this);
-    this.setCurrentPage = this.setCurrentPage.bind(this);
-    this.userSubmitEdit = this.userSubmitEdit.bind(this);
-    this.userSelectedNameToEdit = this.userSelectedNameToEdit.bind(this);
-    this.userSubmitNewName = this.userSubmitNewName.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
-    this.setRedirect = this.setRedirect.bind(this);
-    this.setContent = this.setContent.bind(this);    
-    this.updateWinsNCurrency = this.updateWinsNCurrency.bind(this);  
+ 
   }
 
   componentDidMount() {

@@ -39,6 +39,7 @@ class GameRoom extends Component {
         this.confirmSelection = this.confirmSelection.bind(this);
         this.getWinner = this.getWinner.bind(this);
         this.updateWins = this.updateWins.bind(this);
+        this.readyToContinue = this.readyToContinue.bind(this);
     }
 
     componentDidMount() {
@@ -134,6 +135,9 @@ class GameRoom extends Component {
                 playersFull: true,
             })
         });
+        socket.on('next round', () => {
+            this.resetBattleField();
+        })
         socket.on('fight', (data) => {
             console.log(data)
             if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username){
@@ -238,6 +242,18 @@ class GameRoom extends Component {
         })
     }
 
+    readyToContinue = () => {
+        this.setState({
+            userSelection: null,
+            userCardDrawn: false,
+            confirmed: false,
+        })
+        socket.emit('next round', {
+            username: this.state.userNameData,
+            room: this.props.id,
+        })
+    }
+
     resetBattleField = () => {
         this.setState({
             userSelection: null,
@@ -247,10 +263,6 @@ class GameRoom extends Component {
             confirmed: false,
             cardsInField: 0,
             round: this.state.round + 1,
-        })
-        socket.emit('next round', {
-            username: this.state.userNameData,
-            room: this.props.id,
         })
     }
 
@@ -311,7 +323,8 @@ class GameRoom extends Component {
                                                             joined = {this.state.joined} 
                                                             select = {this.makeUserSelection} 
                                                             cardData = {this.state.userCardData} 
-                                                            cardDrawn = {this.state.userCardDrawn} /> : ''}
+                                                            cardDrawn = {this.state.userCardDrawn} 
+                                                            opponent = {this.state.oppoNameData} /> : ''}
                 </div>
 
                 <div className = 'mid-section'>
@@ -330,7 +343,8 @@ class GameRoom extends Component {
                                  userNameData = {this.state.userNameData}
                                  confirmed = {this.state.confirmed}
                                  joined = {this.state.joined}
-                                 updateWins = {this.updateWins} />
+                                 updateWins = {this.updateWins}
+                                 readyToContinue = {this.readyToContinue} />
                     {!this.state.joined && !this.state.playersFull ? <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>

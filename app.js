@@ -72,6 +72,11 @@ var publicPlayers = {
     2: [],
     3: []
 }
+var playersReady = {
+    1: [],
+    2: [],
+    3: []
+}
 
 const config = {
       apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
@@ -191,11 +196,15 @@ io.on('connection', (socket) => {
             }),1);
         };
     });
-    
-    // socket.on('next round', data => {
-        
-    // })
 
+    socket.on('next round', (data) => {
+        playersReady[data.room].push(data.username);
+        if (playersReady[data.room].length === 2) {
+            io.sockets.in(data.room).emit('next round');
+            playersReady[data.room] = [];
+        };
+    });
+    
     
     const fightFunction = (room) => {
         let attackOne = players[room][0].userSelection.attack;

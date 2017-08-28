@@ -40,6 +40,16 @@ return db.none(`
   DELETE FROM users_cards where user_id = $1;
   DELETE FROM users WHERE id = $1
   `,[id]);
+};
+
+User.updateCurrencyNWins = (user, userid) => {
+    return db.one(`
+    UPDATE users SET
+    wins = $1,
+    currency = $2
+    WHERE id = $3
+    RETURNING *
+    `, [user.wins, user.currency, userid])
 }
 
 module.exports = User;

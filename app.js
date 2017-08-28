@@ -37,7 +37,7 @@ server.listen(PORT, (err) => {
 });
 
 
-app.get('/',(req,res) => {
+app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
@@ -196,9 +196,9 @@ io.on('connection', (socket) => {
         let hpTwo = players[room][1].userHp;
         if(players[room][0].userSelection.class === 'King' && players[room][1].userSelection.class === 'Queen'){
             hpTwo = hpTwo - 10;
-        }else if(players[room][1].userSelection.class === 'King' && players[room][0].userSelection.class === 'Queen'){
+        } else if(players[room][1].userSelection.class === 'King' && players[room][0].userSelection.class === 'Queen'){
             hpOne = hpOne - 10;
-        }else if(defenseOne < attackTwo
+        } else if(defenseOne < attackTwo
            && attackOne > defenseTwo){
                hpOne = hpOne - (attackTwo - defenseOne);
                hpTwo = hpTwo - (attackOne - defenseTwo);
@@ -264,7 +264,7 @@ app.use('/user',userRoutes);
 const cardRoutes = require('./routes/card-routes');
 app.use('/cards', cardRoutes);
 const usercardRoutes = require('./routes/usercard-routes');
-app.use('/usercard',usercardRoutes);
+app.use('/usercard', usercardRoutes);
 
 app.use('*',(req,res) => {
     res.status(400).json({

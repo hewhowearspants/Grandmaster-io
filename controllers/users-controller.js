@@ -38,7 +38,7 @@ usersController.index = (req,res) => {
 usersController.update = (req, res) => {
     console.log(req.params);
     User.update(req.body.displayName, req.body.email, req.params.id)
-    .then((user) => {
+    .then(user => {
       res.json(user);
     })
     .catch(err => {
@@ -49,7 +49,7 @@ usersController.update = (req, res) => {
 
 usersController.delete = (req, res) => {
   User.destroy(req.params.id)
-  .then((user) => {
+  .then(user => {
     res.json({
       message: 'ok',
       user: user,
@@ -63,7 +63,7 @@ usersController.delete = (req, res) => {
 
 usersController.showLeaderboard = (req, res) => {
     User.showLeaderboard()
-    .then((users) => {
+    .then(users => {
         res.json({
             message: 'ok',
             data: users

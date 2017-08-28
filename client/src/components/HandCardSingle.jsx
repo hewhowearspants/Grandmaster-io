@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
 
 class HandCardSingle extends Component {
-
-    constructor(){
-        super();
-        this.state = {
-            displayNone: false,
-        }
-    }
-
-    setDisplay = () => {
-        if(this.props.cardDrawn === false){
-            this.setState({
-                displayNone: true,
-            })
-        }
-    }
-
     render(){
         return (
-        <div className = {`card ${this.props.card.class} ${this.state.displayNone ? 'hidden' : ''}`} onClick = {() => this.props.select(this.props.card) & this.setDisplay()} >
+        <div className = {`card ${this.props.card.class}`} onClick = {this.props.opponent ? () => this.props.select(this.props.card) : ''} >
             <div className = 'card-top'>
                 <div className = 'card-name'>
                     <b>{this.props.card.name}</b>

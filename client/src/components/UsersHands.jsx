@@ -7,7 +7,12 @@ class UsersHands extends Component {
             <div>
                 {this.props.cardData ?
                     this.props.cardData.map(card => {
-                        return <HandCardSingle select = {() => this.props.select(card)} key = {this.props.cardData.indexOf(card)} card = {card} makeSelection = {this.makeSelection} cardDrawn = {this.props.cardDrawn} />
+                        return <HandCardSingle 
+                                select = {() => this.props.select(card)} 
+                                key = {this.props.cardData.indexOf(card)} 
+                                card = {card} makeSelection = {this.makeSelection} 
+                                cardDrawn = {this.props.cardDrawn} 
+                                opponent = {this.props.opponent} />
                     }) : ''
                 }
             </div>

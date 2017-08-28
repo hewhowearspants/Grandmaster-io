@@ -30,16 +30,15 @@ class UserProfile extends Component {
               <input type = 'text' name = 'email' placeholder = 'email' value = {this.state.email} onChange = {this.handleInputChange} />
               <button type = 'submit'>Submit</button>
             </form> 
-            : <div> 
-                <h2> Username: {this.props.user.display_name} </h2>
-                <h2> Email: {this.props.user.email} </h2>
-              </div> }
+            : <h2><span>username</span>{this.props.user.display_name} <span>email</span>{this.props.user.email}</h2> }
         </div>
-        <div className = 'delete-button'>
-          <i className = 'fa fa-times fa-2x' onClick = {() => {this.props.deleteUser(this.props.user.id) }}>Delete Profile?</i>
-        </div>
-        <div className = 'edit-button'>
-          <i className = 'fa fa-pencil fa-2x' onClick = {() => {this.props.userSelectedNameToEdit(this.props.user.id)}}>Edit Profile?</i>
+        <div className='user-buttons'>
+          <div className='edit-button'>
+            <i className="fa fa-pencil fa-2x" onClick={()=> {this.props.userSelectedNameToEdit(this.props.user.id)}}><p>Edit Profile?</p></i>
+          </div>
+          <div className='delete-button'>
+            <i className="fa fa-times fa-2x" onClick={()=> {this.props.deleteUser(this.props.user.id) }}><p>Delete Profile?</p></i>
+          </div>
         </div>
 
       </div>

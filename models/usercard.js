@@ -1,7 +1,7 @@
 const db = require('../db/config');
 
 const Usercard = {};
-
+//find all users' cards
 Usercard.findUserCards = userid => {
     return db.manyOrNone(`
     SELECT * FROM users_cards
@@ -9,7 +9,7 @@ Usercard.findUserCards = userid => {
     ORDER BY card_id, id ASC
     `, [userid]);
 };
-
+//add new card to user
 Usercard.addToUser = (card, userid) => {
   return db.one(`
   INSERT INTO users_cards
@@ -18,7 +18,7 @@ Usercard.addToUser = (card, userid) => {
   RETURNING *
   `, [card.cardId, card.name, card.class, card.attack, card.defense, card.imageUrl, userid]);
 };
-
+//edit card name
 Usercard.update = (name, id) => {
   return db.one(`
   UPDATE users_cards SET
@@ -27,14 +27,14 @@ Usercard.update = (name, id) => {
   RETURNING *
   `,[name, id])
 }
-
+//delete card
 Usercard.destroy = (id) => {
 return db.none(`
   DELETE FROM users_cards
   WHERE id = $1
   `,[id]);
 }
-
+//get five random cards to prepare for the battle
 Usercard.findFiveUserCards = id => {
   return db.manyOrNone(`
   SELECT * FROM users_cards

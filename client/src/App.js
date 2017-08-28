@@ -377,7 +377,10 @@ class App extends Component {
         wins: this.state.user.wins + 1,
       }
     })
-    console.log('updating in App.js'+this.state.user.username)
+    setTimeout(()=>{axios.put(`/user/win/${this.state.user.id}`, {
+      wins: this.state.user.wins,
+      currency: this.state.user.currency,
+    })},1)
   }
 
   render() {

@@ -11,5 +11,7 @@ userRoutes.get('/leaderboard', authHelpers.loginRequired, usersController.showLe
 userRoutes.put('/:id', authHelpers.loginRequired, usersController.update);
 userRoutes.delete('/:id', authHelpers.loginRequired, usersController.delete);
 
+userRoutes.put('/win/:id', authHelpers.loginRequired, usersController.updateCurrencyNWins);
+
 
 module.exports = userRoutes;

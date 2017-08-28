@@ -42,14 +42,14 @@ return db.none(`
   `,[id]);
 };
 
-User.updateCurrencyNWins = (user, userid) => {
+User.updateCurrencyNWins = (user) => {
     return db.one(`
     UPDATE users SET
     wins = $1,
     currency = $2
-    WHERE id = $3
+    WHERE username = $3
     RETURNING *
-    `, [user.wins, user.currency, userid])
+    `, [user.wins, user.currency, user.username])
 }
 
 module.exports = User;

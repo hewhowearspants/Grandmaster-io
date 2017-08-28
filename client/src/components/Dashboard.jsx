@@ -47,6 +47,7 @@ class Dashboard extends Component {
           display_name = {this.props.display_name}
           deleteUser = {this.props.deleteUser}
           leaderInfo = {this.state.leaderInfo}
+          userCardData={this.props.userCardData}
         />
       </div>
     )

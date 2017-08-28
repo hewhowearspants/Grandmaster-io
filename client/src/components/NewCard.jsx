@@ -17,10 +17,14 @@ class NewCard extends Component {
     }
 
     getNewCard = () => {
-        this.props.getNewUserCard();
-        this.setState({
-            gotNewCard: true,
-        })
+        if(this.props.userCards.length < 20){
+            this.props.getNewUserCard();
+            this.setState({
+                gotNewCard: true,
+            })
+        }else{
+            alert('Too many cards! You can\'t have more than 20 cards.')
+        }
     }
 
   render() {

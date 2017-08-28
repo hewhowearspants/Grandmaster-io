@@ -43,41 +43,41 @@ app.get('/', (req,res) => {
 });
 
 const io = require('socket.io')(server);
-
+//create socket empty message objects for chatboxes of each room
 var messages = {
     1: [],
     2: [],
     3: []
 };
+//create socket empty users objects for each room
 var users = {
     1: [],
     2: [],
     3: []
 }
-var userSelected = {
-    1: [],
-    2: [],
-    3: []
-};
+
 var userHP = {};
 var userCards = {};
+//empty players objects for players to 'join game'
 var players = {
     1: [],
     2: [],
     3: []
 };
 var round = {};
+//copy of players but with all cards info scrubbed
 var publicPlayers = {
     1: [],
     2: [],
     3: []
 }
+//pushes players when they are ready for next rounds, in order to make the rounds consistent on both players sides.
 var playersReady = {
     1: [],
     2: [],
     3: []
 }
-
+//firebase set-up, updating users/players when entering/leaving room
 const config = {
       apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
       authDomain: "grandmaster-71126.firebaseapp.com",
@@ -86,20 +86,20 @@ const config = {
       storageBucket: "",
       messagingSenderId: "760258177615"
     };
-
+//some more firebase things...
 firebase.initializeApp(config);
 
 const rootRef = firebase.database().ref();
 const lobbyRef = rootRef.child('lobby');
-
+//socket connection activity
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
-
+//socket join room receive data from front end
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
         let notification = {message: {message: `${data.username} joined the room! :`}};
-
+//socket emits publicPlayers
         socket.emit('load players', publicPlayers[data.room]);
 
         users[data.room].push({

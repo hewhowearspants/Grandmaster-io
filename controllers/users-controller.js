@@ -75,4 +75,18 @@ usersController.showLeaderboard = (req, res) => {
     })
 }
 
+usersController.updateCurrencyNWins = (req,res) => {
+    User.updateCurrencyNWins({
+        currency: req.body.currency,
+        wins: req.body.wins,
+    }, req.user.id)
+    .then(user => {
+        res.json(user);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    })
+}
+
 module.exports=usersController;

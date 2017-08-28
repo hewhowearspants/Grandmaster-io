@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+// the component containing the 3 game rooms. 
+// each room displays the current player/user count pulled from firebase
 class GameLobby extends Component {
     render() {
         return (

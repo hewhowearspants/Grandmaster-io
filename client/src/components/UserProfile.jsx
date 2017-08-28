@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+// displays the users profile info in the dashboard
+// allows the user to edit or delete their profile info
 class UserProfile extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,7 @@ class UserProfile extends Component {
     }
   }
 
+  // handles input change for the profile info edit form
   handleInputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -18,7 +21,7 @@ class UserProfile extends Component {
     this.setState({
         [name]: value,
     });
-}
+  }
 
   render() {
     return (

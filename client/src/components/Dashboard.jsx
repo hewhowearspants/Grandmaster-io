@@ -13,6 +13,7 @@ class Dashboard extends Component {
     };
   }
 
+  // state stored for leaderboard component
   componentDidMount(){
     axios.get('/user/leaderboard')
     .then(res => {
@@ -25,6 +26,7 @@ class Dashboard extends Component {
       console.log(err));
   }
   
+  // the container component for the user dashboard. lots and lots of props from App.js
   render() {
     return (
       <div className = 'dashboard'>

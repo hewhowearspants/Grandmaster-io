@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+// special card component for the user playing cards, 
+// contains click listener for user to select card ONLY IF THERE IS AN OPPONENT
 class HandCardSingle extends Component {
     render(){
         return (

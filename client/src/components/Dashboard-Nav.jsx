@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+// the nav component of the dashboard, sets the currentContent in App.js,
+// which sets which content component to display
 class DashboardNav extends Component {
   render() {
     return (

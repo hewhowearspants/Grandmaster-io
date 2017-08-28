@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// UNUSED, may be re-implemented in the future
 class ChatBox extends Component {
     constructor() {
         super();

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Card from './Card';
 
+// displays the users cards in the dashboard
 class UserCards extends Component { 
   render() {
     return (

@@ -6,6 +6,7 @@ class BattleField extends Component {
         return (
             <div className = 'battlefield'>
                 <div className = 'battle-log'>
+                    {/* the round count */}
                     <div className = 'round-count'><h2>{(this.props.userHp > 0 && this.props.oppoHp > 0 && this.props.round <= 5) ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
                     <div className = 'hp'><b>{this.props.userNameData ? `${this.props.userNameData} HP: ${this.props.userHp}` : ''}</b>
                         <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
@@ -17,6 +18,7 @@ class BattleField extends Component {
                                                      && this.props.confirmed ? 'visible' : 'hidden'}}
                                             >Continue!</button>
                 </div>
+                {/* the selected cards in the center */}
                 <div className = 'card-selected'>
                 <div className = 'user-selection'>
                 {this.props.userSelection ? 

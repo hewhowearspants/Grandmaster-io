@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Login from './Login';
 
-
+// the login screen! user redirects to here if not logged in
 const Home = (props) => {
     return (
         <div className = 'home'>

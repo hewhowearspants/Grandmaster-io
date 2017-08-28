@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// the new user registration component
 class Register extends Component {
     constructor() {
         super();

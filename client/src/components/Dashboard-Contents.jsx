@@ -6,6 +6,8 @@ import NewCard from './NewCard';
 import Leaderboard from './Leaderboard';
 import UserProfile from './UserProfile';
 
+// the container for all of the pages in the user dashboard
+// changes based on the currentContent state in App.js
 class DashboardContents extends Component {  
   
   render() {

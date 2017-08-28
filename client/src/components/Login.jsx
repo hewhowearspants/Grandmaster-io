@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// the login component in the Home component
 class Login extends Component {
     constructor () {
         super();

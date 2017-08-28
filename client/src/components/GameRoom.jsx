@@ -196,7 +196,7 @@ class GameRoom extends Component {
         socket.io.disconnect();
     }
 
-    makeUserSelection(selectedCard){
+    makeUserSelection(selectedCard) {
         if(this.state.userNameData === this.props.user.username){
             if(this.state.confirmed === false){
                 let updatedCards = [...this.state.userCardData];
@@ -217,7 +217,7 @@ class GameRoom extends Component {
         }
     }
 
-    makeOppoSelection(data){
+    makeOppoSelection(data) {
         if(this.state.oppoSelection === null){
             this.setState({
                 oppoSelection: data,
@@ -227,7 +227,7 @@ class GameRoom extends Component {
         }
     }
 
-    confirmSelection(){
+    confirmSelection() {
         this.setState({
             confirmed: true,
         })
@@ -238,7 +238,7 @@ class GameRoom extends Component {
         })
     }
 
-    resetBattleField(){
+    resetBattleField() {
         this.setState({
             userSelection: null,
             oppoSelection: null,
@@ -274,7 +274,7 @@ class GameRoom extends Component {
         })
     }
 
-    getWinner(){
+    getWinner() {
         if(this.state.userHp > this.state.oppoHp) {
             this.setState({
                 winner: this.state.userNameData,
@@ -290,7 +290,7 @@ class GameRoom extends Component {
         }
     }
 
-    updateWins(){
+    updateWins() {
         if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round > 5){
             if(this.state.winner === this.props.user.username){
                 this.props.updateWinsNCurrency();

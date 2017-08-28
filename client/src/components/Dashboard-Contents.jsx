@@ -19,7 +19,7 @@ class DashboardContents extends Component {
                                                         userSelectedCardToEdit = {this.props.userSelectedCardToEdit}
                                                         currentCardId = {this.props.currentCardId}/> : ''}
         {this.props.currentContent === 'card-collection' ? <CardCollection cards = {this.props.cards} /> : ''}
-        {this.props.currentContent === 'get-new-card' ? <NewCard newCard = {this.props.newCard} getNewUserCard = {this.props.getNewUserCard} /> : ''}
+        {this.props.currentContent === 'get-new-card' ? <NewCard newCard = {this.props.newCard} getNewUserCard = {this.props.getNewUserCard} userCards={this.props.userCards} /> : ''}
         {this.props.currentContent === 'user-profile' ? <UserProfile userSubmitNewName = {this.props.userSubmitNewName}
                                                                     userSelectedNameToEdit = {this.props.userSelectedNameToEdit} 
                                                                     currentUserId = {this.props.currentUserId}

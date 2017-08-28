@@ -1,13 +1,13 @@
 const db = require('../db/config');
 const User = {};
-
+//find users' cards
 User.findByUserName = username => {
     return db.oneOrNone(`
     SELECT * FROM users
     WHERE username = $1
     `,[username]);
 };
-
+//create new users 
 User.create = user => {
     return db.one(`
     INSERT INTO users
@@ -16,7 +16,7 @@ User.create = user => {
     RETURNING *
     `,[user.username, user.password_digest, user.displayName, user.email]);
 };
-
+//edit users info
 User.update = (displayName, email, id)=>{
   return db.one(`
   UPDATE users SET
@@ -26,7 +26,7 @@ User.update = (displayName, email, id)=>{
   RETURNING *
   `,[displayName, email, id]);
 };
-
+//leader board page, show top ten users according to their wins
 User.showLeaderboard = () => {
     return db.query(`
     SELECT * FROM users
@@ -34,14 +34,14 @@ User.showLeaderboard = () => {
     LIMIT 10
     `);
 };
-
+//delete usrs
 User.destroy = (id, user_id) => {
 return db.none(`
   DELETE FROM users_cards where user_id = $1;
   DELETE FROM users WHERE id = $1
   `,[id]);
 };
-
+//update currency and wins after winning
 User.updateCurrencyNWins = (user) => {
     return db.one(`
     UPDATE users SET

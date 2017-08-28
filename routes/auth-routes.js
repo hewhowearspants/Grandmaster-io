@@ -3,16 +3,16 @@ const authRouter = express.Router();
 const passport = require('../services/auth/local');
 const authHelpers = require('../services/auth/auth-helpers');
 const usersController = require('../controllers/users-controller');
-
+//register route
 authRouter.post('/register',usersController.create);
-
+//login route
 authRouter.post('/login',passport.authenticate('local',{
     successRedirect: '/auth/success',
     failureRedirect: '/auth/failure',
     failureFlash: true,
     })
 );
-
+//logout route
 authRouter.get('/logout', (req, res) => {
     req.logout();
     res.json({
@@ -20,7 +20,7 @@ authRouter.get('/logout', (req, res) => {
         auth: false,
     })
 });
-
+//login success route
 authRouter.get('/success', (req, res) => {
     res.json({
         auth: true,
@@ -28,7 +28,7 @@ authRouter.get('/success', (req, res) => {
         user: req.user,
     });
 });
-
+//login failed route: non-matching username/password
 authRouter.get('/failure', (req, res) => {
     res.json({
         auth: false,

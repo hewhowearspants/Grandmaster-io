@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user.js');
 
 const usersController = {};
-
+//create new user
 usersController.create = (req,res) => {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(req.body.password,salt);
@@ -34,7 +34,7 @@ usersController.index = (req,res) => {
         data: 'Put a user profile on this route'
     });
 }
-
+//edit user's info
 usersController.update = (req, res) => {
     console.log(req.params);
     User.update(req.body.displayName, req.body.email, req.params.id)
@@ -46,7 +46,7 @@ usersController.update = (req, res) => {
       res.status(500).json(err);
     });
   }
-
+//delete user
 usersController.delete = (req, res) => {
   User.destroy(req.params.id)
   .then(user => {
@@ -60,7 +60,7 @@ usersController.delete = (req, res) => {
     res.status(500).json({ err });
   })
 }
-
+//show leaderboard page
 usersController.showLeaderboard = (req, res) => {
     User.showLeaderboard()
     .then(users => {
@@ -74,7 +74,7 @@ usersController.showLeaderboard = (req, res) => {
         res.status(500).json(err);
     })
 }
-
+//update currency and wins after player wins the battle
 usersController.updateCurrencyNWins = (req, res) => {
     User.updateCurrencyNWins({
         currency: req.body.currency,

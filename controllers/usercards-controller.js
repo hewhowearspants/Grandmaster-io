@@ -1,7 +1,7 @@
 const Usercard = require('../models/usercard');
 
 const usercardsController = {};
-
+//show users' cards, user cards page
 usercardsController.findUserCards = (req, res) => {
   Usercard.findUserCards(req.user.id)
   .then(usercards => {
@@ -12,7 +12,7 @@ usercardsController.findUserCards = (req, res) => {
     res.status(500).json(err);
   });
 };
-
+//add card to users_cards
 usercardsController.addToUser = (req, res) => {
   Usercard.addToUser({
     cardId: req.body.cardId,
@@ -30,7 +30,7 @@ usercardsController.addToUser = (req, res) => {
     res.status(500).json(err);
   });
 };
-
+//edit users' card info
 usercardsController.update = (req, res) => {
   console.log(req.params);
   Usercard.update(req.body.name, req.params.id)
@@ -42,7 +42,7 @@ usercardsController.update = (req, res) => {
     res.status(500).json(err);
   });
 }
-
+//delete one card
 usercardsController.delete = (req, res) => {
   Usercard.destroy(req.params.id)
   .then(card => {
@@ -56,7 +56,7 @@ usercardsController.delete = (req, res) => {
     res.status(500).json({ err });
   })
 }
-
+//find random five user cards, for battle ready page
 usercardsController.findFiveUserCards = (req, res) => {
   Usercard.findFiveUserCards(req.user.id)
   .then(userCard => {

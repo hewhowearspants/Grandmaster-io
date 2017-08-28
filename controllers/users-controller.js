@@ -75,11 +75,12 @@ usersController.showLeaderboard = (req, res) => {
     })
 }
 
-usersController.updateCurrencyNWins = (req,res) => {
+usersController.updateCurrencyNWins = (req, res) => {
     User.updateCurrencyNWins({
         currency: req.body.currency,
         wins: req.body.wins,
-    }, req.user.id)
+        username: req.body.username,
+    })
     .then(user => {
         res.json(user);
     })

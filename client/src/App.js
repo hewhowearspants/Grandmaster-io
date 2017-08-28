@@ -366,21 +366,30 @@ class App extends Component {
   };
 
   updateWinsNCurrency = () =>{
+    let updatedCurrency = this.state.user.currency;
+    updatedCurrency += 10;
+    let updatedWins = this.state.user.wins;
+    updatedWins += 1;
     this.setState({
       user: {
-        currency: this.state.user.currency + 10,
+        currency: updatedCurrency,
         display_name: this.state.user.display_name,
         email: this.state.user.email,
         id: this.state.user.id,
         password_digest: this.state.user.password_digest,
         username: this.state.user.username,
-        wins: this.state.user.wins + 1,
+        wins: updatedWins,
       }
     })
-    setTimeout(()=>{axios.put(`/user/win/${this.state.user.id}`, {
+    axios.put(`/user/win`, {
+      username: this.state.user.username,
       wins: this.state.user.wins,
       currency: this.state.user.currency,
-    })},1)
+    }).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   render() {

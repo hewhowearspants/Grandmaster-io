@@ -18,41 +18,63 @@ Winner will be determined by who has the most health remaining after the round. 
 
 ## WireFrames
 
-**Welcome Page**
+**Login Page**
 ![Wireframe 1](/assets/1.jpg)
 
-**Login Page**
+**Register Page**
 ![Wireframe 2](/assets/2.jpg)
 
-**Register Page**
-![Wireframe 3](/assets/3.jpg)
+**Dashboards**
+![Wireframe 3](/assets/dashboard1.jpg)
 
-**New User page**
-![Wireframe 4](/assets/4.jpg)
+![Wireframe 4](/assets/dashboard2.jpg)
 
-**User Options page**
-![Wireframe 5](/assets/5.jpg)
+![Wireframe 5](/assets/dashboard3.jpg)
 
-**Users card deck**
-![Wireframe 6](/assets/6.jpg)
+![Wireframe 6](/assets/dashboard4.jpg)
 
-**Game Options**
-![Wireframe 7](/assets/7.jpg)
+**Lobbies**
+![Wireframe 7](/assets/lobby1.jpg)
 
-**Quick Death Game Type**
-![Wireframe 8](/assets/8.jpg)
+![Wireframe 8](/assets/lobby2.jpg)
 
-**Select User to play**
-![Wireframe 9](/assets/9.jpg)
+**Game Start 1**
+![Wireframe 9](/assets/gamestart.jpg)
 
-**Standard 5v5 card battle**
-![Wireframe 10](/assets/10.jpg)
+**Game Start 2**
+![Wireframe 10](/assets/gamestart2.jpg)
 
-**Leaderboard**
-![Wireframe 11](/assets/11.jpg)
+**Game Chat**
+![Wireframe 11](/assets/chatbox.jpg)
+
+**Components**
+![Wireframe 12](/assets/components.jpg)
+
+**Board**
+![Wireframe 13](/assets/board.jpg)
+
+**Game Wire**
+![Wireframe 14](/assets/game-wire.png)
+
+**user-dashboard**
+![Wireframe 15](/assets/user-dashboard.png)
+
+**card-back**
+![Wireframe 16](/assets/card-back.png)
+
+**notes**
+![Wireframe 17](/assets/Notes.jpg)
+
+![Wireframe 18](/assets/Notes_2.jpg)
 
 **Tables**
-![Wireframe 12](/assets/12.jpg)
+![Wireframe 19](/assets/Tables.jpg)
+
+**card-back**
+![Wireframe 20](/assets/Cards.png)
+
+**Story**
+![Wireframe 21](/assets/Story.jpg)
 
 
 ## Technologies

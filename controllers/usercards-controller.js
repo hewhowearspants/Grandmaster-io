@@ -45,7 +45,7 @@ usercardsController.update = (req, res) => {
 
 usercardsController.delete = (req, res) => {
   Usercard.destroy(req.params.id)
-  .then((card) => {
+  .then(card => {
     res.json({
       message: 'ok',
       data: card,

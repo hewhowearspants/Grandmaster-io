@@ -6,10 +6,9 @@ class ChatBox extends Component {
         this.state = {
             text: '',
         }
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         event.preventDefault();
         this.setState({
             text: event.target.value,
@@ -18,16 +17,16 @@ class ChatBox extends Component {
 
     render(){
         return(
-            <div className='message-box'>
-                <div className='message-display'>
-                    {this.props.messages.map((message)=>{
+            <div className = 'message-box'>
+                <div className = 'message-display'>
+                    {this.props.messages.map(message => {
                         return <p>{message.message}</p>
                         })}
                 </div>
-                <div className='message-input'>
-                    <form onSubmit={()=>this.props.handleMessageSubmit(this.state.text)}>
-                        <input type='text' onChange={this.handleInputChange} />
-                        <button type='submit'>Send!</button>
+                <div className = 'message-input'>
+                    <form onSubmit = {() => this.props.handleMessageSubmit(this.state.text)}>
+                        <input type = 'text' onChange = {this.handleInputChange} />
+                        <button type = 'submit'>Send!</button>
                     </form>
                 </div>
             </div>

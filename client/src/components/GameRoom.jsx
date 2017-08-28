@@ -161,7 +161,7 @@ class GameRoom extends Component {
         });
     }
 
-    handleMessageSubmit(event) {
+    handleMessageSubmit = (event) => {
         event.preventDefault();
         socket.emit('message', {
             message: {displayName: this.props.user.display_name,
@@ -171,14 +171,14 @@ class GameRoom extends Component {
         event.target.reset();
     }
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         event.preventDefault();
         this.setState({
             text: event.target.value,
         })
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.setState({
             userNameData: null,
             userCardData: null,
@@ -196,7 +196,7 @@ class GameRoom extends Component {
         socket.io.disconnect();
     }
 
-    makeUserSelection(selectedCard) {
+    makeUserSelection = (selectedCard) => {
         if(this.state.userNameData === this.props.user.username){
             if(this.state.confirmed === false){
                 let updatedCards = [...this.state.userCardData];
@@ -217,7 +217,7 @@ class GameRoom extends Component {
         }
     }
 
-    makeOppoSelection(data) {
+    makeOppoSelection = (data) => {
         if(this.state.oppoSelection === null){
             this.setState({
                 oppoSelection: data,
@@ -227,7 +227,7 @@ class GameRoom extends Component {
         }
     }
 
-    confirmSelection() {
+    confirmSelection = () => {
         this.setState({
             confirmed: true,
         })
@@ -238,7 +238,7 @@ class GameRoom extends Component {
         })
     }
 
-    resetBattleField() {
+    resetBattleField = () => {
         this.setState({
             userSelection: null,
             oppoSelection: null,
@@ -246,7 +246,7 @@ class GameRoom extends Component {
             oppoCardDrawn: false,
             confirmed: false,
             cardsInField: 0,
-            round: this.state.round+1,
+            round: this.state.round + 1,
         })
         socket.emit('next round', {
             username: this.state.userNameData,
@@ -254,7 +254,7 @@ class GameRoom extends Component {
         })
     }
 
-    joinGame() {
+    joinGame = () => {
         const userCardsCopy = [...this.props.userCards];
         const userChoice = [];
         for(var i = 0; i < 5; i++) {
@@ -274,7 +274,7 @@ class GameRoom extends Component {
         })
     }
 
-    getWinner() {
+    getWinner = () => {
         if(this.state.userHp > this.state.oppoHp) {
             this.setState({
                 winner: this.state.userNameData,
@@ -290,7 +290,7 @@ class GameRoom extends Component {
         }
     }
 
-    updateWins() {
+    updateWins = () => {
         if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round > 5){
             if(this.state.winner === this.props.user.username){
                 this.props.updateWinsNCurrency();
@@ -314,11 +314,11 @@ class GameRoom extends Component {
                                                             cardDrawn = {this.state.userCardDrawn} /> : ''}
                 </div>
 
-                <div className="mid-section">
+                <div className = 'mid-section'>
                     <BattleField userSelection = {this.state.userSelection}
                                  oppoSelection = {this.state.oppoSelection}
                                  resetBattleField = {this.resetBattleField}
-                                 cardsInField={this.state.cardsInField} 
+                                 cardsInField = {this.state.cardsInField} 
                                  confirmSelection={this.confirmSelection}
                                  userHp = {this.state.userHp}
                                  oppoHp = {this.state.oppoHp}
@@ -331,7 +331,7 @@ class GameRoom extends Component {
                                  confirmed = {this.state.confirmed}
                                  joined = {this.state.joined}
                                  updateWins = {this.updateWins} />
-                    {!this.state.joined && !this.state.playersFull ? <button onClick={this.joinGame} disabled={this.state.playersFull ? true : false }>Join Game!</button> : ''}
+                    {!this.state.joined && !this.state.playersFull ? <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> : ''}
 
                     <div className='message-box'>
                         <div className='message-display-wrapper'>
@@ -341,8 +341,8 @@ class GameRoom extends Component {
                                 }) : '' }
                         </div>
                         </div>
-                        <div className='message-input'>
-                            <form onSubmit={this.handleMessageSubmit}>
+                        <div className = 'message-input'>
+                            <form onSubmit = {this.handleMessageSubmit}>
                                 <input type='text' onChange={this.handleInputChange} />
                                 <button type='submit'>SEND</button>
                             </form>
@@ -351,7 +351,7 @@ class GameRoom extends Component {
                 
                 </div>
 
-                 <div className="oppo-hand">
+                 <div className = 'oppo-hand'>
                     <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}` : 'Waiting Player'}</h3>
                     {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
                     {this.state.oppoCardData ?

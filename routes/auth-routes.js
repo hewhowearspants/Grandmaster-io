@@ -16,8 +16,8 @@ authRouter.post('/login',passport.authenticate('local',{
 authRouter.get('/logout', (req, res) => {
     req.logout();
     res.json({
-        message:'logged out',
-        auth:false,
+        message: 'logged out',
+        auth: false,
     })
 });
 

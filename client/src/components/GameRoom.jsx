@@ -303,9 +303,9 @@ class GameRoom extends Component {
         }
     }
 
-    render(){
+    render() {
         return(
-            <div className = 'game-room'>
+            <div className = 'game-table'>
                 <img className='logo' src="../images/compass.png" alt='' />
                 <div className="users-hand">
                     <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>

@@ -137,7 +137,7 @@ class GameRoom extends Component {
         });
         socket.on('next round', () => {
             this.resetBattleField();
-        })
+        });
         socket.on('fight', (data) => {
             console.log(data)
             if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username){
@@ -161,6 +161,10 @@ class GameRoom extends Component {
                     oppoSelection: data[0].userSelection,
                     userSelection: data[1].userSelection,
                 });
+            };
+            if (this.state.round === 5) {
+                this.getWinner();
+                this.updateWins();
             };
         });
     }
@@ -303,7 +307,7 @@ class GameRoom extends Component {
     }
 
     updateWins = () => {
-        if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round > 5){
+        if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round >= 5){
             if(this.state.winner === this.props.user.username){
                 this.props.updateWinsNCurrency();
                 console.log('updating in GameRoom'+this.props.user.username)

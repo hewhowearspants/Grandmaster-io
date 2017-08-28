@@ -119,11 +119,12 @@ io.on('connection', (socket) => {
         }
         lobbyRef.child('users').child(data.room).set(users[data.room].length);
     });
-
+//socket detects the join game activity
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
         let notification = {message: {message: `${data.username} ready for battle! :`}};
         let publicCards = [];
+        //scrubs the cards so that spectators and opponent players can't see the cards
         for (let i = 0; i < 5; i++) {
             publicCards.push({
                 id: null,
@@ -159,7 +160,7 @@ io.on('connection', (socket) => {
         io.sockets.in(data.room).emit('receive message', notification);
         messages[data.room].push(notification.message);
     });
-
+//confirm selection fires the user's selection of cards, when the two players all confirmed, do the fighting function
     socket.on('confirm selection', data=>{
         players[data.room].forEach((player)=>{
             if(player.username === data.username){
@@ -196,7 +197,7 @@ io.on('connection', (socket) => {
             }),1);
         };
     });
-
+//changes rounds to make the rounds consistent on both user sides
     socket.on('next round', (data) => {
         playersReady[data.room].push(data.username);
         if (playersReady[data.room].length === 2) {
@@ -205,7 +206,7 @@ io.on('connection', (socket) => {
         };
     });
     
-    
+    //the fight function including the game logics, fighting calculation and user hp changes
     const fightFunction = (room) => {
         let attackOne = players[room][0].userSelection.attack;
         let attackTwo = players[room][1].userSelection.attack;
@@ -244,7 +245,7 @@ io.on('connection', (socket) => {
         };
         messages[data.room].push(data.message);
     })
-
+//reaction on leave room activity, changes the players list
     socket.on('leave room', (data) => {
         console.log(`${data.username} left room ${data.room}`);
         socket.leave(data.room);
@@ -271,7 +272,7 @@ io.on('connection', (socket) => {
         lobbyRef.child('users').child(data.room).set(users[data.room].length);
         lobbyRef.child('players').child(data.room).set(players[data.room].length);
     });
-
+//disconnect activity detects when players close the window instead of exit game room
     socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
 

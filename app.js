@@ -89,26 +89,21 @@ const lobbyRef = rootRef.child('lobby');
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
-    
-    socket.on('disconnect', () => {
-        console.log(`${socket.id} disconnected`);
-        // players.forEach((playerRoom) => {
-        //     return playerRoom.socketId !== socket.id;
-        // });
-        // console.log('players are:'+JSON.stringify(players[data.room]))
-    });
 
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
-        let notification = {message: {message: `${data.username} joined the room!`}};
+        let notification = {message: {message: `${data.username} joined the room! :`}};
 
         socket.emit('load players', publicPlayers[data.room]);
 
         users[data.room].push({
+            socketId: socket.id,
             username: data.username, 
             displayName: data.displayName, 
         })
+
+        console.log(users[data.room]);
 
         io.sockets.in(data.room).emit('load users', users[data.room]);
         socket.broadcast.to(data.room).emit('receive message', notification);
@@ -117,11 +112,12 @@ io.on('connection', (socket) => {
         if(players[data.room].length === 2){
             socket.emit('players full')
         }
+        lobbyRef.child('users').child(data.room).set(users[data.room].length);
     });
 
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
-        let notification = {message: {message: `${data.username} ready for battle!`}};
+        let notification = {message: {message: `${data.username} ready for battle! :`}};
         let publicCards = [];
         for (let i = 0; i < 5; i++) {
             publicCards.push({
@@ -149,6 +145,7 @@ io.on('connection', (socket) => {
                 userHp: 20,
                 userSelection: false,
             });
+            lobbyRef.child('players').child(data.room).set(players[data.room].length);
         }
         if(players[data.room].length === 2){
             io.sockets.in(data.room).emit('players full')
@@ -243,8 +240,7 @@ io.on('connection', (socket) => {
         console.log(`${data.username} left room ${data.room}`);
         socket.leave(data.room);
 
-        let notification = {message: {message: `${data.username} left the room!`}};
-        let playerIndex;
+        let notification = {message: {message: `${data.username} left the room! :`}};
 
         players[data.room] = players[data.room].filter((player) => {
             return player.username !== data.username;
@@ -262,12 +258,48 @@ io.on('connection', (socket) => {
         socket.broadcast.to(data.room).emit('load users', users[data.room]);
         socket.broadcast.to(data.room).emit('receive message', notification);
         messages[data.room].push(notification.message);
-        // if(data.opponame){
-        //     console.log(`${data.opponame} won the game`);
-        // }else{
-        //     console.log('Game over')
-        // };
+        
+        lobbyRef.child('users').child(data.room).set(users[data.room].length);
+        lobbyRef.child('players').child(data.room).set(players[data.room].length);
     });
+
+    socket.on('disconnect', () => {
+        console.log(`${socket.id} disconnected`);
+
+        let disconnectedUserRoom;
+        let disconnectedUsername;
+        
+        for (let room in players) {
+            players[room] = players[room].filter((player) => {
+                return player.socketId !== socket.id;
+            });
+        }
+        for (let room in publicPlayers) {
+            publicPlayers[room] = publicPlayers[room].filter((player) => {
+                return player.socketId !== socket.id;
+            });
+        }
+        for (let room in users) {
+            users[room] = users[room].filter((user) => {
+                if (user.socketId === socket.id) {
+                    disconnectedUsername = user.username;
+                    disconnectedUserRoom = room;
+                    console.log(`removed ${disconnectedUsername} from room ${disconnectedUserRoom}`);
+                }
+                return user.socketId !== socket.id;
+            });
+        }
+        if (disconnectedUsername) {
+            let notification = {message: {message: `${disconnectedUsername} left the room! :`}};
+            socket.broadcast.to(disconnectedUserRoom).emit('load players', publicPlayers[disconnectedUserRoom]);
+            socket.broadcast.to(disconnectedUserRoom).emit('load users', users[disconnectedUserRoom]);
+            socket.broadcast.to(disconnectedUserRoom).emit('receive message', notification);
+            messages[disconnectedUserRoom].push(notification.message);
+            lobbyRef.child('users').child(disconnectedUserRoom).set(users[disconnectedUserRoom].length);
+            lobbyRef.child('players').child(disconnectedUserRoom).set(players[disconnectedUserRoom].length);
+        }
+    });
+
 });
 
 const authRoutes = require('./routes/auth-routes');

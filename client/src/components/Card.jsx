@@ -36,8 +36,8 @@ class Card extends Component {
               <p>{this.props.card.class}</p>
           </div>
         </div>
-        <div className='card-numbers'><p>ATT  {this.props.card.attack}</p>
-          <p>DEF  {this.props.card.defense}</p>
+        <div className='card-numbers'><p>ATT <span>{this.props.card.attack}</span></p>
+          <p>DEF <span>{this.props.card.defense}</span></p>
         </div>
       </div>
       </div>

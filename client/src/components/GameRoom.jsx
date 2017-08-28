@@ -337,14 +337,14 @@ class GameRoom extends Component {
                         <div className='message-display-wrapper'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{
-                                return <p key={this.state.messages.indexOf(message)}>{message.displayName}: {message.message}</p>
+                                return <p className={!message.displayName ? 'notification' : ''} key={this.state.messages.indexOf(message)}><span>{message.displayName}</span>: {message.message}</p>
                                 }) : '' }
                         </div>
                         </div>
                         <div className='message-input'>
                             <form onSubmit={this.handleMessageSubmit}>
                                 <input type='text' onChange={this.handleInputChange} />
-                                <button type='submit'>Send!</button>
+                                <button type='submit'>SEND</button>
                             </form>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import HandCardSingle from './HandCardSingle';
 
+// the playing card container for the game board
 class UsersHands extends Component {
     render() {
         return (

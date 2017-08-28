@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// displays all users by how many wins they have
 class Leaderboard extends Component {
     // constructor(){
     //     super();

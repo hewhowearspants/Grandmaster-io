@@ -39,6 +39,7 @@ class App extends Component {
       players: {1: 0, 2: 0, 3: 0},      
     }
 
+    // configure firebase
     const config = {
       apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
       authDomain: "grandmaster-71126.firebaseapp.com",
@@ -48,14 +49,17 @@ class App extends Component {
       messagingSenderId: "760258177615"
     };
 
+    // initialize firebase
     firebase.initializeApp(config);
 
+    // set firebase references
     this.rootRef = firebase.database().ref();
     this.lobbyRef = this.rootRef.child('lobby');
- 
+
   }
 
   componentDidMount() {
+    // gets all of the cards in the api to display in Card Collection
     axios.get('/cards')
       .then(res => {
         console.log(res.data)
@@ -66,7 +70,10 @@ class App extends Component {
       }).catch(err => 
         console.log(err));
 
+    // redirect if not logged in
     this.requireLogin();
+
+    // set up listeners for firebase to get current players/users in game rooms
     this.lobbyRef.on('child_added', type => {
       let updatedInfo = {};
 
@@ -78,6 +85,8 @@ class App extends Component {
         [type.key]: updatedInfo,
       });
     })
+
+    // set up listener for firebase for when players/users enter leave game rooms
     this.lobbyRef.on('child_changed', type => {
       let updatedInfo = {};
 
@@ -91,6 +100,7 @@ class App extends Component {
     })
   }
 
+  // redirects user to login screen if not logged in
   requireLogin = () => {
     if(!this.state.auth) {
       this.setState({
@@ -103,7 +113,7 @@ class App extends Component {
     }
   };
 
-  //AUTH
+  // logs user in, gets users cards, redirects to their dashboard
   handleLoginSubmit = (e, username, password) => {
     e.preventDefault();
     axios.post('/auth/login', {
@@ -125,6 +135,7 @@ class App extends Component {
       console.log(err));
   }
 
+  // get user's cards from database
   getUserCards = () => {
     axios.get('/usercard')
     .then(res => {
@@ -138,6 +149,7 @@ class App extends Component {
     })
   }
 
+  // when user first logs in, gives them their initial 10 random cards
   getInitialUserCards = () => {
     axios.get('/user/new')
     .then(res => {
@@ -169,6 +181,7 @@ class App extends Component {
     })
   }
 
+  // gets a random card when users requests a new card, adds it to their cards
   getNewUserCard = () => {
     axios.get('/cards/new')
     .then(res => {
@@ -198,6 +211,7 @@ class App extends Component {
     })
   }
 
+  // deletes a user's card after they confirm it
   deleteUserCard = (id) => {
     let confirm = window.confirm(`${this.state.user.username}, are you sure you want to delete this card?`);
     if(confirm === true) {
@@ -224,24 +238,28 @@ class App extends Component {
     }
   }
 
+  // sets the redirect page when called
   setRedirect = () => {
     this.setState({
       redirect: null,
     })
   }
 
+  // sets the current page for the 'Join Game/User Dashboard' display
   setCurrentPage = (page) => {
     this.setState({
       currentPage: page,
     });
   }
 
+  // sets the dashboard content to display
   setContent = (page) => {
     this.setState({
       currentContent: page,
     });
   }
 
+  // deletes a user's account after getting confirmation
   deleteUser = (id) => {
     let confirm = window.confirm(`Are you sure you want to delete your profile ${this.state.user.username}?`);
     if(confirm === false) {
@@ -262,6 +280,8 @@ class App extends Component {
     }
   }
 
+  // creates a new user account, gets the new user's initial 10 random cards,
+  // redirects them to their dashboard
   handleRegisterSubmit = (e, username, password, email, displayName) => {
     e.preventDefault();
     axios.post('/auth/register', {
@@ -286,6 +306,7 @@ class App extends Component {
       console.log(err));
   }
 
+  // logs user out
   logOut = () => {
     axios.get('/auth/logout')
     .then(res => {
@@ -298,6 +319,8 @@ class App extends Component {
       console.log(err));
   }
 
+  // sets which card is currently being edited so it can be edited without going
+  // to another page
   userSelectedCardToEdit = (id) => {
     console.log(id);
     this.setState({
@@ -305,6 +328,7 @@ class App extends Component {
     });
   }
 
+  // edits the user's card, then reloads the users cards to reflect the changes
   userSubmitEdit = (event) => {
     event.preventDefault();
     console.log(this.state.currentCardId)
@@ -320,6 +344,8 @@ class App extends Component {
     {console.log(err) });
   }
 
+  // sets that the user is currently being edited so it can be edited without going
+  // to another page
   userSelectedNameToEdit = (id) => {
     console.log(id);
     this.setState({
@@ -327,6 +353,7 @@ class App extends Component {
     })
   }
   
+  // edits the users display name and email, resets them in state
   userSubmitNewName = (event) => {
     event.preventDefault();
     let display_name = event.target.display_name.value;
@@ -348,6 +375,7 @@ class App extends Component {
     {console.log(err) });
   };
 
+  // updates users wins and currency when they win a game
   updateWinsNCurrency = () =>{
     let updatedCurrency = this.state.user.currency;
     updatedCurrency += 10;
@@ -376,6 +404,7 @@ class App extends Component {
   }
 
   render() {
+    // redirects the page if there's a redirect set, otherwise displays as normal
     if(this.state.redirect !== null) {
       let redir = this.state.redirect;
       this.setState({
@@ -392,6 +421,7 @@ class App extends Component {
       <div className = 'App'>
         <Header setPage = {this.setPage} user = {this.state.user} display_name = {this.props.display_name} auth = {this.state.auth} logOut = {this.logOut} setCurrentPage = {this.setCurrentPage} currentPage = {this.state.currentPage}/>
         <main>
+          {/* all of the routes */}
           <Route exact path = '/' render = {() => <Home handleLoginSubmit = {this.handleLoginSubmit} />} />
           <Route exact path = '/register' render = {() => <Register handleRegisterSubmit = {this.handleRegisterSubmit} />} />
           <Route exact path = '/user' render = {() => <Dashboard 

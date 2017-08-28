@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// header component, contains nav between game lobby and user dashboard.
+// also logout button if logged in
 const Header = (props) => {
   return (
     <header>

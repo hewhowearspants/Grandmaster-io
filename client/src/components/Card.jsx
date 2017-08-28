@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// the component for almost every card
 class Card extends Component {
   constructor(props) {
     super(props);
@@ -7,7 +8,8 @@ class Card extends Component {
       name: this.props.card.name,
     }
   }
-
+  
+  // input change for the card name edit form
   handleInputChange = (event) => {
     const value = event.target.value;
     this.setState({
@@ -17,6 +19,7 @@ class Card extends Component {
   
   render() {
     return (
+      // card edit/delete buttons overlaid on card
       <div className = 'card-wrapper'>
         <div className = 'delete-button'>
             <i className = 'fa fa-times fa-2x' onClick = {() => {this.props.deleteUserCard(this.props.card.id)}}></i>
@@ -24,6 +27,7 @@ class Card extends Component {
           <div className = 'edit-button'>
             <i className = 'fa fa-pencil fa-2x' onClick = {() => {this.props.userSelectedCardToEdit(this.props.card.id)}}></i>
           </div>
+      {/* card class determines background image in CSS */}
       <div className = {`card ${this.props.card.class}`}>
         <div className = 'card-top'>
           <div className = 'card-name'>

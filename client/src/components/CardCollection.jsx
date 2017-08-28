@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Card from './Card';
 
+// the component displaying all of the cards in the API in the dashboard
 class CardCollection extends Component {
   renderCardCollection = () => {
     if (this.props.cards) {

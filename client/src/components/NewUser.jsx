@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// UNUSED COMPONENT, would display the 10 cards to a new user and allow them to accept it
 class NewUser extends Component {
     constructor() {
         super();

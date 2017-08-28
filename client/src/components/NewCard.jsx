@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Card from './Card';
 
+
+// gets a new card when the user clicks a button
 class NewCard extends Component {
     constructor() {
         super();

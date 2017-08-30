@@ -877,47 +877,70 @@ header li {
   color:#12183B;
 }
 
-.inside-leaderboard {
-  margin-top:12px;
+.leader-single {
+  display: flex;
+  margin-top:-10px;
+  text-align: left;
 }
 
-.leader-single b {
+.leader-single b,
+.leader-single span {
   color:#12183B;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
   font-size:24px;
   letter-spacing: 0.03em;
   padding:5px;
+  width: 50vw;
+}
+
+.leader-single span {
+  font-weight: 300;
+  font-size: 20px;
 }
 
 .leader-start {
-  width:50px;
+  width:70vw;
   height:100%;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 /* score component */
 .inside-leaderboard {
-  display:block;
+  display:flex;
+  align-items: center;
+  justify-content: center;
   height: 50px;
+  margin-bottom:12px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   position:relative;
   overflow: hidden;
+  text-align: center;
+}
+
+.inside-leaderboard p {
+  user-select: none;
+  cursor: default;
+  animation: fadein 1s linear;
 }
 
 @keyframes scoregrow {
   0% {
-    width:0%;
-  }
-  100% {
-    width:100%;
+    background-color: black;
+    width: 0%;
   }
 }
 
-.leader-single {
-  display: flex;
-  margin-top:-10px;
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
 }
 
 /* user profile width */

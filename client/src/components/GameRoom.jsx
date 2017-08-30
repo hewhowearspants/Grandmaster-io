@@ -279,7 +279,6 @@ class GameRoom extends Component {
         this.setState({
             userSelection: null,
             userCardDrawn: false,
-            confirmed: false,
         })
         socket.emit('next round', {
             username: this.state.userNameData,

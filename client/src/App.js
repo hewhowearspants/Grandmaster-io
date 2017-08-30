@@ -183,32 +183,62 @@ class App extends Component {
 
   // gets a random card when users requests a new card, adds it to their cards
   getNewUserCard = () => {
-    axios.get('/cards/new')
-    .then(res => {
-      // console.log(res.data)
-      this.setState({
-        newCardData: res.data,
-      })
-    })
-    .then(() => {
-      axios.post('/usercard/new', {           
-        cardId: this.state.newCardData[0].id,
-        name: this.state.newCardData[0].name,
-        class: this.state.newCardData[0].class,
-        attack: this.state.newCardData[0].attack,
-        defense: this.state.newCardData[0].defense,
-        imageUrl: this.state.newCardData[0].image_url
-        })
-        .then(res => {
-          this.getUserCards();
-        })
-        .catch(err => {
-          console.log(err)
+    if (this.state.user.currency >= 20){
+      axios.get('/cards/new')
+      .then(res => {
+        // console.log(res.data)
+        this.setState({
+          newCardData: res.data,
         })
       })
-    .catch(err => {
-        console.log(err);
-    })
+      .then(() => {
+        axios.post('/usercard/new', {           
+          cardId: this.state.newCardData[0].id,
+          name: this.state.newCardData[0].name,
+          class: this.state.newCardData[0].class,
+          attack: this.state.newCardData[0].attack,
+          defense: this.state.newCardData[0].defense,
+          imageUrl: this.state.newCardData[0].image_url
+          })
+          .then(res => {
+            this.getUserCards();
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+      .then(() => {
+        let updatedCurrency = this.state.user.currency
+        updatedCurrency -= 20
+        this.setState({
+          user: {
+            currency: updatedCurrency,
+            display_name: this.state.user.display_name,
+            email: this.state.user.email,
+            id: this.state.user.id,
+            password_digest: this.state.user.password_digest,
+            username: this.state.user.username,
+            wins: this.state.user.wins,
+          }
+        })
+      })
+      .then(() => {
+        axios.put(`/user/win`, {
+          username: this.state.user.username,
+          wins: this.state.user.wins,
+          currency: this.state.user.currency,
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err);
+        })
+      })
+      .catch(err => {
+          console.log(err);
+      })
+    }else if(this.state.user.currency < 20){
+      alert('Oops, not enough money. Win a few battles and come back!')
+    }
   }
 
   // deletes a user's card after they confirm it

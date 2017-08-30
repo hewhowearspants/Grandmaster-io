@@ -32,7 +32,7 @@ class NewCard extends Component {
   render() {
     return (
       <div className = 'new-card'>
-          <button className = 'newCardButton' type='button' onClick = {this.getNewCard}>Get new Card!</button>
+          <button className = 'newCardButton' type='button' onClick = {this.getNewCard}>Get new Card! Cost: <strong style={{color:'red'}}>20</strong></button>
         {this.state.gotNewCard && this.props.newCard ? <Card card = {this.props.newCard[0]} /> : ''}
       </div>
     )

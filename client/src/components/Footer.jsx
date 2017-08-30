@@ -1,5 +1,6 @@
 import React from 'react';
 
+// this is the footah
 const Footer = () => {
     return (
         <footer>

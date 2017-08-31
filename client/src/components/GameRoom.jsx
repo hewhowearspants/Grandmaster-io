@@ -519,7 +519,7 @@ class GameRoom extends Component {
                                  leaveGame = {this.leaveGame}
                                  readyToContinue = {this.readyToContinue} />
                     {!this.state.joined && !this.state.playersFull ? 
-                        <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> 
+                        <button className = 'join-game-button' onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>JOIN GAME</button> 
                         : ''}
                     {/* the chat box! */}
                     <div className='message-box'>

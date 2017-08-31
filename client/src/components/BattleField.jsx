@@ -7,7 +7,7 @@ class BattleField extends Component {
             <div className = 'battlefield'>
                 <div className = 'battle-log'>
                     {/* the round count */}
-                    <div className = 'round-count'><h2>{!this.props.winner ? (this.props.round ? `Round: ${this.props.round}` : '') : `${this.props.winner} Won!`}</h2></div>
+                    <div className = 'round-count' style={{visibility: this.props.round || this.props.winner ? 'visible' : 'hidden'}}><h2>{!this.props.winner ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
                     <div className = 'hp'><b>{this.props.userNameData ? `${this.props.userNameData} HP: ${this.props.userHp}` : ''}</b>
                         <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
                     </div>

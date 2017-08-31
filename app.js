@@ -37,34 +37,30 @@ server.listen(PORT, (err) => {
     }
 });
 
-
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const io = require('socket.io')(server);
-//create socket empty message objects for chatboxes of each room
+// create message log object for all rooms
 var messages = {
     1: [],
     2: [],
     3: []
 };
-//create socket empty users objects for each room
+//create user list object for all rooms
 var users = {
     1: [],
     2: [],
     3: []
 }
-
-var userHP = {};
-var userCards = {};
-//empty players objects for players to 'join game'
+// empty players object for all rooms, used for when users 'join game' as players, contains:
+// their socket.id, username, 5 cards, their HP, and their confirmed selected card
 var players = {
     1: [],
     2: [],
     3: []
 };
-var round = {};
 //copy of players but with all cards info scrubbed
 var publicPlayers = {
     1: [],
@@ -77,6 +73,18 @@ var playersReady = {
     2: [],
     3: []
 }
+//the rounds for each room
+var rounds = {
+    1: null,
+    2: null,
+    3: null,
+};
+// the winners for each room
+var winners = {
+    1: null,
+    2: null,
+    3: null,
+};
 //firebase set-up, updating users/players when entering/leaving room
 const config = {
       apiKey: "AIzaSyBeWljzW5mON5qnOPJ5_BEnuj79_kSG4mA",
@@ -94,12 +102,12 @@ const lobbyRef = rootRef.child('lobby');
 //socket connection activity
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`);
-//socket join room receive data from front end
+    //socket join room receive data from front end
     socket.on('join room', (data) => {
         socket.join(data.room);
         console.log(`${data.username} joined room ${data.room}`);
         let notification = {message: {message: `${data.username} joined the room! :`}};
-//socket emits publicPlayers
+        //socket emits publicPlayers
         socket.emit('load players', publicPlayers[data.room]);
 
         users[data.room].push({
@@ -119,12 +127,24 @@ io.on('connection', (socket) => {
         }
         lobbyRef.child('users').child(data.room).set(users[data.room].length);
     });
-//socket detects the join game activity
+
+    // sends out incoming message, adds message to message log for room, 
+    // removes earliest message(s) if log goes over 100 messages
+    socket.on('message', (data) => {
+        console.log(data.message, data.room);
+        io.sockets.in(data.room).emit('receive message', data);
+        messages[data.room].push(data.message);
+        while (messages[data.room].length > 100) {
+            messages[data.room].pop()
+        };
+    })
+
+    //socket detects the join game activity
     socket.on('join game', (data) => {
         console.log(`${data.username} has joined the game!`)
-        let notification = {message: {message: `${data.username} ready for battle! :`}};
+        // creates set of blank cards to send out to users
+        // client side will disregard if they are one of the players
         let publicCards = [];
-        //scrubs the cards so that spectators and opponent players can't see the cards
         for (let i = 0; i < 5; i++) {
             publicCards.push({
                 id: null,
@@ -154,13 +174,18 @@ io.on('connection', (socket) => {
             lobbyRef.child('players').child(data.room).set(players[data.room].length);
         }
         if(players[data.room].length === 2){
-            io.sockets.in(data.room).emit('players full')
+            rounds[data.room] = 1;
+            io.sockets.in(data.room).emit('players full', rounds[data.room]);
         }
+        // updates everyone in the room as to who is playing and how many cards they have
         io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
+
+        // lets room know in chatbox who joined the game, adds to message log
+        let notification = {message: {message: `${data.username} ready for battle! :`}};
         io.sockets.in(data.room).emit('receive message', notification);
         messages[data.room].push(notification.message);
     });
-//confirm selection fires the user's selection of cards, when the two players all confirmed, do the fighting function
+    //confirm selection fires the user's selection of cards, when the two players all confirmed, do the fighting function
     socket.on('confirm selection', data=>{
         players[data.room].forEach((player)=>{
             if(player.username === data.username){
@@ -187,8 +212,11 @@ io.on('connection', (socket) => {
             return player.userSelection!==null;
         });
         if(cardsReadyCount.length === 2){
+            if (!rounds[data.room]) {
+                rounds[data.room] = 1;
+            }
             fightFunction(data.room);
-            io.sockets.in(data.room).emit('fight', publicPlayers[data.room]);
+            // io.sockets.in(data.room).emit('fight', publicPlayers[data.room]);
             setTimeout(()=>players[data.room].forEach((player)=>{
                 player.userSelection = null;
             }),1);
@@ -197,26 +225,20 @@ io.on('connection', (socket) => {
             }),1);
         };
     });
-//changes rounds to make the rounds consistent on both user sides
-    socket.on('next round', (data) => {
-        playersReady[data.room].push(data.username);
-        if (playersReady[data.room].length === 2) {
-            io.sockets.in(data.room).emit('next round');
-            playersReady[data.room] = [];
-        };
-    });
     
     //the fight function including the game logics, fighting calculation and user hp changes
     const fightFunction = (room) => {
-        let attackOne = players[room][0].userSelection.attack;
-        let attackTwo = players[room][1].userSelection.attack;
-        let defenseOne= players[room][0].userSelection.defense;
-        let defenseTwo = players[room][1].userSelection.defense;
-        let hpOne = players[room][0].userHp;
-        let hpTwo = players[room][1].userHp;
-        if(players[room][0].userSelection.class === 'King' && players[room][1].userSelection.class === 'Queen'){
+        let playerOne = players[room][0];
+        let playerTwo = players[room][1];
+        let attackOne = playerOne.userSelection.attack;
+        let attackTwo = playerTwo.userSelection.attack;
+        let defenseOne = playerOne.userSelection.defense;
+        let defenseTwo = playerTwo.userSelection.defense;
+        let hpOne = playerOne.userHp;
+        let hpTwo = playerTwo.userHp;
+        if(playerOne.userSelection.class === 'King' && playerTwo.userSelection.class === 'Queen'){
             hpTwo = hpTwo - 10;
-        } else if(players[room][1].userSelection.class === 'King' && players[room][0].userSelection.class === 'Queen'){
+        } else if(playerTwo.userSelection.class === 'King' && playerOne.userSelection.class === 'Queen'){
             hpOne = hpOne - 10;
         } else if(defenseOne < attackTwo
            && attackOne > defenseTwo){
@@ -229,23 +251,95 @@ io.on('connection', (socket) => {
                  && attackOne > defenseTwo) {
                hpTwo = hpTwo - (attackOne - defenseTwo);
         }
-        players[room][0].userHp = hpOne;
-        players[room][1].userHp = hpTwo;
+        playerOne.userHp = hpOne;
+        playerTwo.userHp = hpTwo;
         publicPlayers[room][0].userHp = hpOne;
         publicPlayers[room][1].userHp = hpTwo;
-        publicPlayers[room][0].userSelection = players[room][0].userSelection;
-        publicPlayers[room][1].userSelection = players[room][1].userSelection;
-    }
-    
-    socket.on('message', (data) => {
-        console.log(data.message, data.room);
-        io.sockets.in(data.room).emit('receive message', data);
-        if (messages[data.room].length === 100) {
-            messages[data.room].pop()
+        publicPlayers[room][0].userSelection = playerOne.userSelection;
+        publicPlayers[room][1].userSelection = playerTwo.userSelection;
+        if((playerOne.userHp === 0 && playerTwo.userHp === 0) || 
+           (rounds[room] === 5 && playerOne.userHp === playerTwo.userHp)) {
+            winners[room] = 'Stalemate! Nobody'
+            io.sockets.in(room).emit('game over', {playerData: publicPlayers[room], winner: winners[room], round: rounds[room]});
+        } else if ((playerOne.userHp === 0) ||
+                   (rounds[room] === 5 && playerTwo.userHp > playerOne.userHp)) {
+            winners[room] = playerTwo.username;
+            io.sockets.in(room).emit('game over', {playerData: publicPlayers[room], winner: winners[room], round: rounds[room]});
+        } else if ((playerTwo.userHp === 0) ||
+                   (rounds[room] === 5 && playerOne.userHp > playerTwo.userHp)) {
+            winners[room] = playerOne.username;
+            io.sockets.in(room).emit('game over', {playerData: publicPlayers[room], winner: winners[room], round: rounds[room]});
+        } else {
+            rounds[room]++;
+            io.sockets.in(room).emit('round over', {playerData: publicPlayers[room], round: rounds[room]});
         };
-        messages[data.room].push(data.message);
+    };
+
+    //changes rounds to make the rounds consistent on both user sides
+    socket.on('next round', (data) => {
+        playersReady[data.room].push(data.username);
+        if (playersReady[data.room].length === 2) {
+            io.sockets.in(data.room).emit('next round');
+            playersReady[data.room] = [];
+        };
+    });
+
+    socket.on('no rematch', (data) => {
+        console.log(data.username + ' is bowing out!');
+        let notification = {message: {message: `${data.username} is bowing out!`}};
+        players[data.room] = [];
+        publicPlayers[data.room] = [];
+        rounds[data.room] = null;
+        io.sockets.in(data.room).emit('end game');
+        io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
+        io.sockets.in(data.room).emit('receive message', notification);
+        messages[data.room].push(notification.message);
+        // update firebase with player count (hint: it's should be zero)
+        lobbyRef.child('players').child(data.room).set(players[data.room].length);
     })
-//reaction on leave room activity, changes the players list
+
+    socket.on('rematch', (data) => {
+        console.log(data.username + ' wants a rematch!');
+        playersReady[data.room].push(data.username);
+        players[data.room].forEach((player) => {
+            if (player.username === data.username) {
+                player.userCards = data.userCards
+                player.userHp = 20;
+                player.userSelection = null;
+            };
+        });
+        publicPlayers[data.room].forEach((player) => {
+            if (player.username === data.username) {
+                let publicCards = [];
+                for (let i = 0; i < 5; i++) {
+                    publicCards.push({
+                        id: null,
+                        card_id: null,
+                        name: null,
+                        class: null,
+                        attack: null,
+                        defense: null,
+                        image_url: '/images/back_card.png'
+                    });
+                };
+                player.userCards = publicCards;
+                player.userHp = 20;
+                player.userSelection = false;
+            };
+        });
+        if (playersReady[data.room].length === 2) {
+            console.log(`resetting game for ${playersReady[data.room][0]} and ${playersReady[data.room][1]}!`);
+            let notification = {message: {message: `${playersReady[data.room][0]} and ${playersReady[data.room][1]} are game for a rematch!`}};
+            rounds[data.room] = 1;
+            io.sockets.in(data.room).emit('reset game', {round: rounds[data.room], winner: null});
+            io.sockets.in(data.room).emit('load players', publicPlayers[data.room]);
+            io.sockets.in(data.room).emit('receive message', notification);
+            messages[data.room].push(notification.message);
+            playersReady[data.room] = [];
+        };
+    });
+    
+    //reaction on leave room activity, changes the players list
     socket.on('leave room', (data) => {
         console.log(`${data.username} left room ${data.room}`);
         socket.leave(data.room);

@@ -448,8 +448,7 @@ class App extends Component {
                                                                   id = {props.match.params.id} 
                                                                   userCards = {this.state.userCardData} 
                                                                   updateLobbyPlayersAndUsers = {this.updateLobbyPlayersAndUsers}
-                                                                  updateWinsNCurrency = {this.updateWinsNCurrency}/>}/>} 
-                                                                />
+                                                                  updateWinsNCurrency = {this.updateWinsNCurrency}/>}/>
         </main>
         <Footer />
       </div>

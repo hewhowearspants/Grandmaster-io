@@ -35,4 +35,15 @@ cardsController.findOne = (req,res) => {
   });
 }
 
+cardsController.findPremiumOne = (req,res) => {
+  Card.findPremiumOne(req.params.num)
+  .then(cards => {
+    res.json(cards);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+}
+
 module.exports = cardsController;

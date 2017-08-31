@@ -191,6 +191,7 @@ button:hover{
   border: 1.5px solid #485095;
   color:#FBF6E0;
   cursor: pointer;
+  animation: none;
 }
 
 
@@ -550,6 +551,27 @@ header li {
   height:100%;
   display:flex;
   flex-direction:column;
+}
+
+.join-game-button {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-weight: 400;
+  font-size:60px;
+  transition: .25s all;
+  width: 250px;
+  align-self: center;
+  border-radius: 5%;
+  animation: pulse 1s infinite linear alternate;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #485095;
+    
+  }
+  100% {
+    border-color: #485095;
+  }
 }
 
 /* battlefield information width */

@@ -22,4 +22,13 @@ Card.findOne = () => {
   `);
 }
 
+Card.findPremiumOne = (num) => {
+  return db.query(`
+  SELECT * FROM cards
+  where id > $1
+  ORDER BY RANDOM()
+  LIMIT 1
+  `, [num])
+}
+
 module.exports = Card;

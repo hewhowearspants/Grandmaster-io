@@ -36,7 +36,8 @@ class Dashboard extends Component {
           userCards = {this.props.userCards} 
           newCard = {this.props.newCard} 
           currentContent = {this.props.currentContent} 
-          getNewUserCard = {this.props.getNewUserCard} 
+          getNewUserCard = {this.props.getNewUserCard}
+          getNewUserCardPremium = {this.props.getNewUserCardPremium} 
           deleteUserCard = {this.props.deleteUserCard}
           userSubmitEdit = {this.props.userSubmitEdit} 
           userSelectedCardToEdit = {this.props.userSelectedCardToEdit} 

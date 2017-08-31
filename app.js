@@ -347,6 +347,9 @@ io.on('connection', (socket) => {
         let notification = {message: {message: `${data.username} left the room! :`}};
 
         players[data.room] = players[data.room].filter((player) => {
+            if (player.username === data.username) {
+                rounds[data.room] = null;
+            };
             return player.username !== data.username;
         });
         publicPlayers[data.room] = publicPlayers[data.room].filter((player) => {
@@ -366,7 +369,7 @@ io.on('connection', (socket) => {
         lobbyRef.child('users').child(data.room).set(users[data.room].length);
         lobbyRef.child('players').child(data.room).set(players[data.room].length);
     });
-//disconnect activity detects when players close the window instead of exit game room
+    //disconnect activity detects when players close the window instead of exit game room
     socket.on('disconnect', () => {
         console.log(`${socket.id} disconnected`);
 
@@ -375,6 +378,9 @@ io.on('connection', (socket) => {
         
         for (let room in players) {
             players[room] = players[room].filter((player) => {
+                if (player.socketId === socket.id) {
+                    rounds[room] = null;
+                };
                 return player.socketId !== socket.id;
             });
         }

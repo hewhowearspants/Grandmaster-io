@@ -7,16 +7,23 @@ class BattleField extends Component {
             <div className = 'battlefield'>
                 <div className = 'battle-log'>
                     {/* the round count */}
-                    <div className = 'round-count'><h2>{(this.props.userHp > 0 && this.props.oppoHp > 0 && this.props.round <= 5) ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
+                    <div className = 'round-count'><h2>{!this.props.winner ? (this.props.round ? `Round: ${this.props.round}` : '') : `${this.props.winner} Won!`}</h2></div>
                     <div className = 'hp'><b>{this.props.userNameData ? `${this.props.userNameData} HP: ${this.props.userHp}` : ''}</b>
                         <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
                     </div>
-                    <button onClick = {() => this.props.readyToContinue() 
-                                             } 
-                                             style={{visibility: this.props.userSelection 
-                                                     && this.props.oppoSelection
-                                                     && this.props.confirmed ? 'visible' : 'hidden'}}
-                                            >Continue!</button>
+                    <div className = 'battlefield-buttons'>
+                    {this.props.userSelection && this.props.oppoSelection && this.props.confirmed && !this.props.gameOver ? 
+                        <button onClick = {() => this.props.readyToContinue()} 
+                                style={{visibility: this.props.userSelection 
+                                && this.props.oppoSelection
+                                && this.props.confirmed ? 'visible' : 'hidden'}}>Continue!</button> : ''}
+                    {this.props.gameOver && this.props.joined ? 
+                        <div className = 'game-over-buttons'>
+                            <button onClick = {this.props.rematch}>Rematch?</button>
+                            <button onClick = {this.props.leaveGame}>Bow Out</button>
+                        </div> 
+                        : ''}
+                    </div>
                 </div>
                 {/* the selected cards in the center */}
                 <div className = 'card-selected'>

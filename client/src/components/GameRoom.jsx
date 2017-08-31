@@ -12,9 +12,9 @@ class GameRoom extends Component {
         super();
 
         this.state = {
+            userNameData: null,
             userCardData: null,
             oppoNameData: null,
-            userNameData: null,
             oppoCardData: null,
             userSelection: null,
             oppoSelection: null,
@@ -29,11 +29,11 @@ class GameRoom extends Component {
             playerData: null,
             userHp: 20,
             oppoHp: 20,
-            round: 1,
+            round: null,
             winner: null,
             confirmed: false,
+            gameOver: false,
         }
-        
     }
 
     // CONTAINS ALL socket.on LISTENERS
@@ -97,17 +97,20 @@ class GameRoom extends Component {
                     this.setState({
                         oppoCardData: playerData[0].userCards,
                         oppoNameData: playerData[0].username,
+                        oppoHp: playerData[0].userHp,
                     })
                     if (this.state.userNameData) {
                         this.setState({
                             userCardData: null,
                             userNameData: null,
+                            userHp: null,
                         })
                     }
                 } else {
                     this.setState({
                         oppoCardData: null,
                         oppoNameData: null,
+                        oppoHp: null,
                     })
                 }
             // if two people are playing, checks if one of them is the player.
@@ -119,19 +122,24 @@ class GameRoom extends Component {
                     this.setState({
                         oppoCardData: playerData[0].userCards,
                         oppoNameData: playerData[0].username,
+                        oppoHp: playerData[0].userHp,
                         userCardData: playerData[1].userCards,
                         userNameData: playerData[1].username,
+                        userHp: playerData[1].userHp,
                     });
-                    console.log('this user is'+this.props.user.username)
                 } else if(playerData[0].username === this.props.user.username) {
                     this.setState({
                         oppoCardData: playerData[1].userCards,
                         oppoNameData: playerData[1].username,
+                        oppoHp: playerData[1].userHp,
+                        userHp: playerData[0].userHp,
                     })
                 } else if(playerData[1].username === this.props.user.username) {
                     this.setState({
                         oppoCardData: playerData[0].userCards,
                         oppoNameData: playerData[0].username,
+                        oppoHp: playerData[0].userHp,
+                        userHp: playerData[1].userHp,
                     })
                 }
             }
@@ -146,9 +154,10 @@ class GameRoom extends Component {
         })
         // if server says there are already two players, sets playersFull to true
         // so nobody else can Join Game
-        socket.on('players full', () => {
+        socket.on('players full', (data) => {
             this.setState({
                 playersFull: true,
+                round: data,
             })
         });
         // when server says both players have clicked Continue, resets battlefield
@@ -156,36 +165,123 @@ class GameRoom extends Component {
             this.resetBattleField();
         });
         // gets the result of the card fight from server, reflects new HP for players
-        socket.on('fight', (data) => {
+        socket.on('round over', (data) => {
             console.log(data)
-            if(data[0].username === this.state.userNameData && data[1].username !== this.props.user.username){
+            if(data.playerData[0].username === this.state.userNameData && data.playerData[1].username !== this.props.user.username){
                 this.setState({
-                    userHp: data[0].userHp,
-                    oppoHp: data[1].userHp,
-                    userSelection: data[0].userSelection,
-                    oppoSelection: data[1].userSelection,
+                    userHp: data.playerData[0].userHp,
+                    oppoHp: data.playerData[1].userHp,
+                    userSelection: data.playerData[0].userSelection,
+                    oppoSelection: data.playerData[1].userSelection,
+                    round: data.round,
                 });
-            }else if(data[1].username === this.state.userNameData && data[0].username !== this.props.user.username){
+            }else if(data.playerData[1].username === this.state.userNameData && data.playerData[0].username !== this.props.user.username){
                 this.setState({
-                    userHp: data[1].userHp,
-                    oppoHp: data[0].userHp,
-                    userSelection: data[1].userSelection,
-                    oppoSelection: data[0].userSelection,
+                    userHp: data.playerData[1].userHp,
+                    oppoHp: data.playerData[0].userHp,
+                    userSelection: data.playerData[1].userSelection,
+                    oppoSelection: data.playerData[0].userSelection,
+                    round: data.round,
                 });
             }else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username){
                 this.setState({
-                    oppoHp: data[0].userHp,
-                    userHp: data[1].userHp,
-                    oppoSelection: data[0].userSelection,
-                    userSelection: data[1].userSelection,
+                    oppoHp: data.playerData[0].userHp,
+                    userHp: data.playerData[1].userHp,
+                    oppoSelection: data.playerData[0].userSelection,
+                    userSelection: data.playerData[1].userSelection,
+                    round: data.round,
                 });
             };
             // if it's the last round, see who ended up winning!
-            if (this.state.round === 5) {
-                this.getWinner();
-                this.updateWins();
+            // if (this.state.round === 5) {
+            //     this.getWinner();
+            //     this.updateWins();
+            // };
+        });
+        socket.on('game over', (data) => {
+            if(data.playerData[0].username === this.state.userNameData && data.playerData[1].username !== this.props.user.username){
+                this.setState({
+                    userHp: data.playerData[0].userHp,
+                    oppoHp: data.playerData[1].userHp,
+                    userSelection: data.playerData[0].userSelection,
+                    oppoSelection: data.playerData[1].userSelection,
+                    round: data.round,
+                    winner: data.winner,
+                    gameOver: true,
+                });
+            }else if(data.playerData[1].username === this.state.userNameData && data.playerData[0].username !== this.props.user.username){
+                this.setState({
+                    userHp: data.playerData[1].userHp,
+                    oppoHp: data.playerData[0].userHp,
+                    userSelection: data.playerData[1].userSelection,
+                    oppoSelection: data.playerData[0].userSelection,
+                    round: data.round,
+                    winner: data.winner,
+                    gameOver: true,
+                });
+            }else if(data[0].username !== this.props.user.username && data[1].username !== this.props.user.username){
+                this.setState({
+                    oppoHp: data.playerData[0].userHp,
+                    userHp: data.playerData[1].userHp,
+                    oppoSelection: data.playerData[0].userSelection,
+                    userSelection: data.playerData[1].userSelection,
+                    round: data.round,
+                    winner: data.winner,
+                    gameOver: true,
+                });
+            };
+            
+            if(data.winner === this.props.user.username){
+                this.props.updateWinsNCurrency();
+                console.log('updating wins and monies for ' + this.props.user.username)
             };
         });
+        socket.on('reset game', (data) => {
+            this.setState({
+                round: data.round,
+                winner: data.winner,
+                confirmed: false,
+            });
+        });
+        socket.on('end game', () => {
+            this.setState({
+                userNameData: null,
+                userCardData: null,
+                oppoNameData: null,
+                oppoCardData: null,
+                userSelection: null,
+                oppoSelection: null,
+                userCardDrawn: false,
+                oppoCardDrawn: false,
+                confirmed: false,
+                cardsInField: 0,
+                gameOver: false,
+                joined: false,
+                round: null,
+                winner: null,
+                playersFull: false,
+            });
+        });
+    }
+
+    // lets server know when user is leaving the room
+    componentWillUnmount = () => {
+        this.setState({
+            userNameData: null,
+            userCardData: null,
+        })
+        socket.emit('leave room', {
+            room: this.props.id,
+            username: this.props.user.username,
+            opponame: this.state.oppoNameData,
+        })
+        if (this.state.joined) {
+            this.setState({
+                joined: false,
+            })
+        }
+        // disconnect from server
+        socket.io.disconnect();
     }
 
     // sends message to server when submitting, resets
@@ -205,26 +301,6 @@ class GameRoom extends Component {
         this.setState({
             text: event.target.value,
         })
-    }
-
-    // lets server know when they are leaving the room
-    componentWillUnmount = () => {
-        this.setState({
-            userNameData: null,
-            userCardData: null,
-        })
-        socket.emit('leave room', {
-            room: this.props.id,
-            username: this.props.user.username,
-            opponame: this.state.oppoNameData,
-        })
-        if (this.state.joined) {
-            this.setState({
-                joined: false,
-            })
-        }
-        // disconnect from server
-        socket.io.disconnect();
     }
 
     // sets the selected card to state, remove from users playing cards
@@ -295,7 +371,6 @@ class GameRoom extends Component {
             oppoCardDrawn: false,
             confirmed: false,
             cardsInField: 0,
-            round: this.state.round + 1,
         })
     }
 
@@ -323,77 +398,136 @@ class GameRoom extends Component {
         })
     }
 
-    // determine who ended up winning based on who has the higher HP
-    getWinner = () => {
-        if(this.state.userHp > this.state.oppoHp) {
-            this.setState({
-                winner: this.state.userNameData,
-            })
-        } else if (this.state.userHp < this.state.oppoHp) {
-            this.setState({
-                winner: this.state.oppoNameData,
-            })
-        } else if (this.state.userHp === this.state.oppoHp) {
-            this.setState({
-                winner: 'Game Tied! Both Players',
-            })
-        }
+    rematch = () => {
+        // picks 5 more random playing cards from the users cards
+        const userCardsCopy = [...this.props.userCards];
+        const userChoice = [];
+        for(var i = 0; i < 5; i++) {
+            const randomIndex = Math.floor(Math.random()*(userCardsCopy.length));
+            userChoice.push(userCardsCopy.splice(randomIndex, 1)[0]);
+        };
+        // takes down gameOver flag and updates playing cards in state
+        this.setState({
+            userSelection: null,
+            oppoSelection: null,
+            userCardDrawn: false,
+            oppoCardDrawn: false,
+            cardsInField: 0,
+            joined: true,
+            userNameData: this.props.user.username,
+            userCardData: userChoice,
+            gameOver: false,
+            winner: false,
+        });
+        // lets server know they are game for a rematch, sends updated cards
+        socket.emit('rematch', {
+            userCards: userChoice,
+            username: this.props.user.username,
+            room: this.props.id,
+        });
     }
 
-    // checks if the winner is the user, and updates their wins and currency (in App.js)
-    updateWins = () => {
-        if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round >= 5){
-            if(this.state.winner === this.props.user.username){
-                this.props.updateWinsNCurrency();
-                console.log('updating in GameRoom'+this.props.user.username)
-            }
-        }
+    leaveGame = () => {
+        this.setState({
+            joined: false,
+            userNameData: null,
+            userCardData: null,
+            gameOver: false,
+        });
+        socket.emit('no rematch', {
+            username: this.props.user.username,
+            room: this.props.id
+        });
     }
+
+    // WINNER DETERMINATION IS NOW DONE SERVER-SIDE VIA SOCKET.IO
+    // determine who ended up winning based on who has the higher HP
+    // getWinner = () => {
+    //     if(this.state.userHp > this.state.oppoHp) {
+    //         this.setState({
+    //             winner: this.state.userNameData,
+    //         })
+    //     } else if (this.state.userHp < this.state.oppoHp) {
+    //         this.setState({
+    //             winner: this.state.oppoNameData,
+    //         })
+    //     } else if (this.state.userHp === this.state.oppoHp) {
+    //         this.setState({
+    //             winner: 'Game Tied! Both Players',
+    //         })
+    //     }
+    // }
+
+    // NOW THIS IS DONE WHEN SERVER ANNOUNCES WINNER IN componentDidMount, socket.on('game over')
+    // checks if the winner is the user, and updates their wins and currency (in App.js)
+    // updateWins = () => {
+    //     if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round >= 5){
+    //         if(this.state.winner === this.props.user.username){
+    //             this.props.updateWinsNCurrency();
+    //             console.log('updating in GameRoom'+this.props.user.username)
+    //         }
+    //     }
+    // }
 
     render() {
         return(
             <div className = 'game-table'>
                 {/* background spinny logo thing */}
-                <img className='logo' src="../images/compass.png" alt='' />
-                {/* player one */}
-                <div className="users-hand">
-                    <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
-                    {this.state.userCardData ? <UsersHands className = 'user-hand' 
-                                                            playersFull = {this.state.playersFull} 
-                                                            joinGame = {this.joinGame} 
-                                                            joined = {this.state.joined} 
-                                                            select = {this.makeUserSelection} 
-                                                            cardData = {this.state.userCardData} 
-                                                            cardDrawn = {this.state.userCardDrawn} 
-                                                            opponent = {this.state.oppoNameData} /> : ''}
-                </div>
+                <img className='logo' src="/images/compass.png" alt='' />
+                {/* player one / user player */}
+                {this.state.joined ?
+                    <div className="users-hand">
+                        <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
+                        {this.state.userCardData ? 
+                            <UsersHands className = 'user-hand' 
+                                playersFull = {this.state.playersFull} 
+                                joinGame = {this.joinGame} 
+                                joined = {this.state.joined} 
+                                select = {this.makeUserSelection} 
+                                cardData = {this.state.userCardData} 
+                                cardDrawn = {this.state.userCardDrawn} 
+                                opponent = {this.state.oppoNameData} /> : ''}
+                    </div>
+                : <div className = 'oppo-hand'>
+                        <h3>{this.state.userNameData ? `${this.state.userNameData}` : 'Waiting Player'}</h3>
+                        {this.state.userCardData ?
+                            this.state.userCardData.map(card => {
+                                return (
+                                    <div className = 'card' style={{background: `url(${card.image_url}`, backgroundSize: 'cover'}}>
+                                    </div>
+                                )
+                            }) 
+                            : ''}
+                    </div>}
                 {/* battlefield, contains player info, selected card, chat box */}
                 <div className = 'mid-section'>
                     <BattleField userSelection = {this.state.userSelection}
                                  oppoSelection = {this.state.oppoSelection}
                                  resetBattleField = {this.resetBattleField}
                                  cardsInField = {this.state.cardsInField} 
-                                 confirmSelection={this.confirmSelection}
+                                 confirmSelection = {this.confirmSelection}
                                  userHp = {this.state.userHp}
                                  oppoHp = {this.state.oppoHp}
-                                 getBattleLog = {this.getBattleLog}
-                                 getWinner = {this.getWinner}
                                  round = {this.state.round}
                                  winner = {this.state.winner}
                                  oppoNameData = {this.state.oppoNameData}
                                  userNameData = {this.state.userNameData}
                                  confirmed = {this.state.confirmed}
                                  joined = {this.state.joined}
-                                 updateWins = {this.updateWins}
+                                 gameOver = {this.state.gameOver}
+                                 rematch = {this.rematch}
+                                 leaveGame = {this.leaveGame}
                                  readyToContinue = {this.readyToContinue} />
-                    {!this.state.joined && !this.state.playersFull ? <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> : ''}
+                    {!this.state.joined && !this.state.playersFull ? 
+                        <button onClick = {this.joinGame} disabled = {this.state.playersFull ? true : false }>Join Game!</button> 
+                        : ''}
                     {/* the chat box! */}
                     <div className='message-box'>
                         <div className='message-display-wrapper'>
                         <div className='message-display'>
                             {this.state.messages ? this.state.messages.map((message)=>{
                                 return <p className={!message.displayName ? 'notification' : ''} key={this.state.messages.indexOf(message)}><span>{message.displayName}</span>: {message.message}</p>
-                                }) : '' }
+                                }) : ''}
                         </div>
                         </div>
                         <div className = 'message-input'>
@@ -406,7 +540,7 @@ class GameRoom extends Component {
                 
                 </div>
                 {/* player two */}
-                 <div className = 'oppo-hand'>
+                <div className = 'oppo-hand'>
                     <h3>{this.state.oppoNameData ? `${this.state.oppoNameData}` : 'Waiting Player'}</h3>
                     {/* UNUSED, originally used for testing game logic */}
                     {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
@@ -419,7 +553,6 @@ class GameRoom extends Component {
                         }) : ''
                     }
                 </div>
-                
             </div>
         )
     }

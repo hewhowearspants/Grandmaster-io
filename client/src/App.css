@@ -468,6 +468,11 @@ header li {
   background-size: 100% 100%;
 }
 
+.card.undefined{
+  background-image: url('/images/back_card.png');
+  background-size: 100% 100%;
+}
+
 .card-collection{
   background-image: 131px 175px;
 }
@@ -747,10 +752,18 @@ header li {
   color: white;
 }
 
-/* battlefield button */
-.battle-log button {
+/* battlefield buttons */
+.battlefield-buttons {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.battlefield-buttons button {
   padding:5px;
-  border-radius:15%;
+  border-radius:15px;
+  margin: 5px;
 }
 
 /* add a new card button */

@@ -22,7 +22,7 @@ class Leaderboard extends Component {
                                 <h4>{this.props.leaderInfo.indexOf(data)+1}</h4>
                                 <div className = 'leader-start'>
                                     <b>{data.username} <span>({data.display_name})</span></b>
-                                    <div className = 'inside-leaderboard' style = {{ width: (data.wins+1)*10+'vw', background:`rgba(${data.wins*20},${Math.round(Math.random()*0)},${Math.round(Math.random()*0)},1)`, animation: 'scoregrow 1s linear'}}>
+                                    <div className = 'inside-leaderboard' style = {{ width: (data.wins+1)*2+'vw', background:`rgba(${data.wins*20},${Math.round(Math.random()*0)},${Math.round(Math.random()*0)},1)`, animation: 'scoregrow 1s linear'}}>
                                         <p style = {{color:'white'}}>Wins: {data.wins}</p>
                                     </div>
                                 </div>

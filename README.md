@@ -1,4 +1,4 @@
-https://tranquil-sierra-66936.herokuapp.com/
+https://grandmaster-io.herokuapp.com/
 
 # Team 4 - Card-Battle 
 ### Members 

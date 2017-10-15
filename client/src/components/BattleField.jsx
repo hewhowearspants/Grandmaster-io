@@ -56,8 +56,8 @@ class BattleField extends Component {
                         </div>
                     </div>
                     <div className = 'card-numbers'>
-                        <p>{this.props.oppoSelection.attack}</p>
-                        <p>{this.props.oppoSelection.defense}</p>
+                        <p>ATT: <span>{this.props.oppoSelection.attack}</span></p>
+                        <p>DEF: <span>{this.props.oppoSelection.defense}</span></p>
                     </div>
                     </div>
                 : ''}

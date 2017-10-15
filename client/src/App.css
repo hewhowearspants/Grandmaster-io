@@ -512,6 +512,7 @@ header li {
 
 .battlefield_select .card-numbers p {
   font-size: 20px;
+  width: 60px;
 }
 
 .battlefield_select .card-numbers span {

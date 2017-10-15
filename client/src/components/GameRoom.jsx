@@ -308,19 +308,8 @@ class GameRoom extends Component {
     makeUserSelection = (selectedCard) => {
         if(this.state.userNameData === this.props.user.username){
             if(this.state.confirmed === false){
-                let updatedCards = [...this.state.userCardData];
-                let deleteIndex;
-                updatedCards.forEach((card, index) => {
-                    if (card.id === selectedCard.id) {
-                        deleteIndex = index;
-                    }
-                })
-                updatedCards.splice(deleteIndex, 1);
                 this.setState({
                     userSelection: selectedCard,
-                    userCardDrawn: true,
-                    userCardData: updatedCards,
-                    cardsInField: this.state.cardsInField + 1,
                 })
             }
         }
@@ -343,6 +332,22 @@ class GameRoom extends Component {
         this.setState({
             confirmed: true,
         })
+
+        let updatedCards = [...this.state.userCardData];
+        let deleteIndex;
+        updatedCards.forEach((card, index) => {
+            if (card.id === this.state.userSelection.id) {
+                deleteIndex = index;
+            }
+        })
+        updatedCards.splice(deleteIndex, 1);
+        this.setState({
+            // userSelection: selectedCard,
+            userCardDrawn: true,
+            userCardData: updatedCards,
+            cardsInField: this.state.cardsInField + 1,
+        })
+
         socket.emit('confirm selection', {
             username: this.state.userNameData,
             selection: this.state.userSelection,

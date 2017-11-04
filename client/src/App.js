@@ -6,12 +6,12 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import "./App.css";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Home from "./components/Home";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { Home } from "./components/Home";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
-import GameLobby from "./components/GameLobby";
+import { GameLobby } from "./components/GameLobby";
 import GameRoom from "./components/GameRoom";
 
 class App extends Component {

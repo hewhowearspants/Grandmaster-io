@@ -97,15 +97,13 @@ class App extends Component {
 
   // redirects user to login screen if not logged in
   requireLogin = () => {
-    if (!this.state.auth) {
-      this.setState({
-        redirect: "/login"
-      });
-    } else {
-      this.setState({
-        redirect: "/user"
-      });
-    }
+    !this.state.auth
+      ? this.setState({
+          redirect: "/login"
+        })
+      : this.setState({
+          redirect: "/user"
+        });
   };
 
   // logs user in, gets users cards, redirects to their dashboard
@@ -224,7 +222,7 @@ class App extends Component {
         });
         const { newCardData } = this.state;
         try {
-          const res = await axios.post("/usercard/new", {
+          await axios.post("/usercard/new", {
             cardId: newCardData[0].id,
             name: newCardData[0].name,
             class: newCardData[0].class,
@@ -269,32 +267,27 @@ class App extends Component {
   };
 
   // deletes a user's card after they confirm it
-  deleteUserCard = id => {
+  deleteUserCard = async id => {
     let confirm = window.confirm(
       `${this.state.user.username}, are you sure you want to delete this card?`
     );
     if (confirm === true) {
-      axios
-        .delete(`/usercard/${id}`)
-        .then(res => {
-          const updatedCards = [...this.state.userCardData];
-          let deletedIndex;
-
-          updatedCards.forEach((card, index) => {
-            if (card.id === id) {
-              deletedIndex = index;
-            }
-          });
-
-          updatedCards.splice(deletedIndex, 1);
-
-          this.setState({
-            userCardData: updatedCards
-          });
-        })
-        .catch(err => {
-          console.log(err);
+      try {
+        await axios.delete(`/usercard/${id}`);
+        const updatedCards = [...this.state.userCardData];
+        let deletedIndex;
+        updatedCards.forEach((card, index) => {
+          if (card.id === id) {
+            deletedIndex = index;
+          }
         });
+        updatedCards.splice(deletedIndex, 1);
+        this.setState({
+          userCardData: updatedCards
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -320,28 +313,24 @@ class App extends Component {
   };
 
   // deletes a user's account after getting confirmation
-  deleteUser = id => {
+  deleteUser = async id => {
     let confirm = window.confirm(
       `Are you sure you want to delete your profile ${this.state.user
         .username}?`
     );
-    if (confirm === false) {
+    try {
+      !confirm
+        ? this.setState({
+            redirect: null
+          })
+        : await axios.delete(`/user/${id}`);
       this.setState({
-        redirect: null
+        user: null,
+        redirect: "/",
+        auth: false
       });
-    } else {
-      axios
-        .delete(`/user/${id}`)
-        .then(res => {
-          this.setState({
-            user: null,
-            redirect: "/",
-            auth: false
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -395,12 +384,12 @@ class App extends Component {
   };
 
   // edits the user's card, then reloads the users cards to reflect the changes
-  userSubmitEdit = async event => {
-    event.preventDefault();
+  userSubmitEdit = async e => {
+    e.preventDefault();
     console.log(this.state.currentCardId);
     try {
-      const res = await axios.put(`/usercard/${this.state.currentCardId}`, {
-        name: event.target.name.value
+      await axios.put(`/usercard/${this.state.currentCardId}`, {
+        name: e.target.name.value
       });
       this.getUserCards();
       this.setState({
@@ -421,29 +410,27 @@ class App extends Component {
   };
 
   // edits the users display name and email, resets them in state
-  userSubmitNewName = event => {
-    event.preventDefault();
-    let display_name = event.target.display_name.value;
-    let email = event.target.email.value;
-    axios
-      .put(`/user/${this.state.currentUserId}`, {
-        displayName: event.target.display_name.value,
-        email: event.target.email.value
-      })
-      .then(res => {
-        let newUserData = this.state.user;
-        newUserData.display_name = display_name;
-        newUserData.email = email;
-        this.setState({
-          user: newUserData,
-          currentContent: "user-cards",
-          redirect: "/user",
-          currentUserId: null
-        });
-      })
-      .catch(err => {
-        console.log(err);
+  userSubmitNewName = async e => {
+    e.preventDefault();
+    let display_name = e.target.display_name.value;
+    let email = e.target.email.value;
+    try {
+      await axios.put(`/user/${this.state.currentUserId}`, {
+        displayName: e.target.display_name.value,
+        email: e.target.email.value
       });
+      let newUserData = this.state.user;
+      newUserData.display_name = display_name;
+      newUserData.email = email;
+      this.setState({
+        user: newUserData,
+        currentContent: "user-cards",
+        redirect: "/user",
+        currentUserId: null
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // updates users wins and currency when they win a game

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import DashboardNav from "./Dashboard-Nav";
-import DashboardContents from "./Dashboard-Contents";
+import { DashboardNav } from "./Dashboard-Nav";
+import { DashboardContents } from "./Dashboard-Contents";
 
 class Dashboard extends Component {
   state = { leaderInfo: null };
@@ -22,32 +22,50 @@ class Dashboard extends Component {
 
   // the container component for the user dashboard. lots and lots of props from App.js
   render() {
+    const {
+      setContent,
+      currentContent,
+      cards,
+      newCard,
+      userCards,
+      getNewUserCard,
+      getNewUserCardPremium,
+      deleteUser,
+      deleteUserCard,
+      currentCardId,
+      userCardData,
+      userSubmitEdit,
+      userSelectedNameToEdit,
+      email,
+      user,
+      userSubmitNewName,
+      currentUserId,
+      display_name,
+      userSelectedCardToEdit
+    } = this.props;
     return (
       <div className="dashboard">
-        <DashboardNav
-          setContent={this.props.setContent}
-          currentContent={this.props.currentContent}
-        />
+        <DashboardNav setContent={setContent} currentContent={currentContent} />
         <DashboardContents
-          cards={this.props.cards}
-          userCards={this.props.userCards}
-          newCard={this.props.newCard}
-          currentContent={this.props.currentContent}
-          getNewUserCard={this.props.getNewUserCard}
-          getNewUserCardPremium={this.props.getNewUserCardPremium}
-          deleteUserCard={this.props.deleteUserCard}
-          userSubmitEdit={this.props.userSubmitEdit}
-          userSelectedCardToEdit={this.props.userSelectedCardToEdit}
-          currentCardId={this.props.currentCardId}
-          userSubmitNewName={this.props.userSubmitNewName}
-          userSelectedNameToEdit={this.props.userSelectedNameToEdit}
-          currentUserId={this.props.currentUserId}
-          user={this.props.user}
-          email={this.props.email}
-          display_name={this.props.display_name}
-          deleteUser={this.props.deleteUser}
+          cards={cards}
+          userCards={userCards}
+          newCard={newCard}
+          currentContent={currentContent}
+          getNewUserCard={getNewUserCard}
+          getNewUserCardPremium={getNewUserCardPremium}
+          deleteUserCard={deleteUserCard}
+          userSubmitEdit={userSubmitEdit}
+          userSelectedCardToEdit={userSelectedCardToEdit}
+          currentCardId={currentCardId}
+          userSubmitNewName={userSubmitNewName}
+          userSelectedNameToEdit={userSelectedNameToEdit}
+          currentUserId={currentUserId}
+          user={user}
+          email={email}
+          display_name={display_name}
+          deleteUser={deleteUser}
           leaderInfo={this.state.leaderInfo}
-          userCardData={this.props.userCardData}
+          userCardData={userCardData}
         />
       </div>
     );

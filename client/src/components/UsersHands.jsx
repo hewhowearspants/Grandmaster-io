@@ -1,5 +1,5 @@
 import React from "react";
-import HandCardSingle from "./HandCardSingle";
+import { HandCardSingle } from "./HandCardSingle";
 
 // the playing card container for the game board
 export const UsersHands = ({ cardData, cardDrawn, opponent, select }) => (

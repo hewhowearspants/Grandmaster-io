@@ -1,22 +1,22 @@
-const bcrypt = require('bcryptjs');
-const User = require('../../models/user');
+const bcrypt = require("bcryptjs");
+const User = require("../../models/user");
 
-function comparePass(userPassword, databasePassword) {
-    return bcrypt.compareSync(userPassword, databasePassword);
-}
+const comparePass = (userPassword, databasePassword) => {
+  return bcrypt.compareSync(userPassword, databasePassword);
+};
 
-function loginRedirect(req, res, next) {
-    if(req.user) return res.redirect('/user');
-    return next();
-}
+const loginRedirect = (req, res, next) => {
+  if (req.user) return res.redirect("/user");
+  return next();
+};
 
-function loginRequired(req, res, next) {
-    if (!req.user) return res.redirect('/auth/login');
-    return next();
-}
+const loginRequired = (req, res, next) => {
+  if (!req.user) return res.redirect("/auth/login");
+  return next();
+};
 
 module.exports = {
-    comparePass,
-    loginRedirect,
-    loginRequired,
-}
+  comparePass,
+  loginRedirect,
+  loginRequired
+};

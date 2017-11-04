@@ -1,71 +1,104 @@
-import React, { Component } from 'react';
+import React from "react";
 
-class BattleField extends Component {
-
-    render() {
-        return (
-            <div className = 'battlefield'>
-                <div className = 'battle-log'>
-                    {/* the round count */}
-                    <div className = 'round-count' style={{visibility: this.props.round || this.props.winner ? 'visible' : 'hidden'}}><h2>{!this.props.winner ? `Round: ${this.props.round}` : `${this.props.winner} Won!`}</h2></div>
-                    <div className = 'hp'><b>{this.props.userNameData ? `${this.props.userNameData} HP: ${this.props.userHp}` : ''}</b>
-                        <b>{this.props.oppoNameData ? `${this.props.oppoNameData} HP: ${this.props.oppoHp}` : ''}</b>
-                    </div>
-                    <div className = 'battlefield-buttons'>
-                    {this.props.userSelection && this.props.oppoSelection && this.props.confirmed && !this.props.gameOver ? 
-                        <button onClick = {() => this.props.readyToContinue()} 
-                                style={{visibility: this.props.userSelection 
-                                && this.props.oppoSelection
-                                && this.props.confirmed ? 'visible' : 'hidden'}}>Continue!</button> : ''}
-                    {this.props.gameOver && this.props.joined ? 
-                        <div className = 'game-over-buttons'>
-                            <button onClick = {this.props.rematch}>Rematch?</button>
-                            <button onClick = {this.props.leaveGame}>Bow Out</button>
-                        </div> 
-                        : ''}
-                    </div>
-                </div>
-                {/* the selected cards in the center */}
-                <div className = 'card-selected'>
-                <div className = 'user-selection'>
-                {this.props.userSelection ? 
-                    <div className = {`card ${this.props.userSelection.class} battlefield_select`}>
-                        <div className = 'card-top'>
-                            <div className = 'card-name'>
-                                <b>{this.props.userSelection.name}</b>
-                                <p>{this.props.userSelection.class}</p>
-                            </div>
-                        </div>
-                        {(this.props.joined) ? (this.props.confirmed) ? 
-                            '' : <button onClick = {this.props.confirmSelection}>Confirm</button> : ''
-                        }
-                        <div className='card-numbers'>
-                            <p>ATT: <span>{this.props.userSelection.attack}</span></p>
-                            <p>DEF: <span>{this.props.userSelection.defense}</span></p>
-                        </div>
-                    </div>
-                : ''}
-                </div>
-                <div className = 'oppo-selection'>
-                {this.props.oppoSelection ?
-                    <div className = {`card ${this.props.oppoSelection.class} battlefield_select`}>
-                    <div className = 'card-top'>
-                        <div className = 'card-name'>
-                            <b>{this.props.oppoSelection.name}</b>
-                            <p>{this.props.oppoSelection.class}</p>
-                        </div>
-                    </div>
-                    <div className = 'card-numbers'>
-                        <p>ATT: <span>{this.props.oppoSelection.attack}</span></p>
-                        <p>DEF: <span>{this.props.oppoSelection.defense}</span></p>
-                    </div>
-                    </div>
-                : ''}
-                </div>
+const BattleField = ({
+  round,
+  winner,
+  userNameData,
+  joined,
+  userHp,
+  oppoNameData,
+  oppoHp,
+  oppoSelection,
+  gameOver,
+  userSelection,
+  confirmed,
+  rematch,
+  leaveGame,
+  confirmSelection,
+  readyToContinue
+}) => (
+  <div className="battlefield">
+    <div className="battle-log">
+      <div
+        className="round-count"
+        style={{ visibility: round || winner ? "visible" : "hidden" }}
+      >
+        <h2>{!winner ? `Round: ${round}` : `${winner} Won!`}</h2>
+      </div>
+      <div className="hp">
+        <b>{userNameData ? `${userNameData} HP: ${userHp}` : ""}</b>
+        <b>{oppoNameData ? `${oppoNameData} HP: ${oppoHp}` : ""}</b>
+      </div>
+      <div className="battlefield-buttons">
+        {userSelection && oppoSelection && confirmed && !gameOver ? (
+          <button
+            onClick={() => readyToContinue()}
+            style={{
+              visibility:
+                userSelection && oppoSelection && confirmed
+                  ? "visible"
+                  : "hidden"
+            }}
+          >
+            Continue!
+          </button>
+        ) : null}
+        {gameOver && joined ? (
+          <div className="game-over-buttons">
+            <button onClick={rematch}>Rematch?</button>
+            <button onClick={leaveGame}>Bow Out</button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+    <div className="card-selected">
+      <div className="user-selection">
+        {userSelection ? (
+          <div className={`card ${userSelection.class} battlefield_select`}>
+            <div className="card-top">
+              <div className="card-name">
+                <b>{userSelection.name}</b>
+                <p>{userSelection.class}</p>
+              </div>
             </div>
+            {joined ? (
+              confirmed ? null : (
+                <button onClick={confirmSelection}>Confirm</button>
+              )
+            ) : null}
+            <div className="card-numbers">
+              <p>
+                ATT: <span>{userSelection.attack}</span>
+              </p>
+              <p>
+                DEF: <span>{userSelection.defense}</span>
+              </p>
             </div>
-        )
-    }
-}
+          </div>
+        ) : null}
+      </div>
+      <div className="oppo-selection">
+        {oppoSelection ? (
+          <div className={`card ${oppoSelection.class} battlefield_select`}>
+            <div className="card-top">
+              <div className="card-name">
+                <b>{oppoSelection.name}</b>
+                <p>{oppoSelection.class}</p>
+              </div>
+            </div>
+            <div className="card-numbers">
+              <p>
+                ATT: <span>{oppoSelection.attack}</span>
+              </p>
+              <p>
+                DEF: <span>{oppoSelection.defense}</span>
+              </p>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  </div>
+);
 
 export default BattleField;

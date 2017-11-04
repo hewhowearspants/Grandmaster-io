@@ -8,33 +8,29 @@ var socket;
 
 // THE GAME ROOM, where all the game magic happens
 class GameRoom extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      userNameData: null,
-      userCardData: null,
-      oppoNameData: null,
-      oppoCardData: null,
-      userSelection: null,
-      oppoSelection: null,
-      userCardDrawn: false,
-      oppoCardDrawn: false,
-      cardsInField: 0,
-      messages: [],
-      text: "",
-      users: [],
-      joined: false,
-      playersFull: false,
-      playerData: null,
-      userHp: 20,
-      oppoHp: 20,
-      round: null,
-      winner: null,
-      confirmed: false,
-      gameOver: false
-    };
-  }
+  state = {
+    userNameData: null,
+    userCardData: null,
+    oppoNameData: null,
+    oppoCardData: null,
+    userSelection: null,
+    oppoSelection: null,
+    userCardDrawn: false,
+    oppoCardDrawn: false,
+    cardsInField: 0,
+    messages: [],
+    text: "",
+    users: [],
+    joined: false,
+    playersFull: false,
+    playerData: null,
+    userHp: 20,
+    oppoHp: 20,
+    round: null,
+    winner: null,
+    confirmed: false,
+    gameOver: false
+  };
 
   // CONTAINS ALL socket.on LISTENERS
   componentDidMount() {
@@ -507,9 +503,7 @@ class GameRoom extends Component {
                 cardDrawn={userCardDrawn}
                 opponent={oppoNameData}
               />
-            ) : (
-              ""
-            )}
+            ) : null}
           </div>
         ) : (
           <div className="oppo-hand">
@@ -526,7 +520,7 @@ class GameRoom extends Component {
                     />
                   );
                 })
-              : ""}
+              : null}
           </div>
         )}
         {/* battlefield, contains player info, selected card, chat box */}
@@ -558,9 +552,7 @@ class GameRoom extends Component {
             >
               JOIN GAME
             </button>
-          ) : (
-            ""
-          )}
+          ) : null}
           {/* the chat box! */}
           <div className="message-box">
             <div className="message-display-wrapper">
@@ -576,7 +568,7 @@ class GameRoom extends Component {
                         </p>
                       );
                     })
-                  : ""}
+                  : null}
               </div>
             </div>
             <div className="message-input">
@@ -590,8 +582,6 @@ class GameRoom extends Component {
         {/* player two */}
         <div className="oppo-hand">
           <h3>{oppoNameData ? `${oppoNameData}` : "Waiting Player"}</h3>
-          {/* UNUSED, originally used for testing game logic */}
-          {/* <UsersHands className = 'oppo-hand' select = {this.makeOppoSelection} data = {this.state.oppoCardData} cardDrawn = {this.state.oppoCardDrawn} /> */}
           {oppoCardData
             ? oppoCardData.map(card => {
                 return (
@@ -604,7 +594,7 @@ class GameRoom extends Component {
                   />
                 );
               })
-            : ""}
+            : null}
         </div>
       </div>
     );

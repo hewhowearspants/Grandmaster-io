@@ -13,6 +13,7 @@ class ChatBox extends Component {
 
   render() {
     const { messages, handleMessageSubmit } = this.props;
+    const { text } = this.state;
     return (
       <div className="message-box">
         <div className="message-display">
@@ -21,7 +22,7 @@ class ChatBox extends Component {
           })}
         </div>
         <div className="message-input">
-          <form onSubmit={() => handleMessageSubmit(this.state.text)}>
+          <form onSubmit={() => handleMessageSubmit(text)}>
             <input type="text" onChange={this.handleInputChange} />
             <button type="submit">Send!</button>
           </form>

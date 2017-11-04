@@ -20,6 +20,7 @@ class Card extends Component {
       userSubmitEdit,
       currentCardId
     } = this.props;
+    const { name } = this.state;
     return (
       // card edit/delete buttons overlaid on card
       <div className="card-wrapper">
@@ -49,7 +50,7 @@ class Card extends Component {
                     type="text"
                     name="name"
                     placeholder="name"
-                    value={this.state.name}
+                    value={name}
                     onChange={this.handleInputChange}
                   />
                 </form>

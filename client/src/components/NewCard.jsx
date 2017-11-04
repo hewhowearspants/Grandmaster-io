@@ -60,6 +60,8 @@ class NewCard extends Component {
   };
 
   render() {
+    const { gotNewCard } = this.state;
+    const { newCard } = this.props;
     return (
       <div className="new-card">
         <button
@@ -99,9 +101,7 @@ class NewCard extends Component {
         >
           Get the BEST Card! Cost: <strong style={{ color: "red" }}>90</strong>
         </button>
-        {this.state.gotNewCard && this.props.newCard ? (
-          <Card card={this.props.newCard[0]} />
-        ) : null}
+        {gotNewCard && newCard ? <Card card={newCard[0]} /> : null}
       </div>
     );
   }

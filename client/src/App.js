@@ -372,17 +372,17 @@ class App extends Component {
   };
 
   // logs user out
-  logOut = () => {
-    axios
-      .get("/auth/logout")
-      .then(res => {
-        console.log(res);
-        this.setState({
-          auth: false,
-          redirect: "/"
-        });
-      })
-      .catch(err => console.log(err));
+  logOut = async () => {
+    try {
+      const res = await axios.get("/auth/logout");
+      console.log(res);
+      this.setState({
+        auth: false,
+        redirect: "/"
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // sets which card is currently being edited so it can be edited without going
@@ -395,24 +395,20 @@ class App extends Component {
   };
 
   // edits the user's card, then reloads the users cards to reflect the changes
-  userSubmitEdit = event => {
+  userSubmitEdit = async event => {
     event.preventDefault();
     console.log(this.state.currentCardId);
-    axios
-      .put(`/usercard/${this.state.currentCardId}`, {
+    try {
+      const res = await axios.put(`/usercard/${this.state.currentCardId}`, {
         name: event.target.name.value
-      })
-      .then(res => {
-        this.getUserCards();
-      })
-      .then(() => {
-        this.setState({
-          currentCardId: null
-        });
-      })
-      .catch(err => {
-        console.log(err);
       });
+      this.getUserCards();
+      this.setState({
+        currentCardId: null
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // sets that the user is currently being edited so it can be edited without going
@@ -451,34 +447,34 @@ class App extends Component {
   };
 
   // updates users wins and currency when they win a game
-  updateWinsNCurrency = () => {
-    let updatedCurrency = this.state.user.currency;
+  updateWinsNCurrency = async () => {
+    const { user } = this.state;
+    let updatedCurrency = user.currency;
     updatedCurrency += 10;
-    let updatedWins = this.state.user.wins;
+    let updatedWins = user.wins;
     updatedWins += 1;
     this.setState({
       user: {
         currency: updatedCurrency,
-        display_name: this.state.user.display_name,
-        email: this.state.user.email,
-        id: this.state.user.id,
-        password_digest: this.state.user.password_digest,
-        username: this.state.user.username,
+        display_name: user.display_name,
+        email: user.email,
+        id: user.id,
+        password_digest: user.password_digest,
+        username: user.username,
         wins: updatedWins
       }
     });
-    axios
-      .put(`/user/win`, {
-        username: this.state.user.username,
-        wins: this.state.user.wins,
-        currency: this.state.user.currency
-      })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
+    try {
+      const { user } = this.state;
+      const res = await axios.put(`/user/win`, {
+        username: user.username,
+        wins: user.wins,
+        currency: user.currency
       });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {

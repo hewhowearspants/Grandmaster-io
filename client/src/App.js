@@ -99,7 +99,7 @@ class App extends Component {
   requireLogin = () => {
     !this.state.auth
       ? this.setState({
-          redirect: "/login"
+          redirect: "/"
         })
       : this.setState({
           redirect: "/user"

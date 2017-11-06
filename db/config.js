@@ -6,7 +6,7 @@ const options = {
 
 const pgp = require("pg-promise")(options);
 
-function setDatabase() {
+const setDatabase = () => {
   if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
     return pgp({
       database: "dream_team_dev",
@@ -16,7 +16,7 @@ function setDatabase() {
   } else {
     return pgp(process.env.DATABASE_URL);
   }
-}
+};
 
 const db = setDatabase();
 

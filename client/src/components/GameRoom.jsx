@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import BattleField from "./BattleField";
+import { BattleField } from "./BattleField";
 import { UsersHands } from "./UsersHands";
 import io from "socket.io-client";
 

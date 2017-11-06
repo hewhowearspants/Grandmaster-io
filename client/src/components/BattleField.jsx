@@ -1,6 +1,6 @@
 import React from "react";
 
-const BattleField = ({
+export const BattleField = ({
   round,
   winner,
   userNameData,
@@ -100,5 +100,3 @@ const BattleField = ({
     </div>
   </div>
 );
-
-export default BattleField;

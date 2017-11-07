@@ -8,56 +8,18 @@ import UserProfile from "./UserProfile";
 
 // the container for all of the pages in the user dashboard
 // changes based on the currentContent state in App.js
-export const DashboardContents = ({
-  deleteUserCard,
-  userSubmitEdit,
-  userSelectedCardToEdit,
-  currentCardId,
-  currentContent,
-  newCard,
-  getNewUserCard,
-  getNewUserCardPremium,
-  userCards,
-  userSubmitNewName,
-  userSelectedNameToEdit,
-  currentUserId,
-  cards,
-  user,
-  email,
-  display_name,
-  deleteUser,
-  leaderInfo
-}) => (
+export const DashboardContents = props => (
   <div className="dashboard-contents">
-    {currentContent === "user-cards" ? (
-      <UserCards
-        userCards={userCards}
-        deleteUserCard={deleteUserCard}
-        userSubmitEdit={userSubmitEdit}
-        userSelectedCardToEdit={userSelectedCardToEdit}
-        currentCardId={currentCardId}
-      />
-    ) : currentContent === "card-collection" ? (
-      <CardCollection cards={cards} />
-    ) : currentContent === "get-new-card" ? (
-      <NewCard
-        newCard={newCard}
-        getNewUserCard={getNewUserCard}
-        getNewUserCardPremium={getNewUserCardPremium}
-        userCards={userCards}
-      />
-    ) : currentContent === "user-profile" ? (
-      <UserProfile
-        userSubmitNewName={userSubmitNewName}
-        userSelectedNameToEdit={userSelectedNameToEdit}
-        currentUserId={currentUserId}
-        user={user}
-        email={email}
-        display_name={display_name}
-        deleteUser={deleteUser}
-      />
-    ) : currentContent === "leaderboard" ? (
-      <Leaderboard leaderInfo={leaderInfo} />
+    {props.currentContent === "user-cards" ? (
+      <UserCards {...props} />
+    ) : props.currentContent === "card-collection" ? (
+      <CardCollection {...props} />
+    ) : props.currentContent === "get-new-card" ? (
+      <NewCard {...props} />
+    ) : props.currentContent === "user-profile" ? (
+      <UserProfile {...props} />
+    ) : props.currentContent === "leaderboard" ? (
+      <Leaderboard {...props} />
     ) : null}
   </div>
 );

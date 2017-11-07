@@ -21,55 +21,12 @@ class Dashboard extends Component {
   }
 
   // the container component for the user dashboard. lots and lots of props from App.js
-  render() {
-    const {
-      setContent,
-      currentContent,
-      cards,
-      newCard,
-      userCards,
-      getNewUserCard,
-      getNewUserCardPremium,
-      deleteUser,
-      deleteUserCard,
-      currentCardId,
-      userCardData,
-      userSubmitEdit,
-      userSelectedNameToEdit,
-      email,
-      user,
-      userSubmitNewName,
-      currentUserId,
-      display_name,
-      userSelectedCardToEdit
-    } = this.props;
-    return (
-      <div className="dashboard">
-        <DashboardNav setContent={setContent} currentContent={currentContent} />
-        <DashboardContents
-          cards={cards}
-          userCards={userCards}
-          newCard={newCard}
-          currentContent={currentContent}
-          getNewUserCard={getNewUserCard}
-          getNewUserCardPremium={getNewUserCardPremium}
-          deleteUserCard={deleteUserCard}
-          userSubmitEdit={userSubmitEdit}
-          userSelectedCardToEdit={userSelectedCardToEdit}
-          currentCardId={currentCardId}
-          userSubmitNewName={userSubmitNewName}
-          userSelectedNameToEdit={userSelectedNameToEdit}
-          currentUserId={currentUserId}
-          user={user}
-          email={email}
-          display_name={display_name}
-          deleteUser={deleteUser}
-          leaderInfo={this.state.leaderInfo}
-          userCardData={userCardData}
-        />
-      </div>
-    );
-  }
+  render = () => (
+    <div className="dashboard">
+      <DashboardNav {...this.props} />
+      <DashboardContents {...this.props} leaderInfo={this.state.leaderInfo} />
+    </div>
+  );
 }
 
 export default Dashboard;

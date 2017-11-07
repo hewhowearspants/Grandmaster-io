@@ -509,17 +509,15 @@ class GameRoom extends Component {
           <div className="oppo-hand">
             <h3>{userNameData ? `${userNameData}` : "Waiting Player"}</h3>
             {userCardData
-              ? userCardData.map(card => {
-                  return (
-                    <div
-                      className="card"
-                      style={{
-                        background: `url(${card.image_url}`,
-                        backgroundSize: "cover"
-                      }}
-                    />
-                  );
-                })
+              ? userCardData.map(card => (
+                  <div
+                    className="card"
+                    style={{
+                      background: `url(${card.image_url}`,
+                      backgroundSize: "cover"
+                    }}
+                  />
+                ))
               : null}
           </div>
         )}
@@ -558,16 +556,14 @@ class GameRoom extends Component {
             <div className="message-display-wrapper">
               <div className="message-display">
                 {messages
-                  ? messages.map(message => {
-                      return (
-                        <p
-                          className={!message.displayName ? "notification" : ""}
-                          key={messages.indexOf(message)}
-                        >
-                          <span>{message.displayName}</span>: {message.message}
-                        </p>
-                      );
-                    })
+                  ? messages.map(message => (
+                      <p
+                        className={!message.displayName ? "notification" : ""}
+                        key={messages.indexOf(message)}
+                      >
+                        <span>{message.displayName}</span>: {message.message}
+                      </p>
+                    ))
                   : null}
               </div>
             </div>
@@ -583,17 +579,15 @@ class GameRoom extends Component {
         <div className="oppo-hand">
           <h3>{oppoNameData ? `${oppoNameData}` : "Waiting Player"}</h3>
           {oppoCardData
-            ? oppoCardData.map(card => {
-                return (
-                  <div
-                    className="card"
-                    style={{
-                      background: `url(${card.image_url}`,
-                      backgroundSize: "cover"
-                    }}
-                  />
-                );
-              })
+            ? oppoCardData.map(card => (
+                <div
+                  className="card"
+                  style={{
+                    background: `url(${card.image_url}`,
+                    backgroundSize: "cover"
+                  }}
+                />
+              ))
             : null}
         </div>
       </div>

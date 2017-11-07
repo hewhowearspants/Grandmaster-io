@@ -16,6 +16,7 @@ class Card extends Component {
     const {
       deleteUserCard,
       card,
+      card: { id, attack, defense },
       userSelectedCardToEdit,
       userSubmitEdit,
       currentCardId
@@ -28,7 +29,7 @@ class Card extends Component {
           <i
             className="fa fa-times fa-2x"
             onClick={() => {
-              deleteUserCard(card.id);
+              deleteUserCard(id);
             }}
           />
         </div>
@@ -36,7 +37,7 @@ class Card extends Component {
           <i
             className="fa fa-pencil fa-2x"
             onClick={() => {
-              userSelectedCardToEdit(card.id);
+              userSelectedCardToEdit(id);
             }}
           />
         </div>
@@ -44,7 +45,7 @@ class Card extends Component {
         <div className={`card ${card.class}`}>
           <div className="card-top">
             <div className="card-name">
-              {currentCardId === card.id ? (
+              {currentCardId === id ? (
                 <form onSubmit={userSubmitEdit}>
                   <input
                     type="text"
@@ -55,17 +56,17 @@ class Card extends Component {
                   />
                 </form>
               ) : (
-                <b>{card.name}</b>
+                <b>{name}</b>
               )}
               <p>{card.class}</p>
             </div>
           </div>
           <div className="card-numbers">
             <p>
-              ATT <span>{card.attack}</span>
+              ATT <span>{attack}</span>
             </p>
             <p>
-              DEF <span>{card.defense}</span>
+              DEF <span>{defense}</span>
             </p>
           </div>
         </div>

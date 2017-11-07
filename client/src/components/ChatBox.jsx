@@ -17,9 +17,7 @@ class ChatBox extends Component {
     return (
       <div className="message-box">
         <div className="message-display">
-          {messages.map(message => {
-            return <p>{message.message}</p>;
-          })}
+          {messages.map(message => <p>{message.message}</p>)}
         </div>
         <div className="message-input">
           <form onSubmit={() => handleMessageSubmit(text)}>

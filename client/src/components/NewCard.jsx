@@ -1,90 +1,66 @@
-import React, { Component } from 'react';
-
-import Card from './Card';
-
+import React, { Component } from "react";
+import Card from "./Card";
+const alert = `Too many cards! You can't have more than 20 cards.`;
 
 // gets a new card when the user clicks a button
-class NewCard extends Component {
-    constructor() {
-        super();
-        this.state = {
-            gotNewCard: false,
-        }
-    }
+const NewCard = ({
+  newCard,
+  userCards,
+  getNewUserCard,
+  getNewUserCardPremium
+}) => {
+  const getNewCard = () => getNewUserCard();
 
-    componentWillUnmount() {
-        this.setState({
-            gotNewCard: false,
-        })
-    }
+  const getNewCardLv1 = () => getNewUserCardPremium(15);
 
-    getNewCard = () => {
-        if(this.props.userCards.length < 20){
-            this.props.getNewUserCard();
-            this.setState({
-                gotNewCard: true,
-            })
-        }else{
-            alert('Too many cards! You can\'t have more than 20 cards.')
-        }
-    }
+  const getNewCardLv2 = () => getNewUserCardPremium(25);
 
-    getNewCardLv1 = () => {
-        if(this.props.userCards.length < 20){
-            this.props.getNewUserCardPremium(15);
-            this.setState({
-                gotNewCard: true,
-            })
-        }else{
-            alert('Too many cards! You can\'t have more than 20 cards.')
-        }
-    }
+  const getNewCardLv3 = () => getNewUserCardPremium(35);
 
-    getNewCardLv2 = () => {
-        if(this.props.userCards.length < 20){
-            this.props.getNewUserCardPremium(25);
-            this.setState({
-                gotNewCard: true,
-            })
-        }else{
-            alert('Too many cards! You can\'t have more than 20 cards.')
-        }
-    }
+  const getNewCardLv4 = () => getNewUserCardPremium(45);
 
-    getNewCardLv3 = () => {
-        if(this.props.userCards.length < 20){
-            this.props.getNewUserCardPremium(35);
-            this.setState({
-                gotNewCard: true,
-            })
-        }else{
-            alert('Too many cards! You can\'t have more than 20 cards.')
-        }
+  const buttons = [
+    {
+      onClick: getNewCard,
+      text: "Get new Card! Cost:",
+      cost: 20
+    },
+    {
+      onClick: getNewCardLv1,
+      text: "Get better Card! Cost:",
+      cost: 30
+    },
+    {
+      onClick: getNewCardLv2,
+      text: "Get even better Card! Cost:",
+      cost: 50
+    },
+    {
+      onClick: getNewCardLv3,
+      text: "Get almost the best Card! Cost:",
+      cost: 70
+    },
+    {
+      onClick: getNewCardLv4,
+      text: "Get the BEST Card! Cost:",
+      cost: 90
     }
-
-    getNewCardLv4 = () => {
-        if(this.props.userCards.length < 20){
-            this.props.getNewUserCardPremium(45);
-            this.setState({
-                gotNewCard: true,
-            })
-        }else{
-            alert('Too many cards! You can\'t have more than 20 cards.')
-        }
-    }
-
-  render() {
-    return (
-      <div className = 'new-card'>
-          <button className = 'newCardButton' type='button' onClick = {this.getNewCard}>Get new Card! Cost: <strong style={{color:'red'}}>20</strong></button>
-          <button className = 'newCardButton' type='button' onClick = {this.getNewCardLv1}>Get better Card! Cost: <strong style={{color:'red'}}>30</strong></button>
-          <button className = 'newCardButton' type='button' onClick = {this.getNewCardLv2}>Get even better Card! Cost: <strong style={{color:'red'}}>50</strong></button>
-          <button className = 'newCardButton' type='button' onClick = {this.getNewCardLv3}>Get almost the best Card! Cost: <strong style={{color:'red'}}>70</strong></button>
-          <button className = 'newCardButton' type='button' onClick = {this.getNewCardLv4}>Get the BEST Card! Cost: <strong style={{color:'red'}}>90</strong></button>
-        {this.state.gotNewCard && this.props.newCard ? <Card card = {this.props.newCard[0]} /> : ''}
-      </div>
-    )
-  }
-}
+  ];
+  return (
+    <div className="new-card">
+      {buttons.map(button => (
+        <button
+          className="newCardButton"
+          type="button"
+          onClick={() => button.onClick()}
+        >
+          {button.text}
+          <strong style={{ color: "red" }}>{button.cost}</strong>
+        </button>
+      ))}
+      {newCard ? <Card card={newCard[0]} /> : null}
+    </div>
+  );
+};
 
 export default NewCard;

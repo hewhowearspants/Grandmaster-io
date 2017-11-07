@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import Card from './Card';
+import React from "react";
+import Card from "./Card";
 
 // displays the users cards in the dashboard
-class UserCards extends Component { 
-  render() {
-    return (
-      <div className = 'UserCards'>
-        {this.props.userCards ? 
-          this.props.userCards.map(card => {
-            return <Card key = {card.id} 
-                     deleteUserCard = {this.props.deleteUserCard}
-                     userSubmitEdit = {this.props.userSubmitEdit} 
-                     userSelectedCardToEdit = {this.props.userSelectedCardToEdit} 
-                     currentCardId = {this.props.currentCardId}
-                     card = {card} />
-          }) : ''
-        }
-      </div>
-    )
-  }
-}
-
-export default UserCards;
+export const UserCards = ({
+  userCards,
+  deleteUserCard,
+  userSelectedCardToEdit,
+  userSubmitEdit,
+  currentCardId
+}) => (
+  <div className="UserCards">
+    {userCards
+      ? userCards.map(card => {
+          return (
+            <Card
+              key={card.id}
+              deleteUserCard={deleteUserCard}
+              userSubmitEdit={userSubmitEdit}
+              userSelectedCardToEdit={userSelectedCardToEdit}
+              currentCardId={currentCardId}
+              card={card}
+            />
+          );
+        })
+      : ""}
+  </div>
+);

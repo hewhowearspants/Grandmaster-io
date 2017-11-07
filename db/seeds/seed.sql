@@ -1,3 +1,5 @@
+\c dream_team_dev;
+
 INSERT INTO cards
   (name, class, attack, defense, image_url)
 VALUES

@@ -2,27 +2,12 @@ import React from "react";
 import Card from "./Card";
 
 // displays the users cards in the dashboard
-export const UserCards = ({
-  userCards,
-  deleteUserCard,
-  userSelectedCardToEdit,
-  userSubmitEdit,
-  currentCardId
-}) => (
+export const UserCards = props => (
   <div className="UserCards">
-    {userCards
-      ? userCards.map(card => {
-          return (
-            <Card
-              key={card.id}
-              deleteUserCard={deleteUserCard}
-              userSubmitEdit={userSubmitEdit}
-              userSelectedCardToEdit={userSelectedCardToEdit}
-              currentCardId={currentCardId}
-              card={card}
-            />
-          );
-        })
-      : ""}
+    {props.userCards
+      ? props.userCards.map(card => (
+          <Card key={card.id} card={card} {...props} />
+        ))
+      : null}
   </div>
 );

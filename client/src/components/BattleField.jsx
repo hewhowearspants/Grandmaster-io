@@ -26,8 +26,8 @@ export const BattleField = ({
         <h2>{!winner ? `Round: ${round}` : `${winner} Won!`}</h2>
       </div>
       <div className="hp">
-        <b>{userNameData ? `${userNameData} HP: ${userHp}` : ""}</b>
-        <b>{oppoNameData ? `${oppoNameData} HP: ${oppoHp}` : ""}</b>
+        <b>{userNameData && `${userNameData} HP: ${userHp}`}</b>
+        <b>{oppoNameData && `${oppoNameData} HP: ${oppoHp}`}</b>
       </div>
       <div className="battlefield-buttons">
         {userSelection && oppoSelection && confirmed && !gameOver ? (
@@ -78,7 +78,7 @@ export const BattleField = ({
         ) : null}
       </div>
       <div className="oppo-selection">
-        {oppoSelection ? (
+        {oppoSelection && (
           <div className={`card ${oppoSelection.class} battlefield_select`}>
             <div className="card-top">
               <div className="card-name">
@@ -95,7 +95,7 @@ export const BattleField = ({
               </p>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   </div>

@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import Card from "./Card";
-const alert = `Too many cards! You can't have more than 20 cards.`;
-
+const message = `Too many cards! delete one first`;
 // gets a new card when the user clicks a button
 const NewCard = ({
   newCard,
@@ -9,39 +8,29 @@ const NewCard = ({
   getNewUserCard,
   getNewUserCardPremium
 }) => {
-  const getNewCard = () => getNewUserCard();
-
-  const getNewCardLv1 = () => getNewUserCardPremium(15);
-
-  const getNewCardLv2 = () => getNewUserCardPremium(25);
-
-  const getNewCardLv3 = () => getNewUserCardPremium(35);
-
-  const getNewCardLv4 = () => getNewUserCardPremium(45);
-
   const buttons = [
     {
-      onClick: getNewCard,
+      onClick: () => getNewUserCard(),
       text: "Get new Card! Cost:",
       cost: 20
     },
     {
-      onClick: getNewCardLv1,
+      onClick: () => getNewUserCardPremium(15),
       text: "Get better Card! Cost:",
       cost: 30
     },
     {
-      onClick: getNewCardLv2,
+      onClick: () => getNewUserCardPremium(25),
       text: "Get even better Card! Cost:",
       cost: 50
     },
     {
-      onClick: getNewCardLv3,
+      onClick: () => getNewUserCardPremium(35),
       text: "Get almost the best Card! Cost:",
       cost: 70
     },
     {
-      onClick: getNewCardLv4,
+      onClick: () => getNewUserCardPremium(45),
       text: "Get the BEST Card! Cost:",
       cost: 90
     }
@@ -50,9 +39,12 @@ const NewCard = ({
     <div className="new-card">
       {buttons.map(button => (
         <button
+          key={button.cost}
           className="newCardButton"
           type="button"
-          onClick={() => button.onClick()}
+          onClick={
+            userCards.length < 20 ? button.onClick : () => alert(`${message}`)
+          }
         >
           {button.text}
           <strong style={{ color: "red" }}>{button.cost}</strong>

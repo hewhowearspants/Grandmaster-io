@@ -45,7 +45,7 @@ class GameRoom extends Component {
     });
     // when receiving a new message, adds to messages stored in state
     socket.on("receive message", data => {
-      console.log(data.message);
+      // console.log(data.message);
       const updatedMessages = [...this.state.messages];
       updatedMessages.push(data.message);
       this.setState({
@@ -55,14 +55,14 @@ class GameRoom extends Component {
     // when user joins room, loads message log from server so they can get
     // caught up, stores in state
     socket.on("load messages", messages => {
-      console.log("got messages");
+      // console.log("got messages");
       this.setState({
         messages: messages
       });
     });
     // when user joins room, loads user list from server, stores in state
     socket.on("load users", users => {
-      console.log(`got ${users.length} users ` + JSON.stringify(users));
+      // console.log(`got ${users.length} users ` + JSON.stringify(users));
       this.setState({
         users: users
       });
@@ -72,7 +72,7 @@ class GameRoom extends Component {
     // this card data is scrubbed on the server so they are not sending actual
     // card information (opponent could just check the console to see it)
     socket.on("load players", playerData => {
-      console.log("got players" + JSON.stringify(playerData));
+      // console.log("got players" + JSON.stringify(playerData));
       // if nobody is playing, clear player information
       if (playerData.length === 0) {
         this.setState({
@@ -165,7 +165,7 @@ class GameRoom extends Component {
     });
     // gets the result of the card fight from server, reflects new HP for players
     socket.on("round over", data => {
-      console.log(data);
+      // console.log(data);
       if (
         data.playerData[0].username === this.state.userNameData &&
         data.playerData[1].username !== this.props.user.username
@@ -250,7 +250,7 @@ class GameRoom extends Component {
 
       if (data.winner === this.props.user.username) {
         this.props.updateWinsNCurrency();
-        console.log("updating wins and monies for " + this.props.user.username);
+        // console.log("updating wins and monies for " + this.props.user.username);
       }
     });
     socket.on("reset game", data => {
@@ -555,16 +555,15 @@ class GameRoom extends Component {
           <div className="message-box">
             <div className="message-display-wrapper">
               <div className="message-display">
-                {messages
-                  ? messages.map(message => (
-                      <p
-                        className={!message.displayName ? "notification" : ""}
-                        key={messages.indexOf(message)}
-                      >
-                        <span>{message.displayName}</span>: {message.message}
-                      </p>
-                    ))
-                  : null}
+                {messages &&
+                  messages.map(message => (
+                    <p
+                      className={!message.displayName ? "notification" : ""}
+                      key={messages.indexOf(message)}
+                    >
+                      <span>{message.displayName}</span>: {message.message}
+                    </p>
+                  ))}
               </div>
             </div>
             <div className="message-input">
@@ -578,17 +577,16 @@ class GameRoom extends Component {
         {/* player two */}
         <div className="oppo-hand">
           <h3>{oppoNameData ? `${oppoNameData}` : "Waiting Player"}</h3>
-          {oppoCardData
-            ? oppoCardData.map(card => (
-                <div
-                  className="card"
-                  style={{
-                    background: `url(${card.image_url}`,
-                    backgroundSize: "cover"
-                  }}
-                />
-              ))
-            : null}
+          {oppoCardData &&
+            oppoCardData.map(card => (
+              <div
+                className="card"
+                style={{
+                  background: `url(${card.image_url}`,
+                  backgroundSize: "cover"
+                }}
+              />
+            ))}
         </div>
       </div>
     );

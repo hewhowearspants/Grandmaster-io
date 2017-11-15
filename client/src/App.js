@@ -143,21 +143,20 @@ class App extends Component {
       this.setState({
         userCardData: res.data
       });
-      this.state.userCardData.forEach(data => {
-        axios
-          .post("/usercard/new", {
-            cardId: data.id,
-            name: data.name,
-            class: data.class,
-            attack: data.attack,
-            defense: data.defense,
-            imageUrl: data.image_url
-          })
-          .then(res => {})
-          .catch(err => {
-            console.log(err);
-          });
-      });
+    } catch (err) {
+      console.log(err);
+    }
+    try {
+      const data = await this.state.userCardData.forEach(data =>
+        axios.post("/usercard/new", {
+          cardId: data.id,
+          name: data.name,
+          class: data.class,
+          attack: data.attack,
+          defense: data.defense,
+          imageUrl: data.image_url
+        })
+      );
     } catch (err) {
       console.log(err);
     }

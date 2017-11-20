@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import * as firebase from "firebase";
 
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import "./App.css";
 
@@ -10,9 +10,11 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Home } from "./components/Home";
 import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
 import { GameLobby } from "./components/GameLobby";
 import GameRoom from "./components/GameRoom";
+import asyncComponent from "./asyncComponent";
+
+const AsyncDashboard = asyncComponent(() => import("./components/Dashboard"));
 
 class App extends Component {
   constructor() {
@@ -28,7 +30,6 @@ class App extends Component {
       currentPage: "dashboard",
       currentCardId: null,
       currentUserId: null,
-      redirect: "/",
       currentContent: "user-cards",
       users: { 1: 0, 2: 0, 3: 0 },
       players: { 1: 0, 2: 0, 3: 0 }
@@ -52,21 +53,20 @@ class App extends Component {
     this.lobbyRef = this.rootRef.child("lobby");
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.requireLogin();
     // gets all of the cards in the api to display in Card Collection
-    axios
-      .get("/cards")
-      .then(res => {
+    try {
+      await axios.get("/cards").then(res => {
         console.log(res.data);
         this.setState({
           cardData: res.data,
           cardDataLoaded: true
         });
-      })
-      .catch(err => console.log(err));
-
-    // redirect if not logged in
-    this.requireLogin();
+      });
+    } catch (err) {
+      console.log(err);
+    }
 
     // set up listeners for firebase to get current players/users in game rooms
     this.lobbyRef.on("child_added", type => {
@@ -95,15 +95,8 @@ class App extends Component {
     });
   }
 
-  // redirects user to login screen if not logged in
   requireLogin = () => {
-    !this.state.auth
-      ? this.setState({
-          redirect: "/"
-        })
-      : this.setState({
-          redirect: "/user"
-        });
+    !this.state.auth && this.props.history.push("/");
   };
 
   // logs user in, gets users cards, redirects to their dashboard
@@ -115,9 +108,11 @@ class App extends Component {
         auth: res.data.auth,
         user: res.data.user
       });
+      this.state.auth
+        ? this.props.history.push("/user")
+        : this.props.history.push("/");
       if (this.state.user) {
         this.getUserCards();
-        this.setState({ redirect: "/user" });
       }
     } catch (err) {
       console.log(err);
@@ -143,21 +138,20 @@ class App extends Component {
       this.setState({
         userCardData: res.data
       });
-      this.state.userCardData.forEach(data => {
-        axios
-          .post("/usercard/new", {
+      try {
+        await this.state.userCardData.forEach(data => {
+          axios.post("/usercard/new", {
             cardId: data.id,
             name: data.name,
             class: data.class,
             attack: data.attack,
             defense: data.defense,
             imageUrl: data.image_url
-          })
-          .then(res => {})
-          .catch(err => {
-            console.log(err);
           });
-      });
+        });
+      } catch (err) {
+        console.log(err);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -291,13 +285,6 @@ class App extends Component {
     }
   };
 
-  // sets the redirect page when called
-  setRedirect = () => {
-    this.setState({
-      redirect: null
-    });
-  };
-
   // sets the current page for the 'Join Game/User Dashboard' display
   setCurrentPage = page => {
     this.setState({
@@ -319,16 +306,14 @@ class App extends Component {
         .username}?`
     );
     try {
-      !confirm
-        ? this.setState({
-            redirect: null
-          })
-        : await axios.delete(`/user/${id}`);
-      this.setState({
-        user: null,
-        redirect: "/",
-        auth: false
-      });
+      if (confirm) {
+        await axios.delete(`/user/${id}`);
+        this.props.history.push("/");
+        this.setState({
+          user: null,
+          auth: false
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -351,12 +336,7 @@ class App extends Component {
           user: res.data.user
         });
       })
-      .then(
-        this.getInitialUserCards,
-        this.setState({
-          redirect: "/user"
-        })
-      )
+      .then(this.getInitialUserCards, this.props.history.push("/user"))
       .catch(err => console.log(err));
   };
 
@@ -365,9 +345,9 @@ class App extends Component {
     try {
       const res = await axios.get("/auth/logout");
       console.log(res);
+      this.props.history.push("/");
       this.setState({
-        auth: false,
-        redirect: "/"
+        auth: false
       });
     } catch (err) {
       console.log(err);
@@ -464,103 +444,90 @@ class App extends Component {
     }
   };
 
-  render() {
-    // redirects the page if there's a redirect set, otherwise displays as normal
-    if (this.state.redirect !== null) {
-      let redir = this.state.redirect;
-      this.setState({
-        redirect: null
-      });
-      return (
-        <Router>
-          <Redirect push to={redir} />
-        </Router>
-      );
-    } else {
-      return (
-        <Router>
-          <div className="App">
-            <Header
-              setPage={this.setPage}
+  render = () => {
+    let routes = this.state.auth ? (
+      <Switch>
+        {/* all of the routes */}
+        <Route
+          exact
+          path="/user"
+          render={() => (
+            <AsyncDashboard
+              setContent={this.setContent}
+              currentContent={this.state.currentContent}
+              cards={this.state.cardData}
+              userCards={this.state.userCardData}
+              newCard={this.state.newCardData}
+              userSubmitEdit={this.userSubmitEdit}
+              userSelectedCardToEdit={this.userSelectedCardToEdit}
+              currentCardId={this.state.currentCardId}
+              getNewUserCard={this.getNewUserCard}
+              getNewUserCardPremium={this.getNewUserCardPremium}
+              deleteUserCard={this.deleteUserCard}
               user={this.state.user}
-              display_name={this.props.display_name}
-              auth={this.state.auth}
-              logOut={this.logOut}
-              setCurrentPage={this.setCurrentPage}
-              currentPage={this.state.currentPage}
+              email={this.state.email}
+              display_name={this.state.display_name}
+              userSubmitNewName={this.userSubmitNewName}
+              userSelectedNameToEdit={this.userSelectedNameToEdit}
+              currentUserId={this.state.currentUserId}
+              deleteUser={this.deleteUser}
             />
-            <main>
-              {/* all of the routes */}
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <Home handleLoginSubmit={this.handleLoginSubmit} />
-                )}
-              />
-              <Route
-                exact
-                path="/register"
-                render={() => (
-                  <Register handleRegisterSubmit={this.handleRegisterSubmit} />
-                )}
-              />
-              <Route
-                exact
-                path="/user"
-                render={() => (
-                  <Dashboard
-                    setContent={this.setContent}
-                    currentContent={this.state.currentContent}
-                    cards={this.state.cardData}
-                    userCards={this.state.userCardData}
-                    newCard={this.state.newCardData}
-                    userSubmitEdit={this.userSubmitEdit}
-                    userSelectedCardToEdit={this.userSelectedCardToEdit}
-                    currentCardId={this.state.currentCardId}
-                    getNewUserCard={this.getNewUserCard}
-                    getNewUserCardPremium={this.getNewUserCardPremium}
-                    deleteUserCard={this.deleteUserCard}
-                    user={this.state.user}
-                    email={this.state.email}
-                    display_name={this.state.display_name}
-                    userSubmitNewName={this.userSubmitNewName}
-                    userSelectedNameToEdit={this.userSelectedNameToEdit}
-                    currentUserId={this.state.currentUserId}
-                    deleteUser={this.deleteUser}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/joingame"
-                render={() => (
-                  <GameLobby
-                    players={this.state.players}
-                    users={this.state.users}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/joingame/:id"
-                render={props => (
-                  <GameRoom
-                    user={this.state.user}
-                    id={props.match.params.id}
-                    userCards={this.state.userCardData}
-                    updateLobbyPlayersAndUsers={this.updateLobbyPlayersAndUsers}
-                    updateWinsNCurrency={this.updateWinsNCurrency}
-                  />
-                )}
-              />
-            </main>
-            <Footer />
-          </div>
-        </Router>
-      );
-    }
-  }
+          )}
+        />
+        <Route
+          exact
+          path="/joingame"
+          render={() => (
+            <GameLobby players={this.state.players} users={this.state.users} />
+          )}
+        />
+        <Route
+          exact
+          path="/joingame/:id"
+          render={props => (
+            <GameRoom
+              user={this.state.user}
+              id={props.match.params.id}
+              userCards={this.state.userCardData}
+              updateLobbyPlayersAndUsers={this.updateLobbyPlayersAndUsers}
+              updateWinsNCurrency={this.updateWinsNCurrency}
+            />
+          )}
+        />
+      </Switch>
+    ) : (
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => <Home handleLoginSubmit={this.handleLoginSubmit} />}
+        />
+        <Route
+          exact
+          path="/register"
+          render={() => (
+            <Register handleRegisterSubmit={this.handleRegisterSubmit} />
+          )}
+        />
+      </Switch>
+    );
+
+    return (
+      <div className="App">
+        <Header
+          setPage={this.setPage}
+          user={this.state.user}
+          display_name={this.props.display_name}
+          auth={this.state.auth}
+          logOut={this.logOut}
+          setCurrentPage={this.setCurrentPage}
+          currentPage={this.state.currentPage}
+        />
+        <main>{routes}</main>
+        <Footer />
+      </div>
+    );
+  };
 }
 
-export default App;
+export default withRouter(App);

@@ -5,7 +5,7 @@ import React from "react";
 export const HandCardSingle = ({ card, opponent, select }) => (
   <div
     className={`card ${card.class}`}
-    onClick={opponent ? () => select(card) : ""}
+    onClick={opponent ? () => select(card) : null}
   >
     <div className="card-top">
       <div className="card-name">
@@ -14,8 +14,8 @@ export const HandCardSingle = ({ card, opponent, select }) => (
       </div>
     </div>
     <div className="card-numbers">
-      <p>{card.attack ? `ATT ${card.attack}` : ""}</p>
-      <p>{card.defense ? `DEF ${card.defense}` : ""}</p>
+      <p>{card.attack && `ATT ${card.attack}`}</p>
+      <p>{card.defense && `DEF ${card.defense}`}</p>
     </div>
   </div>
 );

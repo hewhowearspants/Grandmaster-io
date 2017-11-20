@@ -40,6 +40,7 @@ const NewCard = ({
     <div className="new-card">
       {buttons.map(button => (
         <button
+          key={button.text}
           className="newCardButton"
           type="button"
           onClick={() => button.onClick()}
@@ -48,7 +49,7 @@ const NewCard = ({
           <strong style={{ color: "red" }}>{button.cost}</strong>
         </button>
       ))}
-      {newCard ? <Card card={newCard[0]} /> : null}
+      {newCard && <Card card={newCard[0]} />}
     </div>
   );
 };

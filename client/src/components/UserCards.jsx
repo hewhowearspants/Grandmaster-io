@@ -10,19 +10,16 @@ export const UserCards = ({
   currentCardId
 }) => (
   <div className="UserCards">
-    {userCards
-      ? userCards.map(card => {
-          return (
-            <Card
-              key={card.id}
-              deleteUserCard={deleteUserCard}
-              userSubmitEdit={userSubmitEdit}
-              userSelectedCardToEdit={userSelectedCardToEdit}
-              currentCardId={currentCardId}
-              card={card}
-            />
-          );
-        })
-      : ""}
+    {userCards &&
+      userCards.map(card => (
+        <Card
+          key={card.id}
+          deleteUserCard={deleteUserCard}
+          userSubmitEdit={userSubmitEdit}
+          userSelectedCardToEdit={userSelectedCardToEdit}
+          currentCardId={currentCardId}
+          card={card}
+        />
+      ))}
   </div>
 );

@@ -13,7 +13,7 @@ export const Home = ({ handleLoginSubmit }) => (
         <Login handleLoginSubmit={handleLoginSubmit} />
       </li>
       <li>
-        Not logged in? <Link to="/register">Register</Link>
+        Not Registered? <Link to="/register">Register</Link>
       </li>
     </ul>
   </div>

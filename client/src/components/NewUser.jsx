@@ -38,28 +38,29 @@ class NewUser extends Component {
   }
 
   render() {
+    const { cardData } = this.state;
+    const { jumpToUserHome } = this.props;
     return (
       <div className="card-list">
-        {this.state.cardData
-          ? this.state.cardData.map(data => {
-              return (
-                <div key={data.id} className="single-card">
-                  <div className="card-name">
-                    <b>{data.name}</b>
-                  </div>
-                  <div className="card-class">
-                    <p>class: {data.class}</p>
-                  </div>
-                  <div className="card-attack">
-                    <p>attack: {data.attack}</p>
-                  </div>
-                  <div className="card-defense">
-                    <p>defense: {data.defense}</p>
-                  </div>
+        {cardData &&
+          cardData.map(data => {
+            return (
+              <div key={data.id} className="single-card">
+                <div className="card-name">
+                  <b>{data.name}</b>
                 </div>
-              );
-            })
-          : ""}
+                <div className="card-class">
+                  <p>class: {data.class}</p>
+                </div>
+                <div className="card-attack">
+                  <p>attack: {data.attack}</p>
+                </div>
+                <div className="card-defense">
+                  <p>defense: {data.defense}</p>
+                </div>
+              </div>
+            );
+          })}
         <button className="userBtn" onClick={this.props.jumpToUserHome}>
           Accept!
         </button>

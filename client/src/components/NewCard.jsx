@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card";
-const message = `Too many cards! delete one first`;
+
 // gets a new card when the user clicks a button
 const NewCard = ({
   newCard,
@@ -8,6 +8,7 @@ const NewCard = ({
   getNewUserCard,
   getNewUserCardPremium
 }) => {
+  const message = `Too many cards! You can't have more than 20 cards.`;
   const buttons = [
     {
       onClick: () => getNewUserCard(),
@@ -50,7 +51,7 @@ const NewCard = ({
           <strong style={{ color: "red" }}>{button.cost}</strong>
         </button>
       ))}
-      {newCard ? <Card card={newCard[0]} /> : null}
+      {newCard && <Card card={newCard[0]} />}
     </div>
   );
 };

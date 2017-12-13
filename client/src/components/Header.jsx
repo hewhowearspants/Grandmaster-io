@@ -3,28 +3,28 @@ import { Link } from "react-router-dom";
 
 // header component, contains nav between game lobby and user dashboard.
 // also logout button if logged in
-export const Header = props => (
+export const Header = ({ user, auth, currentPage, logOut, setCurrentPage }) => (
   <header className="header">
     Grandmaster
-    {props.auth ? (
+    {auth && (
       <ul>
-        <li className="username">{props.user.display_name}</li>
-        <li className="username">Wins: {props.user.wins}</li>
-        <li className="username">Currency: {props.user.currency}</li>
-        {props.currentPage === "game" || !props.auth ? null : (
-          <li onClick={() => props.setCurrentPage("game")}>
+        <li className="username">{user.display_name}</li>
+        <li className="username">Wins: {user.wins}</li>
+        <li className="username">Currency: {user.currency}</li>
+        {currentPage !== "game" && (
+          <li onClick={() => setCurrentPage("game")}>
             <Link to="/joingame">Join Game</Link>
           </li>
         )}
-        {props.currentPage === "dashboard" || !props.auth ? null : (
-          <li onClick={() => props.setCurrentPage("dashboard")}>
+        {currentPage !== "dashboard" && (
+          <li onClick={() => setCurrentPage("dashboard")}>
             <Link to="/user">User Dashboard</Link>
           </li>
         )}
-        <li onClick={props.logOut}>
+        <li onClick={logOut}>
           <Link to="/">Logout</Link>
         </li>
       </ul>
-    ) : null}
+    )}
   </header>
 );

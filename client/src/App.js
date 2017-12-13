@@ -7,7 +7,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import "./App.css";
 
 import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
+import Footer from "./components/Footer";
 import { Home } from "./components/Home";
 import Register from "./components/Register";
 import { GameLobby } from "./components/GameLobby";
@@ -265,7 +265,7 @@ class App extends Component {
     let confirm = window.confirm(
       `${this.state.user.username}, are you sure you want to delete this card?`
     );
-    if (confirm === true) {
+    if (confirm) {
       try {
         await axios.delete(`/usercard/${id}`);
         const updatedCards = [...this.state.userCardData];
@@ -322,23 +322,23 @@ class App extends Component {
 
   // creates a new user account, gets the new user's initial 10 random cards,
   // redirects them to their dashboard
-  handleRegisterSubmit = (e, username, password, email, displayName) => {
+  handleRegisterSubmit = async (e, username, password, email, displayName) => {
     e.preventDefault();
-    axios
-      .post("/auth/register", {
+    try {
+      const res = await axios.post("/auth/register", {
         username,
         password,
         email,
         displayName
-      })
-      .then(res => {
-        this.setState({
-          auth: res.data.auth,
-          user: res.data.user
-        });
-      })
-      .then(this.getInitialUserCards, this.props.history.push("/user"))
-      .catch(err => console.log(err));
+      });
+      this.setState({
+        auth: res.data.auth,
+        user: res.data.user
+      });
+      this.getInitialUserCards && this.props.history.push("/user");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // logs user out

@@ -492,7 +492,7 @@ class GameRoom extends Component {
         {joined ? (
           <div className="users-hand">
             <h3>{userNameData ? `${userNameData}` : "Waiting Player"}</h3>
-            {userCardData ? (
+            {userCardData && (
               <UsersHands
                 className="user-hand"
                 playersFull={playersFull}
@@ -503,22 +503,21 @@ class GameRoom extends Component {
                 cardDrawn={userCardDrawn}
                 opponent={oppoNameData}
               />
-            ) : null}
+            )}
           </div>
         ) : (
           <div className="oppo-hand">
             <h3>{userNameData ? `${userNameData}` : "Waiting Player"}</h3>
-            {userCardData
-              ? userCardData.map(card => (
-                  <div
-                    className="card"
-                    style={{
-                      background: `url(${card.image_url}`,
-                      backgroundSize: "cover"
-                    }}
-                  />
-                ))
-              : null}
+            {userCardData &&
+              userCardData.map(card => (
+                <div
+                  className="card"
+                  style={{
+                    background: `url(${card.image_url}`,
+                    backgroundSize: "cover"
+                  }}
+                />
+              ))}
           </div>
         )}
         {/* battlefield, contains player info, selected card, chat box */}
@@ -542,15 +541,16 @@ class GameRoom extends Component {
             leaveGame={this.leaveGame}
             readyToContinue={this.readyToContinue}
           />
-          {!joined && !playersFull ? (
-            <button
-              className="join-game-button"
-              onClick={this.joinGame}
-              disabled={playersFull ? true : false}
-            >
-              JOIN GAME
-            </button>
-          ) : null}
+          {!joined &&
+            !playersFull && (
+              <button
+                className="join-game-button"
+                onClick={this.joinGame}
+                disabled={playersFull ? true : false}
+              >
+                JOIN GAME
+              </button>
+            )}
           {/* the chat box! */}
           <div className="message-box">
             <div className="message-display-wrapper">

@@ -28,6 +28,7 @@ class UserProfile extends Component {
       deleteUser,
       userSubmitNewName
     } = this.props;
+    const { email, display_name } = this.state;
     return (
       <div className="user-profile">
         <div className="user">
@@ -37,14 +38,14 @@ class UserProfile extends Component {
                 type="text"
                 name="display_name"
                 placeholder="username"
-                value={this.state.display_name}
+                value={display_name}
                 onChange={this.handleInputChange}
               />
               <input
                 type="text"
                 name="email"
                 placeholder="email"
-                value={this.state.email}
+                value={email}
                 onChange={this.handleInputChange}
               />
               <button type="submit">Submit</button>

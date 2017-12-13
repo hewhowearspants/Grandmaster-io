@@ -5,7 +5,7 @@ import React from "react";
 export const HandCardSingle = ({ card, opponent, select }) => (
   <div
     className={`card ${card.class}`}
-    onClick={opponent ? () => select(card) : null}
+    onClick={opponent && (() => select(card))}
   >
     <div className="card-top">
       <div className="card-name">

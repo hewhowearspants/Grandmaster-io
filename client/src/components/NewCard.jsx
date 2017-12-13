@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "./Card";
-
 // gets a new card when the user clicks a button
 const NewCard = ({
   newCard,

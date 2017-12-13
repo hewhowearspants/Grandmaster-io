@@ -132,12 +132,13 @@ class App extends Component {
   };
 
   // when user first logs in, gives them their initial 10 random cards
-  getInitialUserCards = async () => {
+    getInitialUserCards = async () => {
     try {
       const res = await axios.get("/user/new");
       this.setState({
         userCardData: res.data
       });
+<<<<<<< HEAD
     } catch (err) {
       console.log(err);
     }
@@ -152,11 +153,26 @@ class App extends Component {
           imageUrl: data.image_url
         })
       );
+=======
+      try {
+        await this.state.userCardData.forEach(data => {
+          axios.post("/usercard/new", {
+            cardId: data.id,
+            name: data.name,
+            class: data.class,
+            attack: data.attack,
+            defense: data.defense,
+            imageUrl: data.image_url
+          });
+        });
+      } catch (err) {
+        console.log(err);
+      }
+>>>>>>> 809f9d7577eeb14b0472552d7380e241f1312272
     } catch (err) {
       console.log(err);
     }
   };
-
   // gets a random card when users requests a new card, adds it to their cards
   getNewUserCard = async () => {
     if (this.state.user.currency >= 20) {

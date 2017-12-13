@@ -53,7 +53,7 @@ export const BattleField = ({
     </div>
     <div className="card-selected">
       <div className="user-selection">
-        {userSelection ? (
+        {userSelection && (
           <div className={`card ${userSelection.class} battlefield_select`}>
             <div className="card-top">
               <div className="card-name">
@@ -75,10 +75,10 @@ export const BattleField = ({
               </p>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
       <div className="oppo-selection">
-        {oppoSelection ? (
+        {oppoSelection && (
           <div className={`card ${oppoSelection.class} battlefield_select`}>
             <div className="card-top">
               <div className="card-name">
@@ -95,7 +95,7 @@ export const BattleField = ({
               </p>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   </div>

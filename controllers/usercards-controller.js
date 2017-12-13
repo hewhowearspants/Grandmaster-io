@@ -1,79 +1,73 @@
-const Usercard = require('../models/usercard');
+const Usercard = require("../models/usercard");
 
 const usercardsController = {};
 //show users' cards, user cards page
-usercardsController.findUserCards = (req, res) => {
-  Usercard.findUserCards(req.user.id)
-  .then(usercards => {
-    res.json(usercards);
-  })
-  .catch(err => {
+usercardsController.findUserCards = async (req, res) => {
+  try {
+    const usercards = await Usercard.findUserCards(req.user.id);
+    return res.json(usercards);
+  } catch (err) {
     console.log(err);
     res.status(500).json(err);
-  });
+  }
 };
 //add card to users_cards
-usercardsController.addToUser = (req, res) => {
-  Usercard.addToUser({
-    cardId: req.body.cardId,
-    name: req.body.name,
-    class: req.body.class,
-    attack: req.body.attack,
-    defense: req.body.defense,
-    imageUrl: req.body.imageUrl,
-  }, req.user.id)
-  .then(usercard => {
-    res.json(usercard);
-  })
-  .catch(err => {
+usercardsController.addToUser = async (req, res) => {
+  try {
+    const usercard = await Usercard.addToUser(
+      {
+        cardId: req.body.cardId,
+        name: req.body.name,
+        class: req.body.class,
+        attack: req.body.attack,
+        defense: req.body.defense,
+        imageUrl: req.body.imageUrl
+      },
+      req.user.id
+    );
+    return res.json(usercard);
+  } catch (err) {
     console.log(err);
     res.status(500).json(err);
-  });
+  }
 };
 //edit users' card info
-usercardsController.update = (req, res) => {
-  console.log(req.params);
-  Usercard.update(req.body.name, req.params.id)
-  .then(card => {
-    res.json(card);
-  })
-  .catch(err => {
+usercardsController.update = async (req, res) => {
+  try {
+    const usercard = await console.log(req.params);
+    await Usercard.update(req.body.name, req.params.id);
+    return res.json(usercard);
+  } catch (err) {
     console.log(err);
     res.status(500).json(err);
-  });
-}
+  }
+};
 //delete one card
-usercardsController.delete = (req, res) => {
-  Usercard.destroy(req.params.id)
-  .then(card => {
-    res.json({
-      message: 'ok',
-      data: card,
-    })
-  })
-  .catch(err => {
+usercardsController.delete = async (req, res) => {
+  try {
+    const usercard = await Usercard.destroy(req.params.id);
+    return res.json({
+      message: "ok",
+      data: usercard
+    });
+  } catch (err) {
     console.log(err);
     res.status(500).json({ err });
-  })
-}
+  }
+};
 //find random five user cards, for battle ready page
-usercardsController.findFiveUserCards = (req, res) => {
-  Usercard.findFiveUserCards(req.user.id)
-  .then(userCard => {
-    return Usercard.findFiveUserCards(1)
-           .then(opponentCard => {
-             return {
-               userCard: userCard,
-               opponentCard: opponentCard
-             }
-           })
-  })
-  .then(data => {
-    res.json(data);
-  })
-  .catch(err => {
+usercardsController.findFiveUserCards = async (req, res) => {
+  try {
+    const UserCard = await Usercard.findFiveUserCards(req.user.id);
+    await Usercard.findFiveUserCards(1);
+    return {
+      userCard: userCard,
+      opponentCard: opponentCard
+    };
+    return res.json(data);
+  } catch (err) {
     console.log(err);
-  })
-}
+  }
+};
 
 module.exports = usercardsController;

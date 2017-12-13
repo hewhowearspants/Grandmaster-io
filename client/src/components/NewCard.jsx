@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card";
-// const alert = `Too many cards! You can't have more than 20 cards.`;
-
+const message = `Too many cards! You can't have more than 20 cards.`;
+        
 // gets a new card when the user clicks a button
 const NewCard = ({
   newCard,
@@ -40,10 +40,12 @@ const NewCard = ({
     <div className="new-card">
       {buttons.map(button => (
         <button
-          key={button.text}
+          key={button.cost}
           className="newCardButton"
           type="button"
-          onClick={() => button.onClick()}
+          onClick={
+            userCards.length < 20 ? button.onClick : () => alert(`${message}`)
+          }
         >
           {button.text}
           <strong style={{ color: "red" }}>{button.cost}</strong>

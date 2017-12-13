@@ -11,15 +11,6 @@ export const UserCards = ({
 }) => (
   <div className="UserCards">
     {userCards &&
-      userCards.map(card => (
-        <Card
-          key={card.id}
-          deleteUserCard={deleteUserCard}
-          userSubmitEdit={userSubmitEdit}
-          userSelectedCardToEdit={userSelectedCardToEdit}
-          currentCardId={currentCardId}
-          card={card}
-        />
-      ))}
+      userCards.map(card => <Card key={card.id} card={card} {...props} />)}
   </div>
 );

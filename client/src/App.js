@@ -132,7 +132,7 @@ class App extends Component {
   };
 
   // when user first logs in, gives them their initial 10 random cards
-  getInitialUserCards = async () => {
+    getInitialUserCards = async () => {
     try {
       const res = await axios.get("/user/new");
       this.setState({
@@ -156,7 +156,6 @@ class App extends Component {
       console.log(err);
     }
   };
-
   // gets a random card when users requests a new card, adds it to their cards
   getNewUserCard = async () => {
     if (this.state.user.currency >= 20) {

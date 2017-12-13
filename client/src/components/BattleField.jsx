@@ -26,8 +26,8 @@ export const BattleField = ({
         <h2>{!winner ? `Round: ${round}` : `${winner} Won!`}</h2>
       </div>
       <div className="hp">
-        <b>{userNameData ? `${userNameData} HP: ${userHp}` : ""}</b>
-        <b>{oppoNameData ? `${oppoNameData} HP: ${oppoHp}` : ""}</b>
+        <b>{userNameData && `${userNameData} HP: ${userHp}`}</b>
+        <b>{oppoNameData && `${oppoNameData} HP: ${oppoHp}`}</b>
       </div>
       <div className="battlefield-buttons">
         {userSelection && oppoSelection && confirmed && !gameOver ? (

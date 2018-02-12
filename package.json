@@ -1,8 +1,7 @@
 {
   "name": "project-03-card-battle",
   "version": "1.0.0",
-  "description":
-    "Team 4 Proposal Card-Battle Members (Dan Martin, Carly Warner, Ryan Edwards, MarkMarkMark)",
+  "description": "Team 4 Proposal Card-Battle Members (Dan Martin, Carly Warner, Ryan Edwards, MarkMarkMark)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,8 +19,7 @@
   "bugs": {
     "url": "https://github.com/hewhowearspants/Project-03-Card-Battle/issues"
   },
-  "homepage":
-    "https://github.com/hewhowearspants/Project-03-Card-Battle#readme",
+  "homepage": "https://github.com/hewhowearspants/Project-03-Card-Battle#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",

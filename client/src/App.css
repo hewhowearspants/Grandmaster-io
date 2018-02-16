@@ -15,7 +15,7 @@
   opacity: .65;
   transform-origin: 500px 550px;
   filter: blur(3px) saturate(80%);
-  animation: App-logo-spin infinite 75s linear;  
+  /* animation: App-logo-spin infinite 75s linear;   */
 }
 
 @keyframes App-logo-spin {
@@ -482,12 +482,30 @@ header li {
   display: none;
 }
 
+.user-selection,
+.oppo-selection {
+  grid-row: 3 / 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-selection {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+}
+
+.oppo-selection {
+  grid-column: 4 / 5;
+  grid-row: 3 / 4;
+}
+
 /* card image after selected in battlefield */
 .battlefield_select {
   width:200px;
   height:300px;
-  margin-left:50px;
-  margin-right:50px;
+  /* margin-left:50px;
+  margin-right:50px; */
   position:relative;
 }
 
@@ -542,17 +560,17 @@ header li {
   font-family: 'UnifrakturCook', cursive;
   color:#12183B;
   font-size:60px;
-  margin-top:5px;
+  margin: 0px;
 }
 
 /* middle of battlefield */
-.mid-section {
+/* .mid-section {
   width:60%;
   margin: 0 auto;
   height:100%;
   display:flex;
   flex-direction:column;
-}
+} */
 
 .join-game-button {
   font-family: 'Yanone Kaffeesatz', sans-serif;
@@ -563,6 +581,9 @@ header li {
   align-self: center;
   border-radius: 5%;
   animation: pulse 1s infinite linear alternate;
+  grid-column: 2 / 5;
+  grid-row: 3 / 4;
+  margin: 0 auto;
 }
 
 @keyframes pulse {
@@ -577,8 +598,12 @@ header li {
 
 /* battlefield information width */
 .battle-log{
-  width:90%;
-  margin: 0 auto;
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 2 / 5;
+  grid-row: 1 / 2;
 }
 
 /* battlefield width */
@@ -588,6 +613,8 @@ header li {
   display:flex;
   flex-direction: column;
   align-items: center;
+  grid-column: 2 / 5;
+  grid-row: 1 / 4;
 }
 
 /* when the card is selected */
@@ -605,12 +632,13 @@ header li {
 }
 
 /* users cards width*/
-.users-hand {
- width:20%; 
+.user-hand {
+  display: flex;
+  width:100%; 
   align-items:center;
   flex-direction: column;
   overflow: hidden;
-  height: calc(100vh - 38px - 68px);  
+  /* height: calc(100vh - 38px - 68px);   */
 }
 
 /* users cards area */
@@ -622,7 +650,7 @@ header li {
 }
 
 /* users cards in battlefield */
-.users-hand .card {
+.user-hand .card {
   margin-bottom: -170px;
   width: 150px;
   height: 220px;
@@ -637,7 +665,7 @@ header li {
 }
 
 /* cchanging card number format for users cards */
-.users-hand .card .card-numbers {
+.user-hand .card .card-numbers {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -645,17 +673,17 @@ header li {
   height: 20px;
 }
 
-.users-hand .card p,
-.users-hand .card b {
+.user-hand .card p,
+.user-hand .card b {
   cursor: inherit;
 }
 
-.users-hand .card-numbers p {
+.user-hand .card-numbers p {
   transition: .25s all;
   border-radius: 30px;
 }
 
-.users-hand .card:hover {
+.user-hand .card:hover {
   margin-bottom: -5px;
   margin-top: 10px;
   opacity: 1;
@@ -672,10 +700,19 @@ header li {
 
 /* oppo card width */
 .oppo-hand {
-  width:20%;
+  width:100%;
   display: flex;
   align-items:center;
   flex-direction: column;
+  /* grid-column-start: 5; */
+}
+
+.oppo-hand.first {
+  grid-column: 5 / 6;
+}
+
+.oppo-hand.second {
+  grid-column: 1 / 2;
 }
 
 /* making oppo cards ontop of eachother */
@@ -684,10 +721,88 @@ header li {
 }
 
 
-.game-table {
+/* .game-table {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+} */
+
+.game-table {
+  height: calc(100% - 38px);
+  display: grid;
+  grid-template-rows: 75px 30px 1fr 30%;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.user-hp,
+.oppo-hp {
+  grid-row: 2 / 3;
+  font-family: 'UnifrakturCook', cursive;
+  color:#631F1F;
+  font-size:30px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  position: relative;
+  padding: 10px;
+}
+
+.health-bar {
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: .25s all;
+  z-index: -1;
+}
+
+.user-name {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.user-hp {
+  grid-column: 2 / 3;
+  justify-content: flex-start;
+}
+
+.user-hp b,
+.oppo-hp b {
+  z-index: 1
+}
+
+.user-hp .health-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.user-hand {
+  grid-column: 1 / 2;
+  grid-row: 2 / 5;
+}
+
+.oppo-name {
+  grid-column: 5 / 6;
+  grid-row: 1 / 2;
+}
+
+.oppo-hp {
+  grid-column: 4 / 5;
+  justify-content: flex-end;
+}
+
+.oppo-hp .health-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.oppo-hand {
+  grid-column: 5 / 6;
+  grid-row: 2 / 5;
 }
 
 .game-table h3 {
@@ -717,17 +832,22 @@ header li {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   background:rgba(0, 0, 0, 0.7);
   border:3px solid black;
-  width:400px;
-  height:200px;
-  position:fixed;
-  bottom:8%;
-  right: 0;
+  /* width:400px; */
+  /* height:200px; */
+  /* position:fixed; */
+  height: 100%;
+  width: 100%;
+  /* bottom:8%;
+  right: 0; */
   margin-right: 20px;
+  grid-column: 4 / 6;
+  grid-row: 4 / 5;
+  box-sizing: border-box;
 }
 
 .message-display-wrapper {
   overflow-y: scroll;
-  height: 158px;
+  height: calc(100% - 42px);
 }
 
 .message-display {
@@ -753,11 +873,12 @@ header li {
 
 /* adding a message */
 .message-input {
-  position:fixed; 
-  bottom: calc(8% + 3px); 
-  right: 23px;
-  width:400px; 
-  height: 42px;
+  /* position:fixed;  */
+  /* bottom: calc(8% + 3px);  */
+  /* right: 23px; */
+  /* width:400px; */
+  width: 100%; 
+  /* height: 42px; */
   align-self: flex-end;
 }
 
@@ -766,21 +887,28 @@ header li {
   flex-direction: row;
 }
 
+.message-input input {
+  flex-grow: 1;
+  margin: 0px;
+}
+
 .message-input button[type='submit']{
-  height: 42px;
+  width: 44px;
   padding: 0 5px;
   font-family: 'Yanone Kaffeesatz', sans-serif;
   letter-spacing: 1px;
   font-size: 18px;
   color: white;
+  justify-content: center;
 }
 
 /* battlefield buttons */
 .battlefield-buttons {
-  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
 }
 
 .battlefield-buttons button {

@@ -278,6 +278,54 @@ class App extends Component {
     }
   };
 
+  getNewCounterCard = async () => {
+    if (this.state.user.currency >= 0) {
+      const res = await axios.get("/cards/counter");
+      console.log(res.data);
+      this.setState({
+        newCardData: res.data
+      });
+      const { newCardData } = this.state;
+      try {
+        await axios.post("/usercard/counter", {
+          cardId: newCardData[0].id,
+          name: newCardData[0].name,
+          description: newCardData[0].description,
+          usableBy: newCardData[0].usable_by
+        });
+        this.getUserCounters();
+      } catch (err) {
+        console.log(err);
+      }
+      let updatedCurrency = this.state.user.currency;
+      updatedCurrency -= 0;
+      const { user } = this.state;
+      try {
+        this.setState({
+          user: {
+            currency: updatedCurrency,
+            display_name: user.display_name,
+            email: user.email,
+            id: user.id,
+            password_digest: user.password_digest,
+            username: user.username,
+            wins: user.wins
+          }
+        });
+        const res = await axios.put(`/user/win`, {
+          username: this.state.user.username,
+          wins: this.state.user.wins,
+          currency: this.state.user.currency
+        });
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (this.state.user.currency < 0) {
+      alert("Oops, not enough money. Win a few battles and come back!");
+    }
+  }
+
   // deletes a user's card after they confirm it
   deleteUserCard = async id => {
     let confirm = window.confirm(

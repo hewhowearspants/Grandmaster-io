@@ -8,5 +8,6 @@ cardRoutes.get('/', cardsController.index);
 //get one new card route
 cardRoutes.get('/new', authHelpers.loginRequired, cardsController.findOne);
 cardRoutes.get('/new/:num', authHelpers.loginRequired, cardsController.findPremiumOne);
+cardRoutes.get('/counter', authHelpers.loginRequired, cardsController.findCounter);
 
 module.exports = cardRoutes;

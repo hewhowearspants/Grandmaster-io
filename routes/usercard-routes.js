@@ -12,5 +12,9 @@ usercardRoutes.put('/:id', authHelpers.loginRequired, usercardsController.update
 usercardRoutes.delete('/:id', authHelpers.loginRequired, usercardsController.delete);
 //find five random cards from user's cards, for battle preparation
 usercardRoutes.get('/start', authHelpers.loginRequired, usercardsController.findFiveUserCards);
+// get all counter cards of specific user
+usercardRoutes.get('/counter', authHelpers.loginRequired, usercardsController.findUserCounters);
+// get new counter card
+usercardRoutes.post('/counter', authHelpers.loginRequired, usercardsController.addCounter);
 
 module.exports = usercardRoutes;

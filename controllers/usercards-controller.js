@@ -11,6 +11,18 @@ usercardsController.findUserCards = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+// get user counter cards
+usercardsController.findUserCounters = async (req, res) => {
+  try {
+    const userCounters = await Usercard.findUserCounters(req.user.id);
+    return res.json(userCounters);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
 //add card to users_cards
 usercardsController.addToUser = async (req, res) => {
   try {

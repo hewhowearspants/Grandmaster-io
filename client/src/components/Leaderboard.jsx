@@ -5,8 +5,8 @@ export const Leaderboard = ({ leaderInfo }) => (
   <div className="leader-board">
     <h3>Leaderboard</h3>
     {leaderInfo
-      ? leaderInfo.map(data => (
-          <div className="leader-single" key={data.id}>
+      ? leaderInfo.map((data, index) => (
+          <div className="leader-single" key={index}>
             <h4>{leaderInfo.indexOf(data) + 1}</h4>
             <div className="leader-start">
               <b>

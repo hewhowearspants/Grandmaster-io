@@ -118,6 +118,7 @@ class App extends Component {
       });
       if (this.state.user) {
         this.getUserCards();
+        this.getUserCounters();
         this.setState({ redirect: "/user" });
       }
     } catch (err) {
@@ -136,6 +137,17 @@ class App extends Component {
       console.log(err);
     }
   };
+
+  getUserCounters = async () => {
+    try {
+      const res = await axios.get('/usercard/counter');
+      this.setState({
+        userCounterData: res.data
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   // when user first logs in, gives them their initial 10 random cards
   getInitialUserCards = async () => {

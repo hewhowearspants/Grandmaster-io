@@ -43,6 +43,26 @@ usercardsController.addToUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+// add card to users_counters
+usercardsController.addCounter = async (req, res) => {
+  try {
+    const userCounter = await Usercard.addCounter(
+      {
+        cardId: req.body.cardId,
+        name: req.body.name,
+        description: req.body.description,
+        usableBy: req.body.usableBy
+      },
+      req.user.id
+    );
+    return res.json(userCounter)
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
+
 //edit users' card info
 usercardsController.update = async (req, res) => {
   try {

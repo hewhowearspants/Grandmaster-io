@@ -501,7 +501,6 @@ class GameRoom extends Component {
             cardDrawn={userCardDrawn}
             opponent={oppoNameData}
           />
-      
         : 
           <div className="oppo-hand second">
             {userCardData

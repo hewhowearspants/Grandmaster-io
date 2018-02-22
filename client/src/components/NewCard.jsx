@@ -6,40 +6,47 @@ const NewCard = ({
   newCard,
   userCards,
   getNewUserCard,
-  getNewUserCardPremium
+  getNewUserCardPremium,
+  getNewCounterCard
 }) => {
   const buttons = [
     {
       onClick: () => getNewUserCard(),
-      text: "Get new Card! Cost:",
+      text: "Get new Card! Cost: ",
       cost: 20
     },
     {
       onClick: () => getNewUserCardPremium(15),
-      text: "Get better Card! Cost:",
+      text: "Get better Card! Cost: ",
       cost: 30
     },
     {
       onClick: () => getNewUserCardPremium(25),
-      text: "Get even better Card! Cost:",
+      text: "Get even better Card! Cost: ",
       cost: 50
     },
     {
       onClick: () => getNewUserCardPremium(35),
-      text: "Get almost the best Card! Cost:",
+      text: "Get almost the best Card! Cost: ",
       cost: 70
     },
     {
       onClick: () => getNewUserCardPremium(45),
-      text: "Get the BEST Card! Cost:",
+      text: "Get the BEST Card! Cost: ",
       cost: 90
+    },
+    {
+      onClick: () => getNewCounterCard(),
+      text: 'Buy Counter Card! Cost: ',
+      cost: 0
     }
   ];
+
   return (
     <div className="new-card">
-      {buttons.map(button => (
+      {buttons.map((button, index) => (
         <button
-          key={button.cost}
+          key={index}
           className="newCardButton"
           type="button"
           onClick={

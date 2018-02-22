@@ -580,6 +580,7 @@ class App extends Component {
                     currentCardId={this.state.currentCardId}
                     getNewUserCard={this.getNewUserCard}
                     getNewUserCardPremium={this.getNewUserCardPremium}
+                    getNewCounterCard={this.getNewCounterCard}
                     deleteUserCard={this.deleteUserCard}
                     user={this.state.user}
                     email={this.state.email}

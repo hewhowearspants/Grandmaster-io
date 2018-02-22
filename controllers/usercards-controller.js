@@ -1,4 +1,4 @@
-const Usercard = require("../models/usercard");
+const Usercard = require('../models/usercard');
 
 const usercardsController = {};
 //show users' cards, user cards page

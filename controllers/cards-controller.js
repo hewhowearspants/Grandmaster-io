@@ -45,4 +45,14 @@ cardsController.findPremiumOne = async (req, res) => {
   }
 };
 
+cardsController.findCounter = async (req, res) => {
+  try {
+    const counter = await Card.findCounter();
+    return res.json(counter);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
 module.exports = cardsController;

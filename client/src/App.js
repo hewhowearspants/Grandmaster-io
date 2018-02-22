@@ -23,6 +23,7 @@ class App extends Component {
       cardData: null,
       cardDataLoaded: false,
       userCardData: null,
+      userCounterData: null,
       newCardData: false,
       user: null,
       currentPage: "dashboard",

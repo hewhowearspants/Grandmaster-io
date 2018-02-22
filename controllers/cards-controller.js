@@ -1,6 +1,7 @@
-const Card = require("../models/card");
+const Card = require('../models/card');
 
 const cardsController = {};
+
 //find all cards, card collection page
 cardsController.index = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ cardsController.index = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
 //find ten cards, new user registration
 cardsController.findTen = async (req, res) => {
   try {
@@ -21,6 +23,7 @@ cardsController.findTen = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
 //find new one card, get new card page
 cardsController.findOne = async (req, res) => {
   try {

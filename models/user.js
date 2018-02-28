@@ -19,14 +19,16 @@ User.create = (user) =>
   `, [user.username, user.password_digest, user.displayName, user.email]);
 
 // edit users info
-User.update = (displayName, email, id) =>
+User.update = (displayName, email, wins, currency, id) =>
   db.one(`
     UPDATE users SET
     display_name = $1,
-    email = $2
-    WHERE id = $3
+    email = $2,
+    wins = $3,
+    currency = $4
+    WHERE id = $5
     RETURNING *
-  `, [displayName, email, id]);
+  `, [displayName, email, wins, currency, id]);
 
 // leader board page, show top ten users according to their wins
 User.showLeaderboard = () =>

@@ -39,8 +39,10 @@ usersController.update = async (req, res) => {
   try {
     console.log(req.params);
     const user = await User.update(
-      req.body.displayName,
+      req.body.display_name,
       req.body.email,
+      req.body.wins,
+      req.body.currency,
       req.params.id
     );
     return res.json(user);

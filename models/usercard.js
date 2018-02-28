@@ -62,6 +62,12 @@ Usercard.destroy = (id) =>
     WHERE id = $1
   `, [id]);
 
+Usercard.destroyCounter = (id) =>
+  db.none(`
+    DELETE FROM users_counters
+    WHERE id = $1
+  `, [id]);
+
 // get five random cards to prepare for the battle
 Usercard.findFiveUserCards = (id) =>
   db.manyOrNone(`

@@ -2,8 +2,9 @@ const db = require('../db/config');
 
 const Card = {};
 
-// Find all cards, for the card collection page
+// Find all cards / counters, for the card collection page
 Card.findAll = () => db.query("SELECT * FROM cards");
+Card.findAllCounters = () => db.query('SELECT * FROM counter_cards');
 
 // Find random ten cards, for new users registration
 Card.findTen = () =>

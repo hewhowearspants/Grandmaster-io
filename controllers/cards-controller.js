@@ -13,6 +13,16 @@ cardsController.index = async (req, res) => {
   }
 };
 
+cardsController.indexCounters = async (req, res) => {
+  try {
+    const counters = await Card.findAllCounters();
+    return res.json(counters);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
 //find ten cards, new user registration
 cardsController.findTen = async (req, res) => {
   try {
@@ -37,7 +47,8 @@ cardsController.findOne = async (req, res) => {
 
 cardsController.findPremiumOne = async (req, res) => {
   try {
-    const cards = await Card.findPremiumOne(req.params.num);
+    const num = req.params.num / 2;
+    const cards = await Card.findPremiumOne(num);
     return res.json(cards);
   } catch (err) {
     console.log(err);

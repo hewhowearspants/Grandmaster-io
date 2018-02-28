@@ -11,7 +11,7 @@ class Dashboard extends Component {
   async componentDidMount() {
     try {
       const res = await axios.get("/user/leaderboard");
-      console.log(res.data.data);
+      
       this.setState({
         leaderInfo: res.data.data
       });

@@ -1,44 +1,39 @@
 import React from "react";
 import Card from "./Card";
-const message = `Too many cards! delete one first`;
+
 // gets a new card when the user clicks a button
-const NewCard = ({
-  newCard,
-  userCards,
-  getNewUserCard,
-  getNewUserCardPremium,
-  getNewCounterCard
-}) => {
+const NewCard = ({ newCard, userCards, getNewUserCard }) => {
+  const message = `Too many cards! Delete one first.`;
   const buttons = [
     {
-      onClick: () => getNewUserCard(),
       text: "Get new Card! Cost: ",
-      cost: 20
+      cost: 20,
+      type: 'cards'
     },
     {
-      onClick: () => getNewUserCardPremium(15),
       text: "Get better Card! Cost: ",
-      cost: 30
+      cost: 30,
+      type: 'cards'
     },
     {
-      onClick: () => getNewUserCardPremium(25),
       text: "Get even better Card! Cost: ",
-      cost: 50
+      cost: 50,
+      type: 'cards'
     },
     {
-      onClick: () => getNewUserCardPremium(35),
       text: "Get almost the best Card! Cost: ",
-      cost: 70
+      cost: 70,
+      type: 'cards'
     },
     {
-      onClick: () => getNewUserCardPremium(45),
       text: "Get the BEST Card! Cost: ",
-      cost: 90
+      cost: 90,
+      type: 'cards'
     },
     {
-      onClick: () => getNewCounterCard(),
       text: 'Buy Counter Card! Cost: ',
-      cost: 0
+      cost: 0,
+      type: 'counters'
     }
   ];
 
@@ -50,14 +45,14 @@ const NewCard = ({
           className="newCardButton"
           type="button"
           onClick={
-            userCards.length < 20 ? button.onClick : () => alert(`${message}`)
+            userCards[button.type].length < 20 ? () => getNewUserCard(button.cost, button.type) : () => alert(`${message}`)
           }
         >
           {button.text}
           <strong style={{ color: "red" }}>{button.cost}</strong>
         </button>
       ))}
-      {newCard ? <Card card={newCard[0]} /> : null}
+      {newCard ? <Card card={newCard} /> : null}
     </div>
   );
 };

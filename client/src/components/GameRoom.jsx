@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BattleField } from "./BattleField";
 import { UsersHands } from "./UsersHands";
 import io from "socket.io-client";
 
@@ -17,7 +16,6 @@ class GameRoom extends Component {
     oppoSelection: null,
     userCardDrawn: false,
     oppoCardDrawn: false,
-    cardsInField: 0,
     messages: [],
     text: "",
     users: [],

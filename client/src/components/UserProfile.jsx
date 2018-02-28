@@ -4,17 +4,15 @@ import React, { Component } from "react";
 // allows the user to edit or delete their profile info
 class UserProfile extends Component {
   state = {
-    display_name: this.props.user.display_name,
-    email: this.props.user.email,
-    id: this.props.user.id
+    display_name: this.props.user.display_name || '',
+    email: this.props.user.email || '',
+    id: this.props.user.id || ''
   };
 
   // handles input change for the profile info edit form
   handleInputChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(this.state.id);
-    console.log(e.target.value);
     this.setState({
       [name]: value
     });
@@ -23,20 +21,20 @@ class UserProfile extends Component {
   render() {
     const {
       user,
-      currentUserId,
-      userSelectedNameToEdit,
+      editingUser,
+      editUser,
       deleteUser,
       userSubmitNewName
     } = this.props;
     return (
       <div className="user-profile">
         <div className="user">
-          {currentUserId === user.id ? (
+          {editingUser ? (
             <form onSubmit={userSubmitNewName}>
               <input
                 type="text"
                 name="display_name"
-                placeholder="username"
+                placeholder="display name"
                 value={this.state.display_name}
                 onChange={this.handleInputChange}
               />
@@ -52,7 +50,8 @@ class UserProfile extends Component {
           ) : (
             <h2>
               <span>username</span>
-              {user.display_name} <span>email</span>
+              {user.display_name} 
+              <span>email</span>
               {user.email}
             </h2>
           )}
@@ -62,7 +61,7 @@ class UserProfile extends Component {
             <i
               className="fa fa-pencil fa-2x"
               onClick={() => {
-                userSelectedNameToEdit(user.id);
+                editUser();
               }}
             >
               <p>Edit Profile?</p>

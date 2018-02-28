@@ -1,4 +1,4 @@
-const Usercard = require("../models/usercard");
+const Usercard = require('../models/usercard');
 
 const usercardsController = {};
 //show users' cards, user cards page
@@ -11,17 +11,44 @@ usercardsController.findUserCards = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+// get user counter cards
+usercardsController.findUserCounters = async (req, res) => {
+  try {
+    const userCounters = await Usercard.findUserCounters(req.user.id);
+    return res.json(userCounters);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
+usercardsController.findAllUserCards = async (req, res) => {
+  try {
+    const cards = await Usercard.findUserCards(req.user.id);
+    const counters = await Usercard.findUserCounters(req.user.id);
+    let allCards = {
+      cards,
+      counters
+    }
+    res.json(allCards);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+}
+
 //add card to users_cards
 usercardsController.addToUser = async (req, res) => {
   try {
     const usercard = await Usercard.addToUser(
       {
-        cardId: req.body.cardId,
+        cardId: req.body.id,
         name: req.body.name,
         class: req.body.class,
         attack: req.body.attack,
         defense: req.body.defense,
-        imageUrl: req.body.imageUrl
+        imageUrl: req.body.image_url
       },
       req.user.id
     );
@@ -31,6 +58,26 @@ usercardsController.addToUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+// add card to users_counters
+usercardsController.addCounter = async (req, res) => {
+  try {
+    const userCounter = await Usercard.addCounter(
+      {
+        cardId: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        usableBy: req.body.usable_by
+      },
+      req.user.id
+    );
+    return res.json(userCounter)
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
+
 //edit users' card info
 usercardsController.update = async (req, res) => {
   try {
@@ -55,6 +102,21 @@ usercardsController.delete = async (req, res) => {
     res.status(500).json({ err });
   }
 };
+
+//delete one counter
+usercardsController.deleteCounter = async (req, res) => {
+  try {
+    const usercard = await Usercard.destroyCounter(req.params.id);
+    return res.json({
+      message: 'ok',
+      data: usercard
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err });
+  }
+}
+
 //find random five user cards, for battle ready page
 usercardsController.findFiveUserCards = async (req, res) => {
   try {

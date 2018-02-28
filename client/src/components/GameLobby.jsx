@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // each room displays the current player/user count pulled from firebase
 export const GameLobby = ({ players, users }) => (
   <div className="game-lobby">
-    <h1>Pick A Room!</h1>
+    <h1>Select A Room</h1>
     <div className="game-room-wrapper">
       <Link to="/joingame/1">
         <div className="game-room">

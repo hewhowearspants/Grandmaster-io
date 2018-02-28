@@ -28,12 +28,13 @@ app.use(passport.session());
 
 app.use(express.static('public'));
 
-const PORT=process.env.PORT||3001;
+const PORT=process.env.PORT || 3001;
+
 server.listen(PORT, (err) => {
     if (err) {
         console.log(err);
     } else {
-        console.log(`~Dream~Team~ up in here running on dat port ${PORT}! Sup~?`)
+        console.log(`The chessboard is set up on port ${PORT}!`)
     }
 });
 

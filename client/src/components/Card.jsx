@@ -4,6 +4,14 @@ import React, { Component } from "react";
 class Card extends Component {
   state = { name: this.props.card.name };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.name !== nextProps.card.name) {
+      this.setState({
+        name: nextProps.card.name
+      })
+    }
+  }
+
   // input change for the card name edit form
   handleInputChange = event => {
     const value = event.target.value;
@@ -17,36 +25,51 @@ class Card extends Component {
       deleteUserCard,
       card,
       card: { id, attack, defense },
-      userSelectedCardToEdit,
-      userSubmitEdit,
-      currentCardId
+      setCardToEdit,
+      submitCardEdit,
+      editingCardId
     } = this.props;
     const { name } = this.state;
+    const editing = editingCardId === card.id;
+
     return (
       // card edit/delete buttons overlaid on card
       <div className="card-wrapper">
         <div className="delete-button">
-          <i
-            className="fa fa-times fa-2x"
+          {!editing ? 
+          <i className="fa fa-times fa-2x"
             onClick={() => {
-              deleteUserCard(id);
-            }}
-          />
+              deleteUserCard(id, 'cards');
+            }}/>
+          :
+          <i className="fa fa-undo fa-2x" 
+            onClick={() => {
+              setCardToEdit(null)
+            }}/>
+          }
         </div>
         <div className="edit-button">
-          <i
-            className="fa fa-pencil fa-2x"
+          {!editing ?
+          <i className="fa fa-pencil fa-2x"
             onClick={() => {
-              userSelectedCardToEdit(id);
-            }}
-          />
+              setCardToEdit(card.id);
+            }}/>
+          :
+          <i className="fa fa-check fa-2x" onClick={(e) => {
+            e.preventDefault() 
+            submitCardEdit(name)
+          }}/>
+          }
         </div>
         {/* card class determines background image in CSS */}
         <div className={`card ${card.class}`}>
           <div className="card-top">
             <div className="card-name">
-              {currentCardId === id ? (
-                <form onSubmit={userSubmitEdit}>
+              {editing ? (
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  submitCardEdit(name)
+                }}>
                   <input
                     type="text"
                     name="name"

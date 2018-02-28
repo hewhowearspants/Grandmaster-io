@@ -15,7 +15,7 @@
   opacity: .65;
   transform-origin: 500px 550px;
   filter: blur(3px) saturate(80%);
-  animation: App-logo-spin infinite 75s linear;  
+  /* animation: App-logo-spin infinite 75s linear;   */
 }
 
 @keyframes App-logo-spin {
@@ -24,7 +24,13 @@
 }
 
 body{
-  background:#E8DDAF;
+  /* background:#E8DDAF; */
+  background: #FAF5E0;
+  /* background-color: #F0ECDA; */
+  /* background-image: url("https://www.transparenttextures.com/patterns/batthern.png"); */
+  /* background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png"); */
+  /* background-image: url("https://www.transparenttextures.com/patterns/bright-squares.png"); */
+  background-image: url("https://www.transparenttextures.com/patterns/graphy.png");
   overflow: hidden;
 }
 
@@ -38,28 +44,31 @@ p {
 
 /* dashboard navbar list*/
 .dashboard-nav ul li {
-  font-family: 'UnifrakturCook', cursive;
-  font-size: 2em;
-  line-height: .8em;
-  letter-spacing: 0.07em;
-  margin-bottom:-10px;
+  font-family: 'Cinzel', serif;
+  font-size: 1.5em;
+  line-height: .9em;
+  margin-bottom: -10px;
   cursor: pointer;
   text-align: right;
 }
 
 /* dashboard header*/
 .dashboard h1 {
-  font-family: 'UnifrakturCook', cursive;
-  font-size:52px;
+  font-family: 'Cinzel Decorative', cursive;
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -1px;
   text-align: right;
-  margin-right:15px;
-  margin-bottom:20px;
+  margin-right: 15px;
+  margin-bottom: 20px;
+  user-select: none;
+  cursor: default;
 }
 
 /* dashboard height*/
 .dashboard {
   display:flex;
-  height: calc(100% - 30px);
+  height: calc(100% - 39px);
   margin-bottom: 44px;
 }
 
@@ -73,23 +82,41 @@ p {
 
 /* allow cards to overflow scroll */
 .dashboard-contents {
-  overflow: auto;
+  height: 100%;
   flex-grow: 1;
   display: inline-block;
 }
 
-/* set grid for cards */
-.dashboard-contents .UserCards {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
+.dashboard-contents .collection {
+  height: 100%;
 }
 
-/* set grif for card collection */
-.dashboard-contents .card-collection {
+.collection .selector-buttons {
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
+}
+
+.collection .selector-buttons button {
+  flex-grow: 1;
+  box-sizing: border-box;
+  letter-spacing: 0.2em;
+}
+
+.collection .selector-buttons button:focus {
+  outline: thin dotted;
+}
+
+.collection .user-cards,
+.collection .card-collection {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 158px);
+  grid-template-rows: repeat(auto-fill, 224px);
+  justify-content: space-around;
+  width: 100%;
+  height: calc(100% - 41px);
   padding: 10px;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 /* header nav */
@@ -118,10 +145,11 @@ main {
   flex: 1;
   align-items: center;
   justify-content: center;
-  font-size: 2em;
   flex-direction: column;
   flex-wrap: wrap;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Cinzel Decorative', cursive;
+  user-select: none;
+  cursor: default;
   line-height: .3em;
   font-size: 28px;
   color: #12183B;
@@ -142,11 +170,39 @@ main {
 }
 
 /* login in components */
-.login input{
+.login form,
+.register form {
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
+}
+
+.login input,
+.register input {
+  text-align: center;
+  font-weight: bold;
+  color: #F0ECDA;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 3px;
+  width: 150px !important;
+  transition: .25s all;
+}
+
+.login input::placeholder,
+.register input::placeholder {
+  color: #F0ECDA;
+  opacity: 0.5;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.login input:focus,
+.register input:focus {
+  outline: thin dotted rgba(240, 236, 216, 1);
+  background-color: rgba(18, 24, 59, 0.5);
+  width: 250px !important;
 }
 
 .home ul li {
@@ -179,7 +235,7 @@ input[type='text'], input[type='password'], input[type='email'] {
 button {
   border: 1.5px solid #12183B;
   padding:8px 25px;
-  font-family: 'Oxygen', sans-serif;
+  font-family: 'Cinzel', serif;
   font-size:16px;
   background:#12183B;
   color:#FBF6E0;
@@ -198,7 +254,8 @@ button:hover{
 button[type='button'] {
   border: 1.5px solid #dedede;
   padding:8px 25px;
-  font-family: 'Oxygen', sans-serif;
+  /* font-family: 'Oxygen', sans-serif; */
+  font-family: 'Cinzel', serif;
   font-size:16px;
   background:white;
 }
@@ -218,7 +275,7 @@ footer {
   color:#FAF5E0;
   text-align: center;
   padding:10px;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Cinzel', serif;
   font-size:14px;
   letter-spacing: 0.2em;
   position: fixed;
@@ -231,31 +288,36 @@ footer {
   background:#12183B;
   padding: 2px 0px 2px 20px;
   display: flex;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Cinzel', serif;
+  font-weight: lighter;
   justify-content: space-between;
   align-items: center;
-  font-size: 2.6em;
   color:#FAF5E0;
   letter-spacing: 0.1em;
-}
-
-/* header nav */
-header li, a{
-  font-family: 'UnifrakturCook', cursive; 
-  font-size:22px;
-  display: -webkit-inline-flex;
-  letter-spacing: 0.07em;
-  color:#FAF5E0;
-  text-decoration: none;
-}
-
-
-header li {
-  font-family: 'Yanone Kaffeesatz', sans-serif;
   cursor: default;
   user-select: none;
 }
 
+header h2 {
+  font-family: 'Cinzel Decorative', cursive;
+  margin: 0px;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+/* header nav */
+header li, a{
+  font-family: 'Cinzel', serif; 
+  font-weight: 400;
+  font-size: 20px;
+  display: -webkit-inline-flex;
+  color:#FAF5E0;
+  text-decoration: none;
+}
+
+header li {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+}
 
 /* card component */
 .card {
@@ -267,7 +329,63 @@ header li {
   float:left; 
   padding:5px;
   border-radius: 3%;
-  box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 16px 20px 0 rgba(0, 0, 0, 0.19);
+  background-size: 100% 100%;
+  box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 16px 20px 0 rgba(0, 0, 0, 0.19), 0px -4px 8px rgba(0,0,0,0.2);
+}
+
+.counter {
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  display: grid;
+  grid-template-rows: 15% 30% 55%;
+  justify-self: center;
+  align-self: center;
+  background-color: #F0ECDA;
+  background-image: url('/images/compass.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.counter .name,
+.counter .usable-by,
+.counter .description {
+  width: 133px;
+  background-color: rgba(232,221,175,0.6);
+  box-sizing: border-box;
+}
+
+.counter .name {
+  font-size: 20px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.counter .description {
+  font-size: 18px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.counter .name,
+.counter .description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgb(95, 93, 85);
+}
+
+.counter .usable-by {
+  display: flex;
+  justify-content: space-around;
+  border-left: 2px solid rgb(95, 93, 85);
+  border-right: 2px solid rgb(95, 93, 85);
+}
+
+.class-icon {
+  flex: 1;
+  height: 100%;
+  max-width: 45px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* making card name and class on top of card */
@@ -284,29 +402,29 @@ header li {
 }
 
 /* make delete and edit button on card not display */
-.card-wrapper .delete-button,
+/* .card-wrapper .delete-button,
 .card-wrapper .edit-button {
-  /* padding: 5px 12px; */
   opacity: 0;
   transition: .2s all;
   display:none;
-}
+  width: 25px;
+} */
 
 /* when user hovers over the card the edit and delete button show up */
-.UserCards .card-wrapper:hover .delete-button,
-.UserCards .card-wrapper:hover .edit-button {
+.user-cards .card-wrapper:hover .delete-button,
+.user-cards .card-wrapper:hover .edit-button {
   opacity: 1;
   transition: .2s all;
   display:unset;
 }
 
 /* card name edit */
-.UserCards .card-name input {
+.user-cards .card-name input {
   width: 40px;
+  height: 20px !important;
   background-color: inherit;
   border: none;
   border-bottom: 1px solid black;  
-  height: 10px;
   color: inherit;
   font-size: inherit;
   padding: 0;
@@ -315,12 +433,12 @@ header li {
   margin: 0;
 }
 
-.UserCards .card-name input:focus {
+.user-cards .card-name input:focus {
   outline: none;
 }
 
 /* card hover adds a border and makes card transparent*/
-.UserCards .card-wrapper{
+.user-cards .card-wrapper{
   border:7px solid transparent;
   border-radius: 3%;
 }
@@ -330,7 +448,7 @@ header li {
   border-radius: 3%;
 }
 
-.UserCards .card-wrapper:hover{
+.user-cards .card-wrapper:hover{
   opacity:0.8;
   border:7px solid black;
   border-radius: 3%;
@@ -340,29 +458,32 @@ header li {
   position:relative;
 }
 
-/* positioning of delete and edit button */
+/* styling for delete and edit button */
 .card-wrapper .delete-button,
 .card-wrapper .edit-button{
   position:absolute;
   top:45%;
+  opacity: 0;
+  padding: 5px;
+  transition: .2s all;
+  display:none;
+  width: 35px;
+  text-align: center;
+  color:#E8DDAF;
+  background:black;
+  border-radius: 3%;
 }
 
 /* positioning of the edit button */
 .card-wrapper .edit-button{
-  top:30%;
-  left:40%;
-  padding:4px;
-  color:#E8DDAF;
-  background:black;
+  top: 25%;
+  left: 34%;
 }
 
 /* positioning of the delete button */
 .card-wrapper .delete-button{
-  top:50%;
-  left:40%;
-  color:#E8DDAF;
-  padding:5px;
-  background:black;
+  top: 50%;
+  left: 34%;
 }
 
 /* card name */
@@ -422,56 +543,48 @@ header li {
 }
 
 /* making the pawn class background image */
-.card.Pawn{
+.Pawn {
   background-image: url('/images/pawn_card.png');
-  background-size: 100% 100%;
   color:#484F94;
 }
 
 /* making the castle class background image */
-.card.Castle{
+.Castle {
   background-image: url('/images/castle_card.png');
-  background-size: 100% 100%;
   color:#606D7C;
 }
 
 /* making the knight class background image */
-.card.Knight{
+.Knight {
   background-image: url('/images/knight_card.png');
-  background-size: 100% 100%;
   color:#833B3C;
 }
 
 /* making the bishop class background image */
-.card.Bishop{
+.Bishop {
   background-image: url('/images/bishop_card.png');
-  background-size: 100% 100%;
   color:#4C5E47;
 }
 
 /* making the queen class background image */
-.card.Queen{
+.Queen {
   background-image: url('/images/queen_card.png');
-  background-size: 100% 100%;
   color:#BD4E4E;
 }
 
 /* making the king class background image */
-.card.King{
+.King {
   background-image: url('/images/king_card.png');
-  background-size: 100% 100%;
   color:#CA9A2C;
 }
 
 /* when card is null you see back of card */
 .card.null{
   background-image: url('/images/back_card.png');
-  background-size: 100% 100%;
 }
 
 .card.undefined{
   background-image: url('/images/back_card.png');
-  background-size: 100% 100%;
 }
 
 .card-collection{
@@ -482,12 +595,30 @@ header li {
   display: none;
 }
 
+.user-selection,
+.oppo-selection {
+  grid-row: 3 / 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-selection {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+}
+
+.oppo-selection {
+  grid-column: 4 / 5;
+  grid-row: 3 / 4;
+}
+
 /* card image after selected in battlefield */
 .battlefield_select {
   width:200px;
   height:300px;
-  margin-left:50px;
-  margin-right:50px;
+  /* margin-left:50px;
+  margin-right:50px; */
   position:relative;
 }
 
@@ -542,17 +673,17 @@ header li {
   font-family: 'UnifrakturCook', cursive;
   color:#12183B;
   font-size:60px;
-  margin-top:5px;
+  margin: 0px;
 }
 
 /* middle of battlefield */
-.mid-section {
+/* .mid-section {
   width:60%;
   margin: 0 auto;
   height:100%;
   display:flex;
   flex-direction:column;
-}
+} */
 
 .join-game-button {
   font-family: 'Yanone Kaffeesatz', sans-serif;
@@ -563,6 +694,9 @@ header li {
   align-self: center;
   border-radius: 5%;
   animation: pulse 1s infinite linear alternate;
+  grid-column: 2 / 5;
+  grid-row: 3 / 4;
+  margin: 0 auto;
 }
 
 @keyframes pulse {
@@ -577,8 +711,12 @@ header li {
 
 /* battlefield information width */
 .battle-log{
-  width:90%;
-  margin: 0 auto;
+  width:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 2 / 5;
+  grid-row: 1 / 2;
 }
 
 /* battlefield width */
@@ -588,6 +726,8 @@ header li {
   display:flex;
   flex-direction: column;
   align-items: center;
+  grid-column: 2 / 5;
+  grid-row: 1 / 4;
 }
 
 /* when the card is selected */
@@ -605,12 +745,13 @@ header li {
 }
 
 /* users cards width*/
-.users-hand {
- width:20%; 
+.user-hand {
+  display: flex;
+  width:100%; 
   align-items:center;
   flex-direction: column;
   overflow: hidden;
-  height: calc(100vh - 38px - 68px);  
+  /* height: calc(100vh - 38px - 68px);   */
 }
 
 /* users cards area */
@@ -622,7 +763,7 @@ header li {
 }
 
 /* users cards in battlefield */
-.users-hand .card {
+.user-hand .card {
   margin-bottom: -170px;
   width: 150px;
   height: 220px;
@@ -637,7 +778,7 @@ header li {
 }
 
 /* cchanging card number format for users cards */
-.users-hand .card .card-numbers {
+.user-hand .card .card-numbers {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -645,17 +786,17 @@ header li {
   height: 20px;
 }
 
-.users-hand .card p,
-.users-hand .card b {
+.user-hand .card p,
+.user-hand .card b {
   cursor: inherit;
 }
 
-.users-hand .card-numbers p {
+.user-hand .card-numbers p {
   transition: .25s all;
   border-radius: 30px;
 }
 
-.users-hand .card:hover {
+.user-hand .card:hover {
   margin-bottom: -5px;
   margin-top: 10px;
   opacity: 1;
@@ -672,10 +813,19 @@ header li {
 
 /* oppo card width */
 .oppo-hand {
-  width:20%;
+  width:100%;
   display: flex;
   align-items:center;
   flex-direction: column;
+  /* grid-column-start: 5; */
+}
+
+.oppo-hand.first {
+  grid-column: 5 / 6;
+}
+
+.oppo-hand.second {
+  grid-column: 1 / 2;
 }
 
 /* making oppo cards ontop of eachother */
@@ -684,10 +834,88 @@ header li {
 }
 
 
-.game-table {
+/* .game-table {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+} */
+
+.game-table {
+  height: calc(100% - 38px);
+  display: grid;
+  grid-template-rows: 75px 30px 1fr 30%;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.user-hp,
+.oppo-hp {
+  grid-row: 2 / 3;
+  font-family: 'UnifrakturCook', cursive;
+  color:#631F1F;
+  font-size:30px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  position: relative;
+  padding: 10px;
+}
+
+.health-bar {
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: .25s all;
+  z-index: -1;
+}
+
+.user-name {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.user-hp {
+  grid-column: 2 / 3;
+  justify-content: flex-start;
+}
+
+.user-hp b,
+.oppo-hp b {
+  z-index: 1
+}
+
+.user-hp .health-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.user-hand {
+  grid-column: 1 / 2;
+  grid-row: 2 / 5;
+}
+
+.oppo-name {
+  grid-column: 5 / 6;
+  grid-row: 1 / 2;
+}
+
+.oppo-hp {
+  grid-column: 4 / 5;
+  justify-content: flex-end;
+}
+
+.oppo-hp .health-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.oppo-hand {
+  grid-column: 5 / 6;
+  grid-row: 2 / 5;
 }
 
 .game-table h3 {
@@ -717,17 +945,22 @@ header li {
   font-family: 'Yanone Kaffeesatz', sans-serif;
   background:rgba(0, 0, 0, 0.7);
   border:3px solid black;
-  width:400px;
-  height:200px;
-  position:fixed;
-  bottom:8%;
-  right: 0;
+  /* width:400px; */
+  /* height:200px; */
+  /* position:fixed; */
+  height: 100%;
+  width: 100%;
+  /* bottom:8%;
+  right: 0; */
   margin-right: 20px;
+  grid-column: 4 / 6;
+  grid-row: 4 / 5;
+  box-sizing: border-box;
 }
 
 .message-display-wrapper {
   overflow-y: scroll;
-  height: 158px;
+  height: calc(100% - 42px);
 }
 
 .message-display {
@@ -753,11 +986,7 @@ header li {
 
 /* adding a message */
 .message-input {
-  position:fixed; 
-  bottom: calc(8% + 3px); 
-  right: 23px;
-  width:400px; 
-  height: 42px;
+  width: 100%; 
   align-self: flex-end;
 }
 
@@ -766,21 +995,28 @@ header li {
   flex-direction: row;
 }
 
+.message-input input {
+  flex-grow: 1;
+  margin: 0px;
+}
+
 .message-input button[type='submit']{
-  height: 42px;
+  width: 44px;
   padding: 0 5px;
   font-family: 'Yanone Kaffeesatz', sans-serif;
   letter-spacing: 1px;
   font-size: 18px;
   color: white;
+  justify-content: center;
 }
 
 /* battlefield buttons */
 .battlefield-buttons {
-  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
 }
 
 .battlefield-buttons button {
@@ -820,9 +1056,9 @@ header li {
 /* game lobby entrance */
 .game-lobby h1 {
   font-size: 60px;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Cinzel Decorative', cursive;
   color:#12183B;
-  letter-spacing: 0.13em;
+  /* letter-spacing: 0.10em; */
   margin-top:-20px;
 }
 
@@ -897,12 +1133,12 @@ header li {
 
 /* leaderboard information */
 .leader-board h3 {
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Cinzel Decorative', cursive;
   color:#12183B;
-  font-size:66px;
-  margin-top:40px;
-  margin-bottom:-5px;
-  padding-bottom:30px;
+  font-size: 56px;
+  margin-top: 40px;
+  margin-bottom: -5px;
+  padding-bottom: 30px;
 }
 
 .leader-single h4 {
@@ -983,7 +1219,7 @@ header li {
 .user-profile {
   width:80%;
   margin:0 auto;
-  font-family: 'UnifrakturCook', cursive;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
   font-size:46px;
   color:#12183B;
   display: flex;
@@ -995,7 +1231,7 @@ header li {
 
 /* adding username and email */
 .user-profile span {
-  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-family: 'Cinzel', serif;
   font-size:28px;
   color:#484F94;
   margin-bottom: -20px;

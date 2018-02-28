@@ -1,5 +1,7 @@
 import React from "react";
 
+// UNUSED COMPONENT
+
 export const BattleField = ({
   round,
   winner,
@@ -26,8 +28,8 @@ export const BattleField = ({
         <h2>{!winner ? `Round: ${round}` : `${winner} Won!`}</h2>
       </div>
       <div className="hp">
-        <b>{userNameData && `${userNameData} HP: ${userHp}`}</b>
-        <b>{oppoNameData && `${oppoNameData} HP: ${oppoHp}`}</b>
+        <b className='user-hp'>{userNameData && `${userNameData} HP: ${userHp}`}</b>
+        <b className='oppo-hp'>{oppoNameData && `${oppoNameData} HP: ${oppoHp}`}</b>
       </div>
       <div className="battlefield-buttons">
         {userSelection && oppoSelection && confirmed && !gameOver ? (

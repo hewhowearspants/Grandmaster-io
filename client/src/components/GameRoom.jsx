@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BattleField } from "./BattleField";
 import { UsersHands } from "./UsersHands";
 import io from "socket.io-client";
 
@@ -17,7 +16,6 @@ class GameRoom extends Component {
     oppoSelection: null,
     userCardDrawn: false,
     oppoCardDrawn: false,
-    cardsInField: 0,
     messages: [],
     text: "",
     users: [],
@@ -401,7 +399,7 @@ class GameRoom extends Component {
   // puts user in as a player
   joinGame = () => {
     // picks 5 random playing cards from the users cards
-    const userCardsCopy = [...this.props.userCards];
+    const userCardsCopy = [...this.props.userCards.cards];
     const userChoice = [];
     for (var i = 0; i < 5; i++) {
       const randomIndex = Math.floor(Math.random() * userCardsCopy.length);
@@ -474,7 +472,6 @@ class GameRoom extends Component {
       userNameData,
       userSelection,
       oppoSelection,
-      cardsInField,
       userHp,
       oppoHp,
       messages,
@@ -489,25 +486,20 @@ class GameRoom extends Component {
         {/* background spinny logo thing */}
         <img className="logo" src="/images/compass.png" alt="" />
         {/* player one / user player */}
-        {joined ? (
-          <div className="users-hand">
-            <h3>{userNameData ? `${userNameData}` : "Waiting Player"}</h3>
-            {userCardData ? (
-              <UsersHands
-                className="user-hand"
-                playersFull={playersFull}
-                joinGame={this.joinGame}
-                joined={joined}
-                select={this.makeUserSelection}
-                cardData={userCardData}
-                cardDrawn={userCardDrawn}
-                opponent={oppoNameData}
-              />
-            ) : null}
-          </div>
-        ) : (
-          <div className="oppo-hand">
-            <h3>{userNameData ? `${userNameData}` : "Waiting Player"}</h3>
+        <h3 className="user-name">{userNameData ? `${userNameData}` : "Waiting Player"}</h3>
+        {(joined && userCardData) ?
+          <UsersHands
+            className="user-hand"
+            playersFull={playersFull}
+            joinGame={this.joinGame}
+            joined={joined}
+            select={this.makeUserSelection}
+            cardData={userCardData}
+            cardDrawn={userCardDrawn}
+            opponent={oppoNameData}
+          />
+        : 
+          <div className="oppo-hand second">
             {userCardData
               ? userCardData.map(card => (
                   <div
@@ -520,63 +512,114 @@ class GameRoom extends Component {
                 ))
               : null}
           </div>
-        )}
-        {/* battlefield, contains player info, selected card, chat box */}
-        <div className="mid-section">
-          <BattleField
-            userSelection={userSelection}
-            oppoSelection={oppoSelection}
-            resetBattleField={this.resetBattleField}
-            cardsInField={cardsInField}
-            confirmSelection={this.confirmSelection}
-            userHp={userHp}
-            oppoHp={oppoHp}
-            round={round}
-            winner={winner}
-            oppoNameData={oppoNameData}
-            userNameData={userNameData}
-            confirmed={confirmed}
-            joined={joined}
-            gameOver={gameOver}
-            rematch={this.rematch}
-            leaveGame={this.leaveGame}
-            readyToContinue={this.readyToContinue}
-          />
-          {!joined && !playersFull ? (
+        }
+        {/* HP indicators */}
+        {userNameData && 
+        <div className='user-hp'>
+          <b>{`HP: ${userHp}`}</b>
+          <div className='health-bar' style={{
+            width: `${(userHp / 20) * 100}%`,
+            backgroundColor: `rgba(${Math.floor(255 * (1 - (userHp / 20)))},${Math.floor(255 * (userHp / 20))},0,.7)`
+          }}></div>
+        </div>}
+        {oppoNameData &&
+        <div className='oppo-hp'>
+          <b>{`HP: ${oppoHp}`}</b>
+          <div className='health-bar' style={{
+            width: `${(oppoHp / 20) * 100}%`,
+            backgroundColor: `rgba(${Math.floor(255 * (1 - (oppoHp / 20)))},${Math.floor(255 * (oppoHp / 20))},0,.7)`
+        }}></div>
+        </div>}
+        {/* battle log is informational text (round number and who won) */}
+        {(round || winner) &&
+        <div className="battle-log">
+          <h2>{!winner ? `Round: ${round}` : `${winner} Won!`}</h2>
+        </div>}
+        {/* card selections */}
+        <div className="user-selection">
+          {userSelection ? (
+            <div className={`card ${userSelection.class} battlefield_select`}>
+              <div className="card-top">
+                <div className="card-name">
+                  <b>{userSelection.name}</b>
+                  <p>{userSelection.class}</p>
+                </div>
+              </div>
+              {joined ? (
+                confirmed ? null : (
+                  <button onClick={this.confirmSelection}>Confirm</button>
+                )
+              ) : null}
+              {userSelection.attack &&
+              <div className="card-numbers">
+                <p>
+                  ATT: <span>{userSelection.attack}</span>
+                </p>
+                <p>
+                  DEF: <span>{userSelection.defense}</span>
+                </p>
+              </div>
+              }
+            </div>
+          ) : null}
+        </div>
+        <div className="oppo-selection">
+          {oppoSelection && (
+            <div className={`card ${oppoSelection.class} battlefield_select`}>
+              <div className="card-top">
+                <div className="card-name">
+                  <b>{oppoSelection.name}</b>
+                  <p>{oppoSelection.class}</p>
+                </div>
+              </div>
+              {oppoSelection.attack && 
+              <div className="card-numbers">
+                <p>
+                  ATT: <span>{oppoSelection.attack}</span>
+                </p>
+                <p>
+                  DEF: <span>{oppoSelection.defense}</span>
+                </p>
+              </div>
+              }
+            </div>
+          )}
+        </div>
+        {/* battlefield buttons */}
+        <div className="battlefield-buttons">
+          {userSelection && oppoSelection && confirmed && !gameOver ? (
             <button
-              className="join-game-button"
-              onClick={this.joinGame}
-              disabled={playersFull ? true : false}
+              onClick={() => this.readyToContinue()}
+              style={{
+                visibility:
+                  userSelection && oppoSelection && confirmed
+                    ? "visible"
+                    : "hidden"
+              }}
             >
-              JOIN GAME
+              Continue!
             </button>
           ) : null}
-          {/* the chat box! */}
-          <div className="message-box">
-            <div className="message-display-wrapper">
-              <div className="message-display">
-                {messages &&
-                  messages.map(message => (
-                    <p
-                      className={!message.displayName ? "notification" : ""}
-                      key={messages.indexOf(message)}
-                    >
-                      <span>{message.displayName}</span>: {message.message}
-                    </p>
-                  ))}
-              </div>
+          {gameOver && joined ? (
+            <div className="game-over-buttons">
+              <button onClick={this.rematch}>Rematch?</button>
+              <button onClick={this.leaveGame}>Bow Out</button>
             </div>
-            <div className="message-input">
-              <form onSubmit={this.handleMessageSubmit}>
-                <input type="text" onChange={this.handleInputChange} />
-                <button type="submit">SEND</button>
-              </form>
-            </div>
-          </div>
+          ) : null}
         </div>
+        {/* join game button */}
+        {!joined && !playersFull ? (
+          <button
+            className="join-game-button"
+            onClick={this.joinGame}
+            disabled={playersFull ? true : false}
+          >
+            JOIN GAME
+          </button>
+        ) : null}
         {/* player two */}
-        <div className="oppo-hand">
-          <h3>{oppoNameData ? `${oppoNameData}` : "Waiting Player"}</h3>
+        <h3 className="oppo-name">{oppoNameData ? `${oppoNameData}` : "Waiting Player"}</h3>
+        <div className="oppo-hand first">
           {oppoCardData &&
             oppoCardData.map(card => (
               <div
@@ -588,38 +631,30 @@ class GameRoom extends Component {
               />
             ))}
         </div>
+        <div className="message-box">
+          <div className="message-display-wrapper">
+            <div className="message-display">
+              {messages &&
+                messages.map(message => (
+                  <p
+                    className={!message.displayName ? "notification" : ""}
+                    key={messages.indexOf(message)}
+                  >
+                    <span>{message.displayName}</span>: {message.message}
+                  </p>
+                ))}
+            </div>
+          </div>
+          <div className="message-input">
+            <form onSubmit={this.handleMessageSubmit}>
+              <input type="text" onChange={this.handleInputChange} />
+              <button type="submit">SEND</button>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
 export default GameRoom;
-
-// WINNER DETERMINATION IS NOW DONE SERVER-SIDE VIA SOCKET.IO
-// determine who ended up winning based on who has the higher HP
-// getWinner = () => {
-//     if(this.state.userHp > this.state.oppoHp) {
-//         this.setState({
-//             winner: this.state.userNameData,
-//         })
-//     } else if (this.state.userHp < this.state.oppoHp) {
-//         this.setState({
-//             winner: oppoNameData,
-//         })
-//     } else if (this.state.userHp === this.state.oppoHp) {
-//         this.setState({
-//             winner: 'Game Tied! Both Players',
-//         })
-//     }
-// }
-
-// NOW THIS IS DONE WHEN SERVER ANNOUNCES WINNER IN componentDidMount, socket.on('game over')
-// checks if the winner is the user, and updates their wins and currency (in App.js)
-// updateWins = () => {
-//     if(this.state.userHp <= 0 || this.state.oppoHp <= 0 || this.state.round >= 5){
-//         if(this.state.winner === this.props.user.username){
-//             this.props.updateWinsNCurrency();
-//             console.log('updating in GameRoom'+this.props.user.username)
-//         }
-//     }
-// }

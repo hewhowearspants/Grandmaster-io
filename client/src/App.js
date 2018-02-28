@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import "./App.css";
 
-import { Header } from "./components/Header";
+import Header from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Home } from "./components/Home";
 import Register from "./components/Register";
@@ -23,11 +23,12 @@ class App extends Component {
       cardData: null,
       cardDataLoaded: false,
       userCardData: null,
+      userCounterData: null,
       newCardData: false,
       user: null,
       currentPage: "dashboard",
-      currentCardId: null,
-      currentUserId: null,
+      editingCardId: null,
+      editingUser: false,
       redirect: "/",
       currentContent: "user-cards",
       users: { 1: 0, 2: 0, 3: 0 },
@@ -54,14 +55,21 @@ class App extends Component {
 
   componentDidMount() {
     // gets all of the cards in the api to display in Card Collection
-    axios
-      .get("/cards")
+    axios.get("/cards")
       .then(res => {
-        console.log(res.data);
-        this.setState({
-          cardData: res.data,
-          cardDataLoaded: true
-        });
+        // console.log(res.data);
+        return { cards: res.data }
+      }).then((cardData) => {
+        axios.get('/cards/counter')
+          .then(res => {
+            cardData.counters = res.data
+            this.setState({
+              cardData,
+              cardDataLoaded: true
+            })
+          }).catch((err) => {
+            console.log(err);
+          })
       })
       .catch(err => console.log(err));
 
@@ -124,12 +132,13 @@ class App extends Component {
     }
   };
 
-  // get user's cards from database
+  // get ALL user's cards from database
   getUserCards = async () => {
     try {
-      const res = await axios.get("/usercard");
+      const res = await axios.get('/usercard/all');
       this.setState({
-        userCardData: res.data
+        userCardData: res.data,
+        userCardDataLoaded: true
       });
     } catch (err) {
       console.log(err);
@@ -139,15 +148,8 @@ class App extends Component {
   // when user first logs in, gives them their initial 10 random cards
   getInitialUserCards = async () => {
     try {
-      const res = await axios.get("/user/new");
-      this.setState({
-        userCardData: res.data
-      });
-    } catch (err) {
-      console.log(err);
-    }
-    try {
-      const data = await this.state.userCardData.forEach(data =>
+      const res = await axios.get('/user/new');
+      await res.data.forEach(data =>
         axios.post("/usercard/new", {
           cardId: data.id,
           name: data.name,
@@ -157,132 +159,69 @@ class App extends Component {
           imageUrl: data.image_url
         })
       );
+      this.setState({
+        userCardData: {
+          cards: res.data,
+          counters: []
+        }
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
   // gets a random card when users requests a new card, adds it to their cards
-  getNewUserCard = async () => {
-    if (this.state.user.currency >= 20) {
-      const res = await axios.get("/cards/new");
-      this.setState({
-        newCardData: res.data
-      });
-      const { newCardData } = this.state;
+  getNewUserCard = async (cost, type) => {
+    if (this.state.user.currency >= cost) {
+      let res, url, newCardData;
+      if (type === 'cards') {
+        if (cost === 20) {
+          res = await axios.get("/cards/new");
+        } else if (cost > 20) {
+          res = await axios.get(`/cards/new/${cost}`);
+        }
+        url = '/usercard/'
+        newCardData = res.data[0];
+      } else if (type === 'counters') {
+        res = await axios.get("/cards/counter/new");
+        url = '/usercard/counter';
+        newCardData = res.data[0];
+      }
       try {
-        await axios.post("/usercard/new", {
-          cardId: newCardData[0].id,
-          name: newCardData[0].name,
-          class: newCardData[0].class,
-          attack: newCardData[0].attack,
-          defense: newCardData[0].defense,
-          imageUrl: newCardData[0].image_url
-        });
+        await axios.post(url, newCardData);
+        this.setState({ newCardData });
         this.getUserCards();
       } catch (err) {
         console.log(err);
       }
-      let updatedCurrency = this.state.user.currency;
-      updatedCurrency -= 20;
-      const { user } = this.state;
-      try {
-        this.setState({
-          user: {
-            currency: updatedCurrency,
-            display_name: user.display_name,
-            email: user.email,
-            id: user.id,
-            password_digest: user.password_digest,
-            username: user.username,
-            wins: user.wins
-          }
-        });
-        const res = await axios.put(`/user/win`, {
-          username: this.state.user.username,
-          wins: this.state.user.wins,
-          currency: this.state.user.currency
-        });
-        console.log(res);
-      } catch (error) {
-        console.log(error);
-      }
-    } else if (this.state.user.currency < 20) {
-      alert("Oops, not enough money. Win a few battles and come back!");
-    }
-  };
-
-  getNewUserCardPremium = async num => {
-    if (this.state.user.currency >= num * 2) {
-      try {
-        const res = await axios.get(`/cards/new/${num}`);
-        this.setState({
-          newCardData: res.data
-        });
-        const { newCardData } = this.state;
-        try {
-          await axios.post("/usercard/new", {
-            cardId: newCardData[0].id,
-            name: newCardData[0].name,
-            class: newCardData[0].class,
-            attack: newCardData[0].attack,
-            defense: newCardData[0].defense,
-            imageUrl: newCardData[0].image_url
-          });
-          this.getUserCards();
-        } catch (err) {
-          console.log(err);
-        }
-        let updatedCurrency = this.state.user.currency;
-        updatedCurrency -= num * 2;
-        const { user } = this.state;
-        this.setState({
-          user: {
-            currency: updatedCurrency,
-            display_name: user.display_name,
-            email: user.email,
-            id: user.id,
-            password_digest: user.password_digest,
-            username: user.username,
-            wins: user.wins
-          }
-        });
-        try {
-          const res = await axios.put(`/user/win`, {
-            username: user.username,
-            wins: user.wins,
-            currency: user.currency
-          });
-          console.log(res);
-        } catch (err) {
-          console.log(err);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    } else if (this.state.user.currency < num * 2) {
-      alert("Oops, not enough money. Win a few battles and come back!");
+      const user = {...this.state.user};
+      user.currency -= cost;
+      this.updateUser(user);
+    } else if (this.state.user.currency < cost) {
+      alert("Not enough currency.");
     }
   };
 
   // deletes a user's card after they confirm it
-  deleteUserCard = async id => {
+  deleteUserCard = async (id, type) => {
     let confirm = window.confirm(
       `${this.state.user.username}, are you sure you want to delete this card?`
     );
     if (confirm === true) {
+      let url;
+      if (type === 'cards') {
+        url = `/usercard/${id}`;
+      } else if (type === 'counters') {
+        url = `/usercard/counter/${id}`;
+      }
       try {
-        await axios.delete(`/usercard/${id}`);
-        const updatedCards = [...this.state.userCardData];
-        let deletedIndex;
-        updatedCards.forEach((card, index) => {
-          if (card.id === id) {
-            deletedIndex = index;
-          }
-        });
-        updatedCards.splice(deletedIndex, 1);
+        await axios.delete(url);
+        let userCardData = {...this.state.userCardData};
+        userCardData[type] = userCardData[type].filter(card => {
+          return card.id !== id;
+        })
         this.setState({
-          userCardData: updatedCards
+          userCardData
         });
       } catch (err) {
         console.log(err);
@@ -375,24 +314,19 @@ class App extends Component {
 
   // sets which card is currently being edited so it can be edited without going
   // to another page
-  userSelectedCardToEdit = id => {
-    console.log(id);
+  setCardToEdit = id => {
     this.setState({
-      currentCardId: id
+      editingCardId: id
     });
   };
 
   // edits the user's card, then reloads the users cards to reflect the changes
-  userSubmitEdit = async e => {
-    e.preventDefault();
-    console.log(this.state.currentCardId);
+  submitCardEdit = async name => {    
     try {
-      await axios.put(`/usercard/${this.state.currentCardId}`, {
-        name: e.target.name.value
-      });
+      await axios.put(`/usercard/${this.state.editingCardId}`, { name });
       this.getUserCards();
       this.setState({
-        currentCardId: null
+        editingCardId: null
       });
     } catch (err) {
       console.log(err);
@@ -401,31 +335,23 @@ class App extends Component {
 
   // sets that the user is currently being edited so it can be edited without going
   // to another page
-  userSelectedNameToEdit = id => {
-    console.log(id);
-    this.setState({
-      currentUserId: id
+  editUser = () => {
+    this.setState(prevState => {
+      return { editingUser: !prevState.editingUser }
     });
   };
 
   // edits the users display name and email, resets them in state
   userSubmitNewName = async e => {
     e.preventDefault();
-    let display_name = e.target.display_name.value;
-    let email = e.target.email.value;
+    let user = {...this.state.user};
+    user.display_name = e.target.display_name.value;
+    user.email = e.target.email.value;
+    console.log(user);
     try {
-      await axios.put(`/user/${this.state.currentUserId}`, {
-        displayName: e.target.display_name.value,
-        email: e.target.email.value
-      });
-      let newUserData = this.state.user;
-      newUserData.display_name = display_name;
-      newUserData.email = email;
+      await this.updateUser(user);
       this.setState({
-        user: newUserData,
-        currentContent: "user-cards",
-        redirect: "/user",
-        currentUserId: null
+        editingUser: false
       });
     } catch (err) {
       console.log(err);
@@ -434,34 +360,20 @@ class App extends Component {
 
   // updates users wins and currency when they win a game
   updateWinsNCurrency = async () => {
-    const { user } = this.state;
-    let updatedCurrency = user.currency;
-    updatedCurrency += 10;
-    let updatedWins = user.wins;
-    updatedWins += 1;
-    this.setState({
-      user: {
-        currency: updatedCurrency,
-        display_name: user.display_name,
-        email: user.email,
-        id: user.id,
-        password_digest: user.password_digest,
-        username: user.username,
-        wins: updatedWins
-      }
-    });
+    const user = {...this.state.user};
+    user.currency += 10;
+    user.wins += 1;
+    this.updateUser(user);
+  };
+
+  updateUser = async (user) => {
     try {
-      const { user } = this.state;
-      const res = await axios.put(`/user/win`, {
-        username: user.username,
-        wins: user.wins,
-        currency: user.currency
-      });
-      console.log(res);
+      await axios.put(`/user/${user.id}`, user);
+      this.setState({ user });
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
   render() {
     // redirects the page if there's a redirect set, otherwise displays as normal
@@ -482,7 +394,6 @@ class App extends Component {
             <Header
               setPage={this.setPage}
               user={this.state.user}
-              display_name={this.props.display_name}
               auth={this.state.auth}
               logOut={this.logOut}
               setCurrentPage={this.setCurrentPage}
@@ -514,18 +425,15 @@ class App extends Component {
                     cards={this.state.cardData}
                     userCards={this.state.userCardData}
                     newCard={this.state.newCardData}
-                    userSubmitEdit={this.userSubmitEdit}
-                    userSelectedCardToEdit={this.userSelectedCardToEdit}
-                    currentCardId={this.state.currentCardId}
+                    submitCardEdit={this.submitCardEdit}
+                    setCardToEdit={this.setCardToEdit}
+                    editingCardId={this.state.editingCardId}
                     getNewUserCard={this.getNewUserCard}
-                    getNewUserCardPremium={this.getNewUserCardPremium}
                     deleteUserCard={this.deleteUserCard}
                     user={this.state.user}
-                    email={this.state.email}
-                    display_name={this.state.display_name}
                     userSubmitNewName={this.userSubmitNewName}
-                    userSelectedNameToEdit={this.userSelectedNameToEdit}
-                    currentUserId={this.state.currentUserId}
+                    editUser={this.editUser}
+                    editingUser={this.state.editingUser}
                     deleteUser={this.deleteUser}
                   />
                 )}

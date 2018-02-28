@@ -4,6 +4,14 @@ import React, { Component } from "react";
 class Card extends Component {
   state = { name: this.props.card.name };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.name !== nextProps.card.name) {
+      this.setState({
+        name: nextProps.card.name
+      })
+    }
+  }
+
   // input change for the card name edit form
   handleInputChange = event => {
     const value = event.target.value;

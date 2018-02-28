@@ -399,7 +399,7 @@ class GameRoom extends Component {
   // puts user in as a player
   joinGame = () => {
     // picks 5 random playing cards from the users cards
-    const userCardsCopy = [...this.props.userCards];
+    const userCardsCopy = [...this.props.userCards.cards];
     const userChoice = [];
     for (var i = 0; i < 5; i++) {
       const randomIndex = Math.floor(Math.random() * userCardsCopy.length);
@@ -472,7 +472,6 @@ class GameRoom extends Component {
       userNameData,
       userSelection,
       oppoSelection,
-      cardsInField,
       userHp,
       oppoHp,
       messages,
